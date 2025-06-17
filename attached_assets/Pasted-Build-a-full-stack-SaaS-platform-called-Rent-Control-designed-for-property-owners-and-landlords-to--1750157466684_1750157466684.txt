@@ -1,0 +1,129 @@
+Build a full-stack SaaS platform called Rent Control, designed for property owners and landlords to manage residents, documents, rent payments, and an internal community marketplace.
+
+Use React + Tailwind CSS for the frontend and Express.js + MongoDB (or mock DB) for the backend. Frontend hosted on Replit, backend on Render. This is not a public listing service — it is a private, multi-tenant property management tool.
+
+✅ Core Features
+🏢 Multi-Landlord Account System
+Each landlord can:
+
+Create an account and log in
+
+Add and manage multiple properties
+
+Invite residents via email to join their property (generate invite links or codes)
+
+View resident dashboards and payment history
+
+Tiered pricing:
+
+Free (ads)
+
+$49.99/month (basic tools)
+
+$99.99/month (unlimited properties, no ads)
+
+👥 Resident Dashboard
+Residents can:
+
+Accept landlord invite and create account
+
+View rent amount, due dates, payment history
+
+Upload lease documents, ID, etc.
+
+Submit maintenance requests
+
+Pay rent through the platform (2% fee applied)
+
+🛍️ Community Marketplace
+Each property has a private marketplace section
+
+Residents can:
+
+List items for sale
+
+Browse other listings from neighbors
+
+Buy items with secure payment processing
+
+Chat with other residents (optional)
+
+2% platform fee deducted on all sales
+
+💳 In-Platform Payment System
+Integrate with Stripe (or simulate with a mock processor)
+
+Payments for:
+
+Rent
+
+Marketplace items
+
+Automatically apply a 2% processing fee
+
+Store transaction records in backend
+
+📄 Online Application & Document Upload
+/apply page for new tenant applications
+
+Collect name, contact, unit, references
+
+Upload ID, documents (PDF, JPG, PNG)
+
+Document upload also available for resident dashboard
+
+⚙️ Backend API Endpoints (Sample)
+plaintext
+Copy
+Edit
+POST /landlords/signup
+POST /landlords/login
+POST /landlords/:id/properties
+
+POST /residents/invite
+POST /residents/signup?inviteCode=abc123
+GET  /residents/:id/dashboard
+
+POST /rent/pay
+POST /marketplace/list
+POST /marketplace/buy
+POST /upload-document
+GET  /marketplace/:propertyId
+🎨 Design Notes
+Clean UI, Airbnb-inspired layout
+
+Use Inter or DM Sans fonts
+
+Card-based dashboard views for:
+
+Properties
+
+Residents
+
+Marketplace listings
+
+Responsive layout with TailwindCSS
+
+Optional dark mode toggle
+
+🔐 Access & Roles
+Landlords: admin control over properties and tenants
+
+Residents: limited to their property dashboard and marketplace
+
+No public listings; all activity is gated by invitation or login
+
+🖼 Logo Design (Optional)
+Also create a modern, minimalist logo:
+
+Name: Rent Control
+
+Use a house/building + lock/shield/checkmark
+
+Colors: Emerald green, slate gray, or dark blue
+
+Font: Inter or Poppins
+
+Output light and dark mode versions
+
+Let me know if you'd like me to:

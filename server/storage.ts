@@ -1,37 +1,69 @@
 import { 
-  residents, applications, documents, properties,
+  landlords, residents, applications, documents, properties, marketplaceListings, transactions, maintenanceRequests,
+  type Landlord, type InsertLandlord,
   type Resident, type InsertResident,
   type Application, type InsertApplication,
   type Document, type InsertDocument,
-  type Property, type InsertProperty
+  type Property, type InsertProperty,
+  type MarketplaceListing, type InsertMarketplaceListing,
+  type Transaction, type InsertTransaction,
+  type MaintenanceRequest, type InsertMaintenanceRequest
 } from "@shared/schema";
 
 export interface IStorage {
+  // Landlords
+  getLandlords(): Promise<Landlord[]>;
+  getLandlord(id: number): Promise<Landlord | undefined>;
+  getLandlordByEmail(email: string): Promise<Landlord | undefined>;
+  createLandlord(landlord: InsertLandlord): Promise<Landlord>;
+  updateLandlord(id: number, landlord: Partial<InsertLandlord>): Promise<Landlord | undefined>;
+
+  // Properties
+  getProperties(landlordId?: number): Promise<Property[]>;
+  getProperty(id: number): Promise<Property | undefined>;
+  getPropertyByInviteCode(inviteCode: string): Promise<Property | undefined>;
+  createProperty(property: InsertProperty & { landlordId: number }): Promise<Property>;
+  updateProperty(id: number, property: Partial<InsertProperty>): Promise<Property | undefined>;
+  deleteProperty(id: number): Promise<boolean>;
+
   // Residents
-  getResidents(): Promise<Resident[]>;
+  getResidents(propertyId?: number): Promise<Resident[]>;
   getResident(id: number): Promise<Resident | undefined>;
+  getResidentByEmail(email: string): Promise<Resident | undefined>;
   createResident(resident: InsertResident): Promise<Resident>;
   updateResident(id: number, resident: Partial<InsertResident>): Promise<Resident | undefined>;
   deleteResident(id: number): Promise<boolean>;
 
   // Applications
-  getApplications(): Promise<Application[]>;
+  getApplications(propertyId?: number): Promise<Application[]>;
   getApplication(id: number): Promise<Application | undefined>;
   createApplication(application: InsertApplication): Promise<Application>;
   updateApplicationStatus(id: number, status: string): Promise<Application | undefined>;
 
   // Documents
-  getDocuments(): Promise<Document[]>;
+  getDocuments(propertyId?: number): Promise<Document[]>;
   getDocument(id: number): Promise<Document | undefined>;
   createDocument(document: InsertDocument): Promise<Document>;
   deleteDocument(id: number): Promise<boolean>;
 
-  // Properties
-  getProperties(): Promise<Property[]>;
-  getProperty(id: number): Promise<Property | undefined>;
-  createProperty(property: InsertProperty): Promise<Property>;
-  updateProperty(id: number, property: Partial<InsertProperty>): Promise<Property | undefined>;
-  deleteProperty(id: number): Promise<boolean>;
+  // Marketplace
+  getMarketplaceListings(propertyId: number): Promise<MarketplaceListing[]>;
+  getMarketplaceListing(id: number): Promise<MarketplaceListing | undefined>;
+  createMarketplaceListing(listing: InsertMarketplaceListing): Promise<MarketplaceListing>;
+  updateMarketplaceListing(id: number, listing: Partial<InsertMarketplaceListing>): Promise<MarketplaceListing | undefined>;
+  deleteMarketplaceListing(id: number): Promise<boolean>;
+
+  // Transactions
+  getTransactions(propertyId?: number, payerId?: number): Promise<Transaction[]>;
+  getTransaction(id: number): Promise<Transaction | undefined>;
+  createTransaction(transaction: InsertTransaction): Promise<Transaction>;
+  updateTransaction(id: number, transaction: Partial<InsertTransaction>): Promise<Transaction | undefined>;
+
+  // Maintenance Requests
+  getMaintenanceRequests(propertyId?: number, residentId?: number): Promise<MaintenanceRequest[]>;
+  getMaintenanceRequest(id: number): Promise<MaintenanceRequest | undefined>;
+  createMaintenanceRequest(request: InsertMaintenanceRequest): Promise<MaintenanceRequest>;
+  updateMaintenanceRequest(id: number, request: Partial<InsertMaintenanceRequest>): Promise<MaintenanceRequest | undefined>;
 }
 
 export class MemStorage implements IStorage {

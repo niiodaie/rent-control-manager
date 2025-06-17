@@ -421,7 +421,7 @@ export default function Residents() {
                     <SelectValue placeholder="All Status" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">All Status</SelectItem>
+                    <SelectItem value="all">All Status</SelectItem>
                     <SelectItem value="active">Active</SelectItem>
                     <SelectItem value="late">Late Payment</SelectItem>
                     <SelectItem value="notice">Notice Served</SelectItem>

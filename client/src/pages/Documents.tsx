@@ -325,7 +325,7 @@ export default function Documents() {
                   <SelectValue placeholder="All Categories" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">All Categories</SelectItem>
+                  <SelectItem value="all">All Categories</SelectItem>
                   <SelectItem value="id">Government ID</SelectItem>
                   <SelectItem value="income_proof">Proof of Income</SelectItem>
                   <SelectItem value="lease">Lease Agreement</SelectItem>
