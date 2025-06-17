@@ -15,6 +15,8 @@ import {
 import multer from "multer";
 import path from "path";
 import fs from "fs";
+import jwt from "jsonwebtoken";
+import bcrypt from "bcryptjs";
 
 // Setup multer for file uploads
 const uploadsDir = path.join(process.cwd(), "uploads");
@@ -48,42 +50,101 @@ const upload = multer({
   }
 });
 
+const JWT_SECRET = process.env.JWT_SECRET || 'dev-secret-key';
+
 export async function registerRoutes(app: Express): Promise<Server> {
   
-  // Landlord authentication routes
-  app.post("/api/landlords/signup", async (req, res) => {
+  // Authentication routes
+  app.post("/api/auth/signup", async (req, res) => {
     try {
-      const landlordData = insertLandlordSchema.parse(req.body);
-      const existingLandlord = await storage.getLandlordByEmail(landlordData.email);
+      const { name, email, password, role, plan } = req.body;
       
-      if (existingLandlord) {
-        return res.status(400).json({ message: "Email already registered" });
-      }
+      if (role === 'landlord') {
+        const existingLandlord = await storage.getLandlordByEmail(email);
+        if (existingLandlord) {
+          return res.status(400).json({ message: "Email already registered" });
+        }
 
-      // In a real app, hash the password properly
-      const hashedPassword = `hashed_${landlordData.passwordHash}`;
-      const landlord = await storage.createLandlord({
-        ...landlordData,
-        passwordHash: hashedPassword
-      });
-      
-      res.json({ id: landlord.id, name: landlord.name, email: landlord.email, plan: landlord.plan });
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const landlord = await storage.createLandlord({
+          name,
+          email,
+          passwordHash: hashedPassword,
+          plan: plan || 'free'
+        });
+        
+        const token = jwt.sign({ id: landlord.id, role: 'landlord' }, JWT_SECRET, { expiresIn: '7d' });
+        res.json({ 
+          token, 
+          role: 'landlord', 
+          user: { id: landlord.id, name: landlord.name, email: landlord.email } 
+        });
+      } else if (role === 'resident') {
+        const existingResident = await storage.getResidentByEmail(email);
+        if (existingResident) {
+          return res.status(400).json({ message: "Email already registered" });
+        }
+
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const resident = await storage.createResident({
+          name,
+          email,
+          passwordHash: hashedPassword,
+          propertyId: 1, // Default property for demo
+          phone: '',
+          unit: 'TBD',
+          rent: 0,
+          leaseExpiry: new Date().toISOString()
+        });
+        
+        const token = jwt.sign({ id: resident.id, role: 'resident' }, JWT_SECRET, { expiresIn: '7d' });
+        res.json({ 
+          token, 
+          role: 'resident', 
+          user: { id: resident.id, name: resident.name, email: resident.email } 
+        });
+      } else {
+        res.status(400).json({ message: "Invalid role" });
+      }
     } catch (error) {
-      res.status(400).json({ message: "Invalid landlord data" });
+      console.error('Signup error:', error);
+      res.status(400).json({ message: "Signup failed" });
     }
   });
 
-  app.post("/api/landlords/login", async (req, res) => {
+  app.post("/api/auth/login", async (req, res) => {
     try {
-      const { email, password } = req.body;
-      const landlord = await storage.getLandlordByEmail(email);
+      const { email, password, role } = req.body;
       
-      if (!landlord || landlord.passwordHash !== `hashed_${password}`) {
-        return res.status(401).json({ message: "Invalid credentials" });
+      if (role === 'landlord') {
+        const landlord = await storage.getLandlordByEmail(email);
+        if (!landlord || !await bcrypt.compare(password, landlord.passwordHash)) {
+          return res.status(401).json({ message: "Invalid credentials" });
+        }
+        
+        const token = jwt.sign({ id: landlord.id, role: 'landlord' }, JWT_SECRET, { expiresIn: '7d' });
+        res.json({ 
+          token, 
+          role: 'landlord', 
+          user: { id: landlord.id, name: landlord.name, email: landlord.email } 
+        });
+      } else if (role === 'resident') {
+        const resident = await storage.getResidentByEmail(email);
+        if (!resident || !await bcrypt.compare(password, resident.passwordHash || '')) {
+          return res.status(401).json({ message: "Invalid credentials" });
+        }
+        
+        const token = jwt.sign({ id: resident.id, role: 'resident' }, JWT_SECRET, { expiresIn: '7d' });
+        res.json({ 
+          token, 
+          role: 'resident', 
+          user: { id: resident.id, name: resident.name, email: resident.email } 
+        });
+      } else {
+        res.status(400).json({ message: "Invalid role" });
       }
-      
-      res.json({ id: landlord.id, name: landlord.name, email: landlord.email, plan: landlord.plan });
     } catch (error) {
+      console.error('Login error:', error);
       res.status(500).json({ message: "Login failed" });
     }
   });

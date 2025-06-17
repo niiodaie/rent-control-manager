@@ -1,0 +1,107 @@
+You are building a multi-landlord, global-ready SaaS app called Rent Control.
+The dashboard is already live at: https://rent-control-manager-viusmedia.replit.app/dashboard.
+
+You now need to add a homepage and login flow before users access the dashboard, and enhance the overall system with the following features — aligned with the latest VNX standard.
+
+✅ Immediate Action Items
+1. 🏠 Landing Page & Login Flow
+Create a clean public homepage at /:
+
+Includes a brief overview of Rent Control features
+
+Options: "Login as Landlord" | "Login as Resident" | "Apply Now"
+
+Display “Powered by Visnec” footer
+
+Add light/dark toggle (night mode)
+
+Build login system:
+
+Form-based login for both landlord and resident roles
+
+Store JWT or session cookie on login
+
+Redirect:
+
+Landlord → /dashboard
+
+Resident → /resident-dashboard
+
+🔐 Roles & Access Logic
+Role	Access
+Landlord	Full dashboard for properties, residents
+Resident	Limited dashboard with rent + marketplace
+Public	Homepage, apply form
+
+🌐 Updated Full Feature Stack
+🧑‍💼 Landlord Module
+Invite residents to units
+
+Manage rent, lease documents
+
+View analytics
+
+View marketplace activity
+
+Multi-property support
+
+Tiered pricing (Free / $49.99 / $99.99)
+
+👤 Resident Portal
+View rent, upload documents
+
+Pay rent (2% fee)
+
+Access community marketplace
+
+Submit maintenance requests
+
+🛍 Marketplace (Hybrid)
+Peer-to-peer community sales
+
+Amazon items (affiliate link products)
+
+Payments go through Stripe/Paystack with 2% fee
+
+💳 Global Payments
+Smart gateway fallback: Stripe → Paystack → Razorpay
+
+Currency/localization via geolocation
+
+🌍 VNX Global Features
+Geolocation (currency, language, payment routing)
+
+Multi-language (i18next)
+
+Light/Dark theme
+
+Footer: “Powered by Visnec” with logo/link
+
+⚙️ Backend Enhancements Needed
+/api/auth/login for both landlord/resident
+
+Session/token check on dashboard routes
+
+Route-based role protection (/dashboard vs /resident-dashboard)
+
+/api/public/amazon-deals for affiliate marketplace
+
+🖼 Design Enhancements
+Use Tailwind for styling
+
+Modern UI inspired by Airbnb/Notion
+
+Responsive and mobile-first
+
+Add hero section to home with brief feature summary
+
+✅ Immediate Task Summary:
+Add / homepage with login options and platform intro
+
+Implement login/auth flow with redirect by role
+
+Protect dashboard routes from unauthenticated access
+
+Enhance marketplace to support Amazon affiliate + P2P
+
+Add geolocation, night mode, and “Powered by Visnec” footer
