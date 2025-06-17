@@ -5,7 +5,7 @@ import path from "path";
 export default defineConfig(async () => {
   const plugins = [react()];
 
-  // Conditionally include Replit-only plugins
+  // Replit-only dev plugins
   if (process.env.NODE_ENV !== "production" && process.env.REPL_ID !== undefined) {
     const runtimeErrorOverlay = await import("@replit/vite-plugin-runtime-error-modal");
     const { cartographer } = await import("@replit/vite-plugin-cartographer");
@@ -16,14 +16,13 @@ export default defineConfig(async () => {
     plugins,
     resolve: {
       alias: {
-        "@": path.resolve(import.meta.dirname, "client", "src"),
-        "@shared": path.resolve(import.meta.dirname, "shared"),
-        "@assets": path.resolve(import.meta.dirname, "attached_assets"),
+        "@": path.resolve(__dirname, "src"),
+        "@shared": path.resolve(__dirname, "shared"),
+        "@assets": path.resolve(__dirname, "attached_assets"),
       },
     },
-    root: path.resolve(import.meta.dirname, "client"),
     build: {
-      outDir: path.resolve(import.meta.dirname, "dist/public"),
+      outDir: "dist",
       emptyOutDir: true,
     },
     server: {
