@@ -93,5 +93,6 @@
 }
 
 .drop-zone-active {
-  @apply border-primary bg-primary/10;
+  @apply border-primary;
+  background-color: hsl(214, 84%, 56%, 0.1);
 }

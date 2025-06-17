@@ -59,6 +59,8 @@ export const insertApplicationSchema = createInsertSchema(applications).omit({
 export const insertDocumentSchema = createInsertSchema(documents).omit({
   id: true,
   uploadedAt: true,
+}).extend({
+  relatedId: z.number().nullable().optional(),
 });
 
 export const insertPropertySchema = createInsertSchema(properties).omit({
