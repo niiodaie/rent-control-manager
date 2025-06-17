@@ -1,4 +1,5 @@
 import type { Express } from "express";
+import express from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { insertResidentSchema, insertApplicationSchema, insertDocumentSchema, insertPropertySchema } from "@shared/schema";
@@ -68,7 +69,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const validatedData = insertResidentSchema.parse(req.body);
       const resident = await storage.createResident(validatedData);
       res.status(201).json(resident);
-    } catch (error) {
+    } catch (error: any) {
       res.status(400).json({ message: "Invalid resident data", error: error.message });
     }
   });
@@ -82,7 +83,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(404).json({ message: "Resident not found" });
       }
       res.json(resident);
-    } catch (error) {
+    } catch (error: any) {
       res.status(400).json({ message: "Invalid resident data", error: error.message });
     }
   });
@@ -115,7 +116,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const validatedData = insertApplicationSchema.parse(req.body);
       const application = await storage.createApplication(validatedData);
       res.status(201).json(application);
-    } catch (error) {
+    } catch (error: any) {
       res.status(400).json({ message: "Invalid application data", error: error.message });
     }
   });
@@ -164,7 +165,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       const document = await storage.createDocument(documentData);
       res.status(201).json(document);
-    } catch (error) {
+    } catch (error: any) {
       res.status(400).json({ message: "Failed to upload document", error: error.message });
     }
   });
@@ -207,7 +208,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const validatedData = insertPropertySchema.parse(req.body);
       const property = await storage.createProperty(validatedData);
       res.status(201).json(property);
-    } catch (error) {
+    } catch (error: any) {
       res.status(400).json({ message: "Invalid property data", error: error.message });
     }
   });

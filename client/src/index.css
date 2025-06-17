@@ -93,5 +93,5 @@
 }
 
 .drop-zone-active {
-  @apply border-primary bg-primary/5;
+  @apply border-primary bg-primary/10;
 }

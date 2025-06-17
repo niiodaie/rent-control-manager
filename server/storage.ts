@@ -120,7 +120,12 @@ export class MemStorage implements IStorage {
 
   async createResident(insertResident: InsertResident): Promise<Resident> {
     const id = this.currentResidentId++;
-    const resident: Resident = { ...insertResident, id };
+    const resident: Resident = { 
+      ...insertResident, 
+      id,
+      status: insertResident.status || "active",
+      lastPayment: insertResident.lastPayment || null
+    };
     this.residents.set(id, resident);
     return resident;
   }
@@ -182,7 +187,8 @@ export class MemStorage implements IStorage {
     const document: Document = {
       ...insertDocument,
       id,
-      uploadedAt: new Date().toISOString()
+      uploadedAt: new Date().toISOString(),
+      relatedId: insertDocument.relatedId || null
     };
     this.documents.set(id, document);
     return document;
