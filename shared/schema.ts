@@ -46,7 +46,6 @@ export const residents = pgTable("residents", {
   status: text("status").notNull().default("active"), // active, late, notice
   leaseExpiry: text("lease_expiry").notNull(),
   lastPayment: text("last_payment"),
-  passwordHash: text("password_hash"),
   invitedAt: text("invited_at"),
   joinedAt: text("joined_at"),
 });
