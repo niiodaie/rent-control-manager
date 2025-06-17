@@ -1,0 +1,107 @@
+Build a full-stack SaaS web application called Rent Control for landlords and property owners to manage residents, rent payments, documents, and applications. This is not a public listing platform — it's for internal management.
+
+Use React + Tailwind CSS for the frontend and Express.js + MongoDB (or simulated data) for the backend. Host frontend on Replit and backend on Render (or simulate with local APIs).
+
+✅ App Features
+🔐 Property Owner Dashboard
+Admin-only dashboard with sidebar navigation:
+
+Dashboard
+
+Manage Properties
+
+Residents
+
+Applications
+
+Documents
+
+👤 Resident Management (Airbnb-Inspired UI)
+Display residents in card layout with:
+
+Name, Unit, Rent, Status (active, late, etc.)
+
+Buttons: View Profile, Send Notice, Edit, Remove
+
+Responsive, clean layout using Tailwind CSS
+
+Modal or toast alerts for actions
+
+📝 Online Rental Application Form
+Public-facing route: /apply
+
+Collect:
+
+Full Name, Phone, Email, Desired Unit
+
+Monthly Income, References
+
+File Upload: ID, Proof of Income
+
+Submits to backend (POST /applications)
+
+Admin views all submissions under "Applications"
+
+📂 Document Upload
+Upload documents via drag/drop or file input
+
+Support PDF, JPG, PNG with size limit
+
+Store in /uploads or simulate
+
+Route: POST /upload-document
+
+🌐 Embeddable Widget for External Sites
+Generate iframe snippet for /apply form:
+
+html
+Copy
+Edit
+<iframe src="https://rentcontrol.replit.app/apply" width="100%" height="600px"></iframe>
+🖼️ Logo Design Request
+Also design a modern, minimalist logo for Rent Control.
+
+Style should be inspired by Airbnb, Notion, and Stripe.
+
+Use:
+
+A house or building icon (abstract OK)
+
+Optional lock/shield for "control"
+
+Optional checkmark/dashboard feel
+
+Color scheme: deep blue, slate gray, or emerald green
+
+Text font: Inter, Poppins, or DM Sans
+
+Output:
+
+Logo icon (SVG or PNG)
+
+Full logo with text
+
+Light and dark variants
+
+⚙ Backend API Endpoints
+plaintext
+Copy
+Edit
+GET /residents
+POST /residents
+PUT /residents/:id
+DELETE /residents/:id
+
+POST /applications
+GET /applications
+
+POST /upload-document
+🛠 Tech Stack
+Frontend: React + Tailwind CSS
+
+Backend: Express.js + MongoDB (or simulated)
+
+File Upload: Multer (or simulate file save)
+
+Hosting: Replit (frontend), Render (backend)
+
