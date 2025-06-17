@@ -5,6 +5,9 @@ import {
   Users, 
   FileText, 
   Folder,
+  ShoppingCart,
+  CreditCard,
+  Wrench,
   User,
   Settings
 } from "lucide-react";
@@ -17,6 +20,9 @@ const navigation = [
   { name: "Residents", href: "/residents", icon: Users },
   { name: "Applications", href: "/applications", icon: FileText },
   { name: "Documents", href: "/documents", icon: Folder },
+  { name: "Marketplace", href: "/marketplace", icon: ShoppingCart },
+  { name: "Payments", href: "/payments", icon: CreditCard },
+  { name: "Maintenance", href: "/maintenance", icon: Wrench },
 ];
 
 export default function Sidebar() {

@@ -67,96 +67,288 @@ export interface IStorage {
 }
 
 export class MemStorage implements IStorage {
+  private landlords: Map<number, Landlord>;
   private residents: Map<number, Resident>;
   private applications: Map<number, Application>;
   private documents: Map<number, Document>;
   private properties: Map<number, Property>;
+  private marketplaceListings: Map<number, MarketplaceListing>;
+  private transactions: Map<number, Transaction>;
+  private maintenanceRequests: Map<number, MaintenanceRequest>;
+  
+  private currentLandlordId: number;
   private currentResidentId: number;
   private currentApplicationId: number;
   private currentDocumentId: number;
   private currentPropertyId: number;
+  private currentMarketplaceListingId: number;
+  private currentTransactionId: number;
+  private currentMaintenanceRequestId: number;
 
   constructor() {
+    this.landlords = new Map();
     this.residents = new Map();
     this.applications = new Map();
     this.documents = new Map();
     this.properties = new Map();
+    this.marketplaceListings = new Map();
+    this.transactions = new Map();
+    this.maintenanceRequests = new Map();
+    
+    this.currentLandlordId = 1;
     this.currentResidentId = 1;
     this.currentApplicationId = 1;
     this.currentDocumentId = 1;
     this.currentPropertyId = 1;
-
-    // Initialize with some sample data
+    this.currentMarketplaceListingId = 1;
+    this.currentTransactionId = 1;
+    this.currentMaintenanceRequestId = 1;
+    
     this.initializeSampleData();
   }
 
+  private generateInviteCode(): string {
+    return Math.random().toString(36).substr(2, 8).toUpperCase();
+  }
+
   private initializeSampleData() {
+    // Sample landlord
+    const sampleLandlord: Landlord = {
+      id: 1,
+      name: "Demo Landlord",
+      email: "demo@rentcontrol.com",
+      passwordHash: "demo_hash",
+      plan: "premium",
+      createdAt: new Date().toISOString(),
+      stripeCustomerId: null
+    };
+    this.landlords.set(1, sampleLandlord);
+    this.currentLandlordId = 2;
+
     // Sample properties
-    const sampleProperties: InsertProperty[] = [
-      { name: "Building A", address: "123 Main St", units: 12, type: "apartment" },
-      { name: "Building B", address: "456 Oak Ave", units: 8, type: "apartment" },
-      { name: "Single Homes", address: "Various Locations", units: 5, type: "house" },
+    const sampleProperties: Property[] = [
+      { 
+        id: 1, 
+        landlordId: 1,
+        name: "Building A", 
+        address: "123 Main St", 
+        units: 12, 
+        type: "apartment",
+        inviteCode: this.generateInviteCode(),
+        createdAt: new Date().toISOString()
+      },
+      { 
+        id: 2, 
+        landlordId: 1,
+        name: "Sunset Villa", 
+        address: "456 Oak Ave", 
+        units: 8, 
+        type: "house",
+        inviteCode: this.generateInviteCode(),
+        createdAt: new Date().toISOString()
+      },
+      { 
+        id: 3, 
+        landlordId: 1,
+        name: "Downtown Loft", 
+        address: "789 Pine St", 
+        units: 20, 
+        type: "condo",
+        inviteCode: this.generateInviteCode(),
+        createdAt: new Date().toISOString()
+      }
     ];
 
     sampleProperties.forEach(property => {
-      this.createProperty(property);
+      this.properties.set(property.id, property);
     });
+    this.currentPropertyId = 4;
 
     // Sample residents
-    const sampleResidents: InsertResident[] = [
+    const sampleResidents: Resident[] = [
       {
+        id: 1,
+        propertyId: 1,
         name: "Jane Doe",
         email: "jane.doe@email.com",
         phone: "(555) 123-4567",
         unit: "2A",
-        rent: 2400,
+        rent: 1200,
         status: "active",
-        leaseExpiry: "Dec 2024",
-        lastPayment: "Nov 1, 2024"
+        leaseExpiry: "2024-12-31",
+        lastPayment: "2024-01-15",
+        passwordHash: null,
+        invitedAt: null,
+        joinedAt: new Date().toISOString()
       },
       {
-        name: "Mike Smith",
-        email: "mike.smith@email.com",
-        phone: "(555) 234-5678",
+        id: 2,
+        propertyId: 1,
+        name: "John Smith",
+        email: "john.smith@email.com",
+        phone: "(555) 987-6543",
         unit: "1B",
-        rent: 1950,
+        rent: 1100,
         status: "late",
-        leaseExpiry: "Mar 2025",
-        lastPayment: "Oct 15, 2024"
+        leaseExpiry: "2024-08-15",
+        lastPayment: "2023-12-10",
+        passwordHash: null,
+        invitedAt: null,
+        joinedAt: new Date().toISOString()
       },
       {
-        name: "Alice Miller",
-        email: "alice.miller@email.com",
-        phone: "(555) 345-6789",
+        id: 3,
+        propertyId: 2,
+        name: "Alice Johnson",
+        email: "alice.johnson@email.com",
+        phone: "(555) 456-7890",
         unit: "3C",
-        rent: 2800,
+        rent: 1350,
         status: "active",
-        leaseExpiry: "Jun 2025",
-        lastPayment: "Nov 1, 2024"
+        leaseExpiry: "2025-03-20",
+        lastPayment: "2024-01-10",
+        passwordHash: null,
+        invitedAt: null,
+        joinedAt: new Date().toISOString()
       }
     ];
 
     sampleResidents.forEach(resident => {
-      this.createResident(resident);
+      this.residents.set(resident.id, resident);
     });
+    this.currentResidentId = 4;
+
+    // Sample marketplace listings
+    const sampleListings: MarketplaceListing[] = [
+      {
+        id: 1,
+        propertyId: 1,
+        residentId: 1,
+        title: "Vintage Coffee Table",
+        description: "Beautiful vintage coffee table in great condition",
+        price: "75.00",
+        category: "furniture",
+        condition: "good",
+        status: "active",
+        imageUrls: [],
+        createdAt: new Date().toISOString(),
+        soldAt: null
+      },
+      {
+        id: 2,
+        propertyId: 1,
+        residentId: 2,
+        title: "Mountain Bike",
+        description: "Barely used mountain bike, perfect for weekend rides",
+        price: "350.00",
+        category: "sports",
+        condition: "like-new",
+        status: "active",
+        imageUrls: [],
+        createdAt: new Date().toISOString(),
+        soldAt: null
+      }
+    ];
+
+    sampleListings.forEach(listing => {
+      this.marketplaceListings.set(listing.id, listing);
+    });
+    this.currentMarketplaceListingId = 3;
   }
 
-  // Residents
-  async getResidents(): Promise<Resident[]> {
-    return Array.from(this.residents.values());
+  // Landlord methods
+  async getLandlords(): Promise<Landlord[]> {
+    return Array.from(this.landlords.values());
+  }
+
+  async getLandlord(id: number): Promise<Landlord | undefined> {
+    return this.landlords.get(id);
+  }
+
+  async getLandlordByEmail(email: string): Promise<Landlord | undefined> {
+    return Array.from(this.landlords.values()).find(landlord => landlord.email === email);
+  }
+
+  async createLandlord(insertLandlord: InsertLandlord): Promise<Landlord> {
+    const id = this.currentLandlordId++;
+    const landlord: Landlord = { 
+      ...insertLandlord, 
+      id,
+      createdAt: new Date().toISOString()
+    };
+    this.landlords.set(id, landlord);
+    return landlord;
+  }
+
+  async updateLandlord(id: number, updates: Partial<InsertLandlord>): Promise<Landlord | undefined> {
+    const landlord = this.landlords.get(id);
+    if (!landlord) return undefined;
+    
+    const updatedLandlord = { ...landlord, ...updates };
+    this.landlords.set(id, updatedLandlord);
+    return updatedLandlord;
+  }
+
+  // Property methods
+  async getProperties(landlordId?: number): Promise<Property[]> {
+    const allProperties = Array.from(this.properties.values());
+    return landlordId ? allProperties.filter(p => p.landlordId === landlordId) : allProperties;
+  }
+
+  async getProperty(id: number): Promise<Property | undefined> {
+    return this.properties.get(id);
+  }
+
+  async getPropertyByInviteCode(inviteCode: string): Promise<Property | undefined> {
+    return Array.from(this.properties.values()).find(property => property.inviteCode === inviteCode);
+  }
+
+  async createProperty(insertProperty: InsertProperty & { landlordId: number }): Promise<Property> {
+    const id = this.currentPropertyId++;
+    const property: Property = { 
+      ...insertProperty, 
+      id,
+      inviteCode: this.generateInviteCode(),
+      createdAt: new Date().toISOString()
+    };
+    this.properties.set(id, property);
+    return property;
+  }
+
+  async updateProperty(id: number, updates: Partial<InsertProperty>): Promise<Property | undefined> {
+    const property = this.properties.get(id);
+    if (!property) return undefined;
+    
+    const updatedProperty = { ...property, ...updates };
+    this.properties.set(id, updatedProperty);
+    return updatedProperty;
+  }
+
+  async deleteProperty(id: number): Promise<boolean> {
+    return this.properties.delete(id);
+  }
+
+  // Resident methods
+  async getResidents(propertyId?: number): Promise<Resident[]> {
+    const allResidents = Array.from(this.residents.values());
+    return propertyId ? allResidents.filter(r => r.propertyId === propertyId) : allResidents;
   }
 
   async getResident(id: number): Promise<Resident | undefined> {
     return this.residents.get(id);
   }
 
+  async getResidentByEmail(email: string): Promise<Resident | undefined> {
+    return Array.from(this.residents.values()).find(resident => resident.email === email);
+  }
+
   async createResident(insertResident: InsertResident): Promise<Resident> {
     const id = this.currentResidentId++;
     const resident: Resident = { 
-      ...insertResident, 
+      ...insertResident,
       id,
-      status: insertResident.status || "active",
-      lastPayment: insertResident.lastPayment || null
+      invitedAt: insertResident.invitedAt || null,
+      joinedAt: insertResident.joinedAt || new Date().toISOString()
     };
     this.residents.set(id, resident);
     return resident;
@@ -175,9 +367,10 @@ export class MemStorage implements IStorage {
     return this.residents.delete(id);
   }
 
-  // Applications
-  async getApplications(): Promise<Application[]> {
-    return Array.from(this.applications.values());
+  // Application methods
+  async getApplications(propertyId?: number): Promise<Application[]> {
+    const allApplications = Array.from(this.applications.values());
+    return propertyId ? allApplications.filter(a => a.propertyId === propertyId) : allApplications;
   }
 
   async getApplication(id: number): Promise<Application | undefined> {
@@ -205,9 +398,10 @@ export class MemStorage implements IStorage {
     return updatedApplication;
   }
 
-  // Documents
-  async getDocuments(): Promise<Document[]> {
-    return Array.from(this.documents.values());
+  // Document methods
+  async getDocuments(propertyId?: number): Promise<Document[]> {
+    const allDocuments = Array.from(this.documents.values());
+    return propertyId ? allDocuments.filter(d => d.propertyId === propertyId) : allDocuments;
   }
 
   async getDocument(id: number): Promise<Document | undefined> {
@@ -217,13 +411,7 @@ export class MemStorage implements IStorage {
   async createDocument(insertDocument: InsertDocument): Promise<Document> {
     const id = this.currentDocumentId++;
     const document: Document = {
-      fileName: insertDocument.fileName,
-      fileType: insertDocument.fileType,
-      fileSize: insertDocument.fileSize,
-      filePath: insertDocument.filePath,
-      uploadedBy: insertDocument.uploadedBy,
-      category: insertDocument.category,
-      relatedId: insertDocument.relatedId ?? null,
+      ...insertDocument,
       id,
       uploadedAt: new Date().toISOString()
     };
@@ -235,33 +423,115 @@ export class MemStorage implements IStorage {
     return this.documents.delete(id);
   }
 
-  // Properties
-  async getProperties(): Promise<Property[]> {
-    return Array.from(this.properties.values());
+  // Marketplace methods
+  async getMarketplaceListings(propertyId: number): Promise<MarketplaceListing[]> {
+    return Array.from(this.marketplaceListings.values()).filter(listing => listing.propertyId === propertyId);
   }
 
-  async getProperty(id: number): Promise<Property | undefined> {
-    return this.properties.get(id);
+  async getMarketplaceListing(id: number): Promise<MarketplaceListing | undefined> {
+    return this.marketplaceListings.get(id);
   }
 
-  async createProperty(insertProperty: InsertProperty): Promise<Property> {
-    const id = this.currentPropertyId++;
-    const property: Property = { ...insertProperty, id };
-    this.properties.set(id, property);
-    return property;
+  async createMarketplaceListing(insertListing: InsertMarketplaceListing): Promise<MarketplaceListing> {
+    const id = this.currentMarketplaceListingId++;
+    const listing: MarketplaceListing = {
+      ...insertListing,
+      id,
+      createdAt: new Date().toISOString(),
+      soldAt: null
+    };
+    this.marketplaceListings.set(id, listing);
+    return listing;
   }
 
-  async updateProperty(id: number, updates: Partial<InsertProperty>): Promise<Property | undefined> {
-    const property = this.properties.get(id);
-    if (!property) return undefined;
+  async updateMarketplaceListing(id: number, updates: Partial<InsertMarketplaceListing>): Promise<MarketplaceListing | undefined> {
+    const listing = this.marketplaceListings.get(id);
+    if (!listing) return undefined;
     
-    const updatedProperty = { ...property, ...updates };
-    this.properties.set(id, updatedProperty);
-    return updatedProperty;
+    const updatedListing = { ...listing, ...updates };
+    if (updates.status === 'sold') {
+      updatedListing.soldAt = new Date().toISOString();
+    }
+    this.marketplaceListings.set(id, updatedListing);
+    return updatedListing;
   }
 
-  async deleteProperty(id: number): Promise<boolean> {
-    return this.properties.delete(id);
+  async deleteMarketplaceListing(id: number): Promise<boolean> {
+    return this.marketplaceListings.delete(id);
+  }
+
+  // Transaction methods
+  async getTransactions(propertyId?: number, payerId?: number): Promise<Transaction[]> {
+    let transactions = Array.from(this.transactions.values());
+    if (propertyId) transactions = transactions.filter(t => t.propertyId === propertyId);
+    if (payerId) transactions = transactions.filter(t => t.payerId === payerId);
+    return transactions;
+  }
+
+  async getTransaction(id: number): Promise<Transaction | undefined> {
+    return this.transactions.get(id);
+  }
+
+  async createTransaction(insertTransaction: InsertTransaction): Promise<Transaction> {
+    const id = this.currentTransactionId++;
+    const transaction: Transaction = {
+      ...insertTransaction,
+      id,
+      createdAt: new Date().toISOString(),
+      completedAt: null
+    };
+    this.transactions.set(id, transaction);
+    return transaction;
+  }
+
+  async updateTransaction(id: number, updates: Partial<InsertTransaction>): Promise<Transaction | undefined> {
+    const transaction = this.transactions.get(id);
+    if (!transaction) return undefined;
+    
+    const updatedTransaction = { ...transaction, ...updates };
+    if (updates.status === 'completed') {
+      updatedTransaction.completedAt = new Date().toISOString();
+    }
+    this.transactions.set(id, updatedTransaction);
+    return updatedTransaction;
+  }
+
+  // Maintenance Request methods
+  async getMaintenanceRequests(propertyId?: number, residentId?: number): Promise<MaintenanceRequest[]> {
+    let requests = Array.from(this.maintenanceRequests.values());
+    if (propertyId) requests = requests.filter(r => r.propertyId === propertyId);
+    if (residentId) requests = requests.filter(r => r.residentId === residentId);
+    return requests;
+  }
+
+  async getMaintenanceRequest(id: number): Promise<MaintenanceRequest | undefined> {
+    return this.maintenanceRequests.get(id);
+  }
+
+  async createMaintenanceRequest(insertRequest: InsertMaintenanceRequest): Promise<MaintenanceRequest> {
+    const id = this.currentMaintenanceRequestId++;
+    const now = new Date().toISOString();
+    const request: MaintenanceRequest = {
+      ...insertRequest,
+      id,
+      createdAt: now,
+      updatedAt: now
+    };
+    this.maintenanceRequests.set(id, request);
+    return request;
+  }
+
+  async updateMaintenanceRequest(id: number, updates: Partial<InsertMaintenanceRequest>): Promise<MaintenanceRequest | undefined> {
+    const request = this.maintenanceRequests.get(id);
+    if (!request) return undefined;
+    
+    const updatedRequest = { 
+      ...request, 
+      ...updates,
+      updatedAt: new Date().toISOString()
+    };
+    this.maintenanceRequests.set(id, updatedRequest);
+    return updatedRequest;
   }
 }
 
