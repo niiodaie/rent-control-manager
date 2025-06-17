@@ -1,21 +1,34 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Moon, Sun, Building, Users, CreditCard, Wrench, ShoppingCart, FileText, Check, Star } from "lucide-react";
+import { 
+  Moon, Sun, Building, Users, CreditCard, Wrench, ShoppingCart, FileText, Check, Star,
+  ArrowRight, Sparkles, TrendingUp, Globe, Lock, Palette, Mail, Zap, Shield
+} from "lucide-react";
 import Logo from "@/components/Logo";
 
 const features = [
   {
     icon: Building,
-    title: "Property Management",
-    description: "Manage multiple properties with ease, track rent, and organize lease documents.",
+    title: "Multi-Property Management",
+    description: "Manage unlimited properties with dedicated dashboards for each location and streamlined workflows.",
   },
   {
-    icon: Users,
-    title: "Resident Portal",
-    description: "Residents can pay rent, submit maintenance requests, and access community features.",
+    icon: Palette,
+    title: "Custom Branding & White-Label",
+    description: "Full branding customization with logos, colors, domains, and personalized tenant experiences.",
+  },
+  {
+    icon: Mail,
+    title: "Branded Tenant Invitations",
+    description: "Send professional invitations with your branding and automated onboarding workflows.",
+  },
+  {
+    icon: CreditCard,
+    title: "Global Payment Processing",
+    description: "Accept payments worldwide with Stripe integration and transparent 2% platform fees.",
   },
   {
     icon: ShoppingCart,
@@ -23,19 +36,9 @@ const features = [
     description: "Built-in marketplace for residents to buy and sell items within their community.",
   },
   {
-    icon: CreditCard,
-    title: "Global Payments",
-    description: "Accept payments worldwide with smart gateway routing and 2% platform fees.",
-  },
-  {
-    icon: Wrench,
-    title: "Maintenance Tracking",
-    description: "Track maintenance requests from submission to completion with real-time updates.",
-  },
-  {
-    icon: FileText,
-    title: "Document Management",
-    description: "Centralized document storage for leases, applications, and property records.",
+    icon: Shield,
+    title: "Enterprise Security",
+    description: "Bank-level security with role-based access, data encryption, and compliance standards.",
   },
 ];
 
@@ -68,141 +71,218 @@ const pricingPlans = [
 export default function Home() {
   const [, setLocation] = useLocation();
   const [isDark, setIsDark] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    setIsVisible(true);
+  }, []);
 
   const toggleTheme = () => {
     setIsDark(!isDark);
     document.documentElement.classList.toggle('dark');
   };
 
+  const stats = [
+    { label: "Properties Managed", value: "10,000+", icon: <Building /> },
+    { label: "Active Tenants", value: "50,000+", icon: <Users /> },
+    { label: "Transactions Processed", value: "$100M+", icon: <CreditCard /> },
+    { label: "Uptime Guarantee", value: "99.9%", icon: <Zap /> }
+  ];
+
   return (
-    <div className={`min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 ${isDark ? 'dark' : ''}`}>
-      {/* Header */}
-      <header className="container mx-auto px-4 py-6">
-        <nav className="flex items-center justify-between">
-          <Logo />
-          <div className="flex items-center space-x-4">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={toggleTheme}
-              className="text-gray-600 hover:text-gray-900"
-            >
-              {isDark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
-            </Button>
-            <Button variant="outline" onClick={() => setLocation("/login")}>
-              Login
-            </Button>
-            <Button onClick={() => setLocation("/apply")}>
-              Apply Now
-            </Button>
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
+      {/* Navigation */}
+      <header className="sticky top-0 z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-lg border-b border-slate-200 dark:border-slate-700">
+        <div className="container mx-auto px-6 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-3">
+              <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
+                <Building className="h-5 w-5 text-white" />
+              </div>
+              <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                Rent Control
+              </span>
+            </div>
+            <div className="flex items-center space-x-4">
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={toggleTheme}
+                className="text-slate-600 dark:text-slate-300"
+              >
+                {isDark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+              </Button>
+              <Button variant="ghost" className="text-slate-600 dark:text-slate-300" onClick={() => setLocation("/login")}>
+                Sign In
+              </Button>
+              <Button className="bg-gradient-to-r from-blue-600 to-purple-600 text-white" onClick={() => setLocation("/login?role=landlord")}>
+                Get Started
+              </Button>
+            </div>
           </div>
-        </nav>
+        </div>
       </header>
 
       {/* Hero Section */}
-      <section className="container mx-auto px-4 py-20 text-center">
-        <div className="max-w-4xl mx-auto">
-          <Badge className="mb-4 bg-blue-100 text-blue-800 hover:bg-blue-100">
-            Multi-Tenant Property Management
-          </Badge>
-          <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
-            The Complete
-            <span className="text-blue-600"> Rent Control </span>
-            Platform
-          </h1>
-          <p className="text-xl text-gray-600 mb-8 leading-relaxed">
-            Streamline property management with our comprehensive SaaS platform. 
-            Handle rent collection, maintenance requests, community marketplace, and more - all in one place.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="px-8 py-4 text-lg" onClick={() => setLocation("/login?role=landlord")}>
-              Login as Landlord
-            </Button>
-            <Button size="lg" variant="outline" className="px-8 py-4 text-lg" onClick={() => setLocation("/login?role=resident")}>
-              Login as Resident
-            </Button>
+      <section className="relative overflow-hidden">
+        <div className="container mx-auto px-6 py-20 lg:py-32">
+          <div className={`text-center max-w-4xl mx-auto transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+            <Badge className="mb-6 bg-gradient-to-r from-blue-100 to-purple-100 text-blue-700 dark:from-blue-900 dark:to-purple-900 dark:text-blue-300">
+              <Sparkles className="h-3 w-3 mr-1" />
+              Multi-Tenant SaaS Platform
+            </Badge>
+            
+            <h1 className="text-5xl lg:text-7xl font-bold mb-6 leading-tight">
+              Property Management
+              <span className="block bg-gradient-to-r from-blue-600 via-purple-600 to-teal-600 bg-clip-text text-transparent">
+                Reimagined
+              </span>
+            </h1>
+            
+            <p className="text-xl lg:text-2xl text-slate-600 dark:text-slate-300 mb-10 leading-relaxed">
+              The only platform landlords need to manage properties, collect rent, 
+              communicate with tenants, and grow their business—all with custom branding.
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+              <Button size="lg" className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 text-lg" onClick={() => setLocation("/login?role=landlord")}>
+                Start Managing Properties
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+              <Button size="lg" variant="outline" className="px-8 py-4 text-lg border-slate-300 dark:border-slate-600" onClick={() => setLocation("/apply")}>
+                Apply as Tenant
+              </Button>
+            </div>
+
+            <p className="text-sm text-slate-500 dark:text-slate-400">
+              ✨ Free forever plan • 🚀 Setup in under 5 minutes • 💳 Only 2% transaction fees
+            </p>
           </div>
-          <p className="text-sm text-gray-500 mt-4">
-            No credit card required • Free plan available • 2% transaction fees
-          </p>
+        </div>
+
+        {/* Background Elements */}
+        <div className="absolute top-1/2 left-1/4 transform -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>
+        <div className="absolute top-1/3 right-1/4 transform translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-gradient-to-r from-purple-400 to-pink-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse" style={{ animationDelay: '2s' }}></div>
+      </section>
+
+      {/* Stats Section */}
+      <section className="py-16 bg-white dark:bg-slate-800">
+        <div className="container mx-auto px-6">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
+            {stats.map((stat, index) => (
+              <div key={index} className="text-center">
+                <div className="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-900 dark:to-purple-900 rounded-xl mb-4">
+                  <div className="text-blue-600 dark:text-blue-400">
+                    {stat.icon}
+                  </div>
+                </div>
+                <div className="text-2xl lg:text-3xl font-bold text-slate-900 dark:text-white mb-2">
+                  {stat.value}
+                </div>
+                <div className="text-slate-600 dark:text-slate-400">
+                  {stat.label}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
       {/* Features Section */}
-      <section className="container mx-auto px-4 py-20">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            Everything You Need to Manage Properties
-          </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            From rent collection to maintenance tracking, our platform handles every aspect of property management.
-          </p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {features.map((feature, index) => (
-            <Card key={index} className="text-center hover:shadow-lg transition-shadow">
-              <CardHeader>
-                <div className="mx-auto w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
-                  <feature.icon className="h-6 w-6 text-blue-600" />
-                </div>
-                <CardTitle className="text-xl">{feature.title}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <CardDescription className="text-base">{feature.description}</CardDescription>
-              </CardContent>
-            </Card>
-          ))}
+      <section className="py-20 bg-slate-50 dark:bg-slate-900">
+        <div className="container mx-auto px-6">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl lg:text-5xl font-bold text-slate-900 dark:text-white mb-6">
+              Everything You Need to
+              <span className="block bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                Scale Your Business
+              </span>
+            </h2>
+            <p className="text-xl text-slate-600 dark:text-slate-300 max-w-3xl mx-auto">
+              From single properties to enterprise portfolios, Rent Control grows with your business while maintaining your unique brand identity.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {features.map((feature, index) => (
+              <Card key={index} className="group hover:shadow-xl transition-all duration-300 border-0 bg-white dark:bg-slate-800">
+                <CardHeader>
+                  <div className="w-12 h-12 bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-900 dark:to-purple-900 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                    <div className="text-blue-600 dark:text-blue-400">
+                      <feature.icon className="h-6 w-6" />
+                    </div>
+                  </div>
+                  <CardTitle className="text-slate-900 dark:text-white">
+                    {feature.title}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <CardDescription className="text-slate-600 dark:text-slate-400">
+                    {feature.description}
+                  </CardDescription>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
         </div>
       </section>
 
       {/* Pricing Section */}
-      <section className="container mx-auto px-4 py-20 bg-gray-50">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            Simple, Transparent Pricing
-          </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Choose the plan that fits your property portfolio. Upgrade or downgrade anytime.
-          </p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-          {pricingPlans.map((plan, index) => (
-            <Card 
-              key={index} 
-              className={`relative text-center ${plan.popular ? 'border-blue-500 shadow-lg scale-105' : ''}`}
-            >
-              {plan.popular && (
-                <Badge className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-blue-600 text-white">
-                  Most Popular
-                </Badge>
-              )}
-              <CardHeader>
-                <CardTitle className="text-2xl">{plan.name}</CardTitle>
-                <div className="text-4xl font-bold text-gray-900">
-                  {plan.price}
-                  {plan.period && <span className="text-lg text-gray-600">{plan.period}</span>}
-                </div>
-                <CardDescription className="text-base">{plan.description}</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <ul className="space-y-3 mb-6">
-                  {plan.features.map((feature, featureIndex) => (
-                    <li key={featureIndex} className="flex items-center">
-                      <Check className="h-4 w-4 text-green-500 mr-2" />
-                      <span className="text-sm">{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-                <Button 
-                  className={`w-full ${plan.popular ? 'bg-blue-600 hover:bg-blue-700' : ''}`}
-                  variant={plan.popular ? 'default' : 'outline'}
-                  onClick={() => setLocation("/login?role=landlord")}
-                >
-                  Get Started
-                </Button>
-              </CardContent>
-            </Card>
-          ))}
+      <section className="py-20 bg-white dark:bg-slate-800">
+        <div className="container mx-auto px-6">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl lg:text-5xl font-bold text-slate-900 dark:text-white mb-6">
+              Simple, Transparent Pricing
+            </h2>
+            <p className="text-xl text-slate-600 dark:text-slate-300">
+              Choose the perfect plan for your property management needs
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            {pricingPlans.map((plan, index) => (
+              <Card key={index} className={`relative ${plan.popular ? 'ring-2 ring-blue-500 scale-105' : ''} transition-all duration-300 hover:shadow-xl`}>
+                {plan.popular && (
+                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                    <Badge className="bg-gradient-to-r from-blue-600 to-purple-600 text-white">
+                      Most Popular
+                    </Badge>
+                  </div>
+                )}
+                <CardHeader className="text-center">
+                  <CardTitle className="text-2xl text-slate-900 dark:text-white">
+                    {plan.name}
+                  </CardTitle>
+                  <div className="text-4xl font-bold text-slate-900 dark:text-white mb-2">
+                    {plan.price}
+                    {plan.period && <span className="text-lg text-slate-600 dark:text-slate-400">{plan.period}</span>}
+                  </div>
+                  <CardDescription>
+                    {plan.description}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <ul className="space-y-3">
+                    {plan.features.map((feature, featureIndex) => (
+                      <li key={featureIndex} className="flex items-center">
+                        <Check className="h-5 w-5 text-green-500 mr-3 flex-shrink-0" />
+                        <span className="text-slate-600 dark:text-slate-400">{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <Button 
+                    className={`w-full mt-6 ${plan.popular 
+                      ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white' 
+                      : 'bg-slate-100 text-slate-900 hover:bg-slate-200 dark:bg-slate-700 dark:text-white dark:hover:bg-slate-600'
+                    }`}
+                    onClick={() => setLocation("/login?role=landlord")}
+                  >
+                    Get Started
+                  </Button>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -267,75 +347,81 @@ export default function Home() {
       </section>
 
       {/* CTA Section */}
-      <section className="bg-blue-600 text-white py-20">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            Ready to Streamline Your Property Management?
+      <section className="py-20 bg-gradient-to-r from-blue-600 via-purple-600 to-teal-600">
+        <div className="container mx-auto px-6 text-center">
+          <h2 className="text-3xl lg:text-5xl font-bold text-white mb-6">
+            Ready to Transform Your
+            <span className="block">Property Management?</span>
           </h2>
-          <p className="text-xl mb-8 opacity-90">
-            Join thousands of landlords who have simplified their workflow with Rent Control.
+          <p className="text-xl text-blue-100 mb-10 max-w-2xl mx-auto">
+            Join thousands of landlords who have streamlined their operations with Rent Control
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" variant="secondary" className="px-8 py-4" onClick={() => setLocation("/login?role=landlord")}>
-              Start Free Trial
+            <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50 px-8 py-4 text-lg" onClick={() => setLocation("/login?role=landlord")}>
+              Start Your Free Trial
+              <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
-            <Button size="lg" variant="outline" className="px-8 py-4 text-white border-white hover:bg-white hover:text-blue-600" onClick={() => setLocation("/apply")}>
-              Apply as Resident
+            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-blue-600 px-8 py-4 text-lg" onClick={() => setLocation("/apply")}>
+              Apply as Tenant
             </Button>
           </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-white py-12">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+      <footer className="bg-slate-900 text-slate-300 py-12">
+        <div className="container mx-auto px-6">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
             <div>
-              <Logo className="mb-4" />
-              <p className="text-gray-400">
-                The complete property management platform for modern landlords and residents.
+              <div className="flex items-center space-x-3 mb-4">
+                <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
+                  <Building className="h-5 w-5 text-white" />
+                </div>
+                <span className="text-xl font-bold text-white">Rent Control</span>
+              </div>
+              <p className="text-slate-400">
+                The modern property management platform built for landlords who want to scale.
               </p>
             </div>
+            
             <div>
-              <h4 className="font-semibold mb-4">Platform</h4>
-              <ul className="space-y-2 text-gray-400">
-                <li><a href="#" className="hover:text-white">Features</a></li>
-                <li><a href="#" className="hover:text-white">Pricing</a></li>
-                <li><a href="#" className="hover:text-white">Security</a></li>
+              <h4 className="font-semibold text-white mb-4">Product</h4>
+              <ul className="space-y-2">
+                <li><a href="#" className="hover:text-white transition-colors">Features</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Pricing</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">API Docs</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Integrations</a></li>
               </ul>
             </div>
+            
             <div>
-              <h4 className="font-semibold mb-4">Support</h4>
-              <ul className="space-y-2 text-gray-400">
-                <li><a href="#" className="hover:text-white">Help Center</a></li>
-                <li><a href="#" className="hover:text-white">Contact Us</a></li>
-                <li><a href="#" className="hover:text-white">API Docs</a></li>
+              <h4 className="font-semibold text-white mb-4">Company</h4>
+              <ul className="space-y-2">
+                <li><a href="#" className="hover:text-white transition-colors">About</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Blog</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Careers</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Contact</a></li>
               </ul>
             </div>
+            
             <div>
-              <h4 className="font-semibold mb-4">Company</h4>
-              <ul className="space-y-2 text-gray-400">
-                <li><a href="#" className="hover:text-white">About</a></li>
-                <li><a href="#" className="hover:text-white">Blog</a></li>
-                <li><a href="#" className="hover:text-white">Careers</a></li>
+              <h4 className="font-semibold text-white mb-4">Support</h4>
+              <ul className="space-y-2">
+                <li><a href="#" className="hover:text-white transition-colors">Help Center</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Privacy Policy</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Terms of Service</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Status</a></li>
               </ul>
             </div>
           </div>
-          <div className="border-t border-gray-800 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
-            <p className="text-gray-400">
-              © 2024 Rent Control. All rights reserved.
+          
+          <div className="border-t border-slate-700 pt-8 flex flex-col md:flex-row justify-between items-center">
+            <p className="text-slate-400">
+              © {new Date().getFullYear()} Rent Control. All rights reserved.
             </p>
-            <div className="flex items-center space-x-2 mt-4 md:mt-0">
-              <span className="text-gray-400">Powered by</span>
-              <a 
-                href="https://visnec.com" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="text-blue-400 hover:text-blue-300 font-semibold"
-              >
-                Visnec
-              </a>
-            </div>
+            <p className="text-slate-400 mt-4 md:mt-0">
+              Powered by <a href="https://visnec.com" className="text-blue-400 hover:text-blue-300">Visnec</a>
+            </p>
           </div>
         </div>
       </footer>
