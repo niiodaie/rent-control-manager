@@ -3,7 +3,8 @@ import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import Layout from "@/components/Layout";
+import PublicLayout from "@/layouts/PublicLayout";
+import DashboardLayout from "@/layouts/DashboardLayout";
 import Home from "@/pages/Home";
 import Login from "@/pages/Login";
 import Dashboard from "@/pages/Dashboard";
@@ -22,61 +23,82 @@ import NotFound from "@/pages/not-found";
 function Router() {
   return (
     <Switch>
-      <Route path="/" component={Home} />
-      <Route path="/login" component={Login} />
-      <Route path="/apply" component={Apply} />
+      {/* Public Routes */}
+      <Route path="/">
+        <PublicLayout>
+          <Home />
+        </PublicLayout>
+      </Route>
+      <Route path="/login">
+        <PublicLayout>
+          <Login />
+        </PublicLayout>
+      </Route>
+      <Route path="/apply">
+        <PublicLayout>
+          <Apply />
+        </PublicLayout>
+      </Route>
       
-      {/* Landlord Routes */}
+      {/* Protected Landlord Routes */}
       <Route path="/dashboard">
-        <Layout>
+        <DashboardLayout>
           <Dashboard />
-        </Layout>
+        </DashboardLayout>
       </Route>
       <Route path="/properties">
-        <Layout>
+        <DashboardLayout>
           <Properties />
-        </Layout>
+        </DashboardLayout>
       </Route>
       <Route path="/residents">
-        <Layout>
+        <DashboardLayout>
           <Residents />
-        </Layout>
+        </DashboardLayout>
       </Route>
       <Route path="/applications">
-        <Layout>
+        <DashboardLayout>
           <Applications />
-        </Layout>
+        </DashboardLayout>
       </Route>
       <Route path="/documents">
-        <Layout>
+        <DashboardLayout>
           <Documents />
-        </Layout>
+        </DashboardLayout>
       </Route>
       <Route path="/marketplace">
-        <Layout>
+        <DashboardLayout>
           <Marketplace />
-        </Layout>
+        </DashboardLayout>
       </Route>
       <Route path="/payments">
-        <Layout>
+        <DashboardLayout>
           <Payments />
-        </Layout>
+        </DashboardLayout>
       </Route>
       <Route path="/maintenance">
-        <Layout>
+        <DashboardLayout>
           <Maintenance />
-        </Layout>
+        </DashboardLayout>
       </Route>
       <Route path="/branding">
-        <Layout>
+        <DashboardLayout>
           <BrandingSettings />
-        </Layout>
+        </DashboardLayout>
       </Route>
       
-      {/* Resident Routes */}
-      <Route path="/resident-dashboard" component={ResidentDashboard} />
+      {/* Protected Resident Routes */}
+      <Route path="/resident-dashboard">
+        <DashboardLayout>
+          <ResidentDashboard />
+        </DashboardLayout>
+      </Route>
       
-      <Route component={NotFound} />
+      <Route>
+        <PublicLayout>
+          <NotFound />
+        </PublicLayout>
+      </Route>
     </Switch>
   );
 }
@@ -86,9 +108,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <Toaster />
-        <Layout>
-          <Router />
-        </Layout>
+        <Router />
       </TooltipProvider>
     </QueryClientProvider>
   );
