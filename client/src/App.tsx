@@ -9,6 +9,9 @@ import Properties from "@/pages/Properties";
 import Residents from "@/pages/Residents";
 import Applications from "@/pages/Applications";
 import Documents from "@/pages/Documents";
+import Marketplace from "@/pages/Marketplace";
+import Payments from "@/pages/Payments";
+import Maintenance from "@/pages/Maintenance";
 import Apply from "@/pages/Apply";
 import NotFound from "@/pages/not-found";
 
@@ -21,6 +24,9 @@ function Router() {
       <Route path="/residents" component={Residents} />
       <Route path="/applications" component={Applications} />
       <Route path="/documents" component={Documents} />
+      <Route path="/marketplace" component={Marketplace} />
+      <Route path="/payments" component={Payments} />
+      <Route path="/maintenance" component={Maintenance} />
       <Route path="/apply" component={Apply} />
       <Route component={NotFound} />
     </Switch>
