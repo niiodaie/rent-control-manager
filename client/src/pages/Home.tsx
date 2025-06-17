@@ -89,54 +89,170 @@ export default function Home() {
       </div>
 
       {/* Hero Section */}
-      <section className="relative py-24 px-6 text-center">
-        <div className="container mx-auto max-w-6xl">
-          <Badge className="mb-6 bg-gradient-to-r from-blue-600 to-purple-600 text-white border-0">
-            The Future of Property Management
-          </Badge>
-          
-          <h1 className="text-5xl md:text-7xl font-bold mb-8 bg-gradient-to-r from-slate-900 via-blue-800 to-purple-800 dark:from-white dark:via-blue-200 dark:to-purple-200 bg-clip-text text-transparent leading-tight">
-            Rent Control
-          </h1>
-          
-          <p className="text-xl md:text-2xl text-slate-600 dark:text-slate-300 mb-12 max-w-4xl mx-auto leading-relaxed">
-            The complete multi-tenant SaaS platform that transforms how landlords manage properties. 
-            Custom-branded dashboards, automated workflows, and enterprise-grade tools that scale with your business.
-          </p>
-          
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
-            <Button 
-              size="lg" 
-              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-6 text-lg font-semibold shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-200"
-              onClick={() => setLocation("/login")}
-            >
-              Login as Landlord
-              <ArrowRight className="ml-2 h-5 w-5" />
-            </Button>
-            
-            <Button 
-              variant="outline" 
-              size="lg" 
-              className="border-2 border-slate-300 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-800 px-8 py-6 text-lg font-semibold"
-              onClick={() => setLocation("/login")}
-            >
-              Login as Resident
-            </Button>
-          </div>
+      <section className="relative min-h-[85vh] flex items-center px-6 py-12">
+        <div className="container mx-auto max-w-7xl">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            {/* Left Column - Content */}
+            <div className="text-left max-w-2xl">
+              <div className="mb-8">
+                <h1 className="text-5xl md:text-6xl font-bold mb-6 text-slate-900 dark:text-white leading-tight">
+                  Rent Control
+                  <br />
+                  <span className="text-blue-600">for Landlords</span>
+                </h1>
+                
+                <p className="text-xl text-slate-600 dark:text-slate-400 mb-8 leading-relaxed">
+                  The modern property management platform trusted by landlords worldwide. Manage properties, collect rent, and engage tenants with custom-branded experiences.
+                </p>
+              </div>
 
-          {/* Trust indicators */}
-          <div className="flex flex-wrap justify-center items-center gap-8 opacity-60">
-            <div className="flex items-center gap-2">
-              <Shield className="h-5 w-5 text-green-600" />
-              <span className="text-sm font-medium">Bank-Grade Security</span>
+              {/* Search-style CTA */}
+              <div className="bg-white dark:bg-slate-800 rounded-2xl p-8 shadow-2xl border border-slate-200 dark:border-slate-700 mb-8">
+                <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-4">
+                  Get started with your property portfolio
+                </h3>
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <div className="flex-1">
+                    <div className="relative">
+                      <Building className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-slate-400" />
+                      <input
+                        type="text"
+                        placeholder="How many properties do you manage?"
+                        className="w-full pl-12 pr-4 py-4 border border-slate-300 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-slate-700 dark:text-white text-lg"
+                        readOnly
+                      />
+                    </div>
+                  </div>
+                  <Button 
+                    size="lg" 
+                    className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-xl text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
+                    onClick={() => setLocation("/login")}
+                  >
+                    Get Started
+                    <ArrowRight className="ml-2 h-5 w-5" />
+                  </Button>
+                </div>
+                
+                <div className="mt-4 text-center">
+                  <Button 
+                    variant="ghost"
+                    className="text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400"
+                    onClick={() => setLocation("/login?resident=true")}
+                  >
+                    Or login as a resident →
+                  </Button>
+                </div>
+              </div>
+
+              {/* Trust indicators */}
+              <div className="flex flex-wrap gap-6 text-sm text-slate-600 dark:text-slate-400">
+                <div className="flex items-center gap-2">
+                  <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                  <span className="font-medium">50,000+ Properties</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
+                  <span className="font-medium">190+ Countries</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-3 h-3 bg-purple-500 rounded-full"></div>
+                  <span className="font-medium">$2.5B+ Processed</span>
+                </div>
+              </div>
             </div>
-            <div className="flex items-center gap-2">
-              <Globe className="h-5 w-5 text-blue-600" />
-              <span className="text-sm font-medium">190+ Countries</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Zap className="h-5 w-5 text-purple-600" />
-              <span className="text-sm font-medium">Multi-Currency</span>
+
+            {/* Right Column - Property Showcase */}
+            <div className="relative">
+              {/* Main property card */}
+              <div className="bg-white dark:bg-slate-800 rounded-3xl shadow-2xl overflow-hidden border border-slate-200 dark:border-slate-700 transform hover:scale-105 transition-transform duration-500">
+                <div className="aspect-[4/3] bg-gradient-to-br from-blue-50 to-slate-50 dark:from-blue-900/20 dark:to-slate-900/20 p-8 flex items-center justify-center relative overflow-hidden">
+                  {/* Property illustration */}
+                  <svg width="280" height="180" viewBox="0 0 280 180" className="text-slate-300 dark:text-slate-600">
+                    {/* Modern buildings */}
+                    <rect x="40" y="80" width="50" height="80" fill="currentColor" opacity="0.8" rx="4" />
+                    <rect x="110" y="60" width="70" height="100" fill="currentColor" opacity="0.9" rx="4" />
+                    <rect x="200" y="85" width="45" height="75" fill="currentColor" opacity="0.7" rx="4" />
+                    
+                    {/* Animated windows */}
+                    {[...Array(6)].map((_, i) => (
+                      <rect key={i} x={50 + (i % 2) * 20} y={95 + Math.floor(i / 2) * 20} width={10} height={10} fill="rgba(59, 130, 246, 0.5)" rx="2">
+                        <animate attributeName="opacity" values="0.3;0.8;0.3" dur={`${3 + i * 0.4}s`} repeatCount="indefinite" />
+                      </rect>
+                    ))}
+                    
+                    {[...Array(9)].map((_, i) => (
+                      <rect key={i} x={125 + (i % 3) * 18} y={75 + Math.floor(i / 3) * 18} width={12} height={12} fill="rgba(147, 51, 234, 0.5)" rx="2">
+                        <animate attributeName="opacity" values="0.3;0.9;0.3" dur={`${2.8 + i * 0.3}s`} repeatCount="indefinite" />
+                      </rect>
+                    ))}
+                  </svg>
+                  
+                  {/* Status badges */}
+                  <div className="absolute top-6 right-6 bg-green-100 dark:bg-green-900/50 text-green-700 dark:text-green-300 px-4 py-2 rounded-full text-sm font-semibold">
+                    98% Occupied
+                  </div>
+                  <div className="absolute bottom-6 left-6 bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300 px-4 py-2 rounded-full text-sm font-semibold">
+                    $2,850/mo avg
+                  </div>
+                </div>
+                
+                <div className="p-8">
+                  <div className="flex items-start justify-between mb-4">
+                    <div>
+                      <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">
+                        Sunset Apartments
+                      </h3>
+                      <p className="text-slate-600 dark:text-slate-400">
+                        Modern complex with premium amenities
+                      </p>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-2xl font-bold text-blue-600">$68K</p>
+                      <p className="text-sm text-slate-500">monthly revenue</p>
+                    </div>
+                  </div>
+                  
+                  <div className="grid grid-cols-3 gap-4 pt-4 border-t border-slate-200 dark:border-slate-700">
+                    <div className="text-center">
+                      <p className="text-2xl font-bold text-slate-900 dark:text-white">24</p>
+                      <p className="text-sm text-slate-600 dark:text-slate-400">Units</p>
+                    </div>
+                    <div className="text-center">
+                      <p className="text-2xl font-bold text-slate-900 dark:text-white">23</p>
+                      <p className="text-sm text-slate-600 dark:text-slate-400">Occupied</p>
+                    </div>
+                    <div className="text-center">
+                      <p className="text-2xl font-bold text-slate-900 dark:text-white">4.8</p>
+                      <p className="text-sm text-slate-600 dark:text-slate-400">Rating</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Floating notification cards */}
+              <div className="absolute -top-6 -left-6 bg-white dark:bg-slate-800 rounded-2xl p-4 shadow-xl border border-slate-200 dark:border-slate-700 max-w-xs">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-green-100 dark:bg-green-900/50 rounded-full flex items-center justify-center">
+                    <TrendingUp className="h-5 w-5 text-green-600 dark:text-green-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold text-slate-900 dark:text-white">Revenue Up 15%</p>
+                    <p className="text-xs text-slate-600 dark:text-slate-400">vs last month</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="absolute -bottom-6 -right-6 bg-white dark:bg-slate-800 rounded-2xl p-4 shadow-xl border border-slate-200 dark:border-slate-700 max-w-xs">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-blue-100 dark:bg-blue-900/50 rounded-full flex items-center justify-center">
+                    <Users className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold text-slate-900 dark:text-white">3 New Applications</p>
+                    <p className="text-xs text-slate-600 dark:text-slate-400">Ready for review</p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
