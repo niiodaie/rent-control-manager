@@ -9,7 +9,8 @@ import {
   CreditCard,
   Wrench,
   User,
-  Settings
+  Settings,
+  Palette
 } from "lucide-react";
 import Logo from "./Logo";
 import { cn } from "@/lib/utils";
@@ -23,6 +24,7 @@ const navigation = [
   { name: "Marketplace", href: "/marketplace", icon: ShoppingCart },
   { name: "Payments", href: "/payments", icon: CreditCard },
   { name: "Maintenance", href: "/maintenance", icon: Wrench },
+  { name: "Branding", href: "/branding", icon: Palette },
 ];
 
 export default function Sidebar() {

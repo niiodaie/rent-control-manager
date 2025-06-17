@@ -120,7 +120,14 @@ export class MemStorage implements IStorage {
       passwordHash: "demo_hash",
       plan: "premium",
       createdAt: new Date().toISOString(),
-      stripeCustomerId: null
+      stripeCustomerId: null,
+      brandName: null,
+      brandLogo: null,
+      primaryColor: "#2563eb",
+      secondaryColor: "#64748b",
+      accentColor: "#10b981",
+      customDomain: null,
+      welcomeMessage: null
     };
     this.landlords.set(1, sampleLandlord);
     this.currentLandlordId = 2;
@@ -274,6 +281,15 @@ export class MemStorage implements IStorage {
     const landlord: Landlord = { 
       ...insertLandlord, 
       id,
+      plan: insertLandlord.plan || "free",
+      stripeCustomerId: insertLandlord.stripeCustomerId || null,
+      brandName: insertLandlord.brandName || null,
+      brandLogo: insertLandlord.brandLogo || null,
+      primaryColor: insertLandlord.primaryColor || "#2563eb",
+      secondaryColor: insertLandlord.secondaryColor || "#64748b",
+      accentColor: insertLandlord.accentColor || "#10b981",
+      customDomain: insertLandlord.customDomain || null,
+      welcomeMessage: insertLandlord.welcomeMessage || null,
       createdAt: new Date().toISOString()
     };
     this.landlords.set(id, landlord);

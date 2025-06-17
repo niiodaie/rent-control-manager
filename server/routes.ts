@@ -520,6 +520,45 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Branding routes
+  app.put("/api/landlords/:id/branding", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const brandingData = req.body;
+      
+      const landlord = await storage.updateLandlord(id, brandingData);
+      
+      if (!landlord) {
+        return res.status(404).json({ message: "Landlord not found" });
+      }
+      
+      res.json(landlord);
+    } catch (error) {
+      res.status(400).json({ message: "Failed to update branding settings" });
+    }
+  });
+
+  app.post("/api/landlords/upload-logo", upload.single('logo'), async (req, res) => {
+    try {
+      if (!req.file) {
+        return res.status(400).json({ message: "No file uploaded" });
+      }
+
+      const landlordId = parseInt(req.body.landlordId);
+      const logoUrl = `/uploads/${req.file.filename}`;
+      
+      const landlord = await storage.updateLandlord(landlordId, { brandLogo: logoUrl });
+      
+      if (!landlord) {
+        return res.status(404).json({ message: "Landlord not found" });
+      }
+      
+      res.json({ logoUrl });
+    } catch (error) {
+      res.status(500).json({ message: "Failed to upload logo" });
+    }
+  });
+
   // Stats endpoint for dashboard
   app.get("/api/stats", async (req, res) => {
     try {

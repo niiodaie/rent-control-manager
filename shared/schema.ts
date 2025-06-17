@@ -39,6 +39,7 @@ export const residents = pgTable("residents", {
   propertyId: integer("property_id").notNull(),
   name: text("name").notNull(),
   email: text("email").notNull(),
+  passwordHash: text("password_hash"),
   phone: text("phone").notNull(),
   unit: text("unit").notNull(),
   rent: integer("rent").notNull(),

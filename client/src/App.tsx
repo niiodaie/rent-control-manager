@@ -67,6 +67,11 @@ function Router() {
           <Maintenance />
         </Layout>
       </Route>
+      <Route path="/branding">
+        <Layout>
+          <BrandingSettings />
+        </Layout>
+      </Route>
       
       {/* Resident Routes */}
       <Route path="/resident-dashboard" component={ResidentDashboard} />
