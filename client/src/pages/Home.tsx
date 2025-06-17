@@ -17,6 +17,75 @@ export default function Home() {
         <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl animate-pulse"></div>
         <div className="absolute top-3/4 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
         <div className="absolute bottom-1/4 left-1/3 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl animate-pulse delay-500"></div>
+        
+        {/* Property silhouettes with animated rent effect */}
+        <div className="absolute top-20 right-10 opacity-5 dark:opacity-10">
+          <svg width="200" height="250" viewBox="0 0 200 250" className="text-slate-700 dark:text-slate-300">
+            {/* Apartment building */}
+            <rect x="20" y="80" width="80" height="150" fill="currentColor" />
+            <rect x="120" y="60" width="60" height="170" fill="currentColor" />
+            
+            {/* Windows with rent animation */}
+            <rect x="30" y="90" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="1">
+              <animate attributeName="opacity" values="0.3;0.8;0.3" dur="3s" repeatCount="indefinite" />
+            </rect>
+            <rect x="55" y="90" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="1">
+              <animate attributeName="opacity" values="0.3;0.8;0.3" dur="3s" repeatCount="indefinite" begin="0.5s" />
+            </rect>
+            <rect x="30" y="115" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="1">
+              <animate attributeName="opacity" values="0.3;0.8;0.3" dur="3s" repeatCount="indefinite" begin="1s" />
+            </rect>
+            <rect x="55" y="115" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="1">
+              <animate attributeName="opacity" values="0.3;0.8;0.3" dur="3s" repeatCount="indefinite" begin="1.5s" />
+            </rect>
+            
+            {/* Apartment 2 windows */}
+            <rect x="130" y="80" width="12" height="12" fill="none" stroke="currentColor" strokeWidth="1">
+              <animate attributeName="opacity" values="0.3;0.8;0.3" dur="3s" repeatCount="indefinite" begin="2s" />
+            </rect>
+            <rect x="150" y="80" width="12" height="12" fill="none" stroke="currentColor" strokeWidth="1">
+              <animate attributeName="opacity" values="0.3;0.8;0.3" dur="3s" repeatCount="indefinite" begin="2.5s" />
+            </rect>
+            
+            {/* Floating "$" symbols with rent effect */}
+            <text x="40" y="75" fontSize="16" fill="currentColor" opacity="0.6">
+              <animate attributeName="y" values="75;65;75" dur="4s" repeatCount="indefinite" />
+              <animate attributeName="opacity" values="0.6;0.9;0.6" dur="4s" repeatCount="indefinite" />
+              $
+            </text>
+            <text x="140" y="55" fontSize="14" fill="currentColor" opacity="0.5">
+              <animate attributeName="y" values="55;45;55" dur="3.5s" repeatCount="indefinite" />
+              <animate attributeName="opacity" values="0.5;0.8;0.5" dur="3.5s" repeatCount="indefinite" />
+              $
+            </text>
+          </svg>
+        </div>
+        
+        {/* House silhouette */}
+        <div className="absolute bottom-20 left-10 opacity-5 dark:opacity-10">
+          <svg width="150" height="120" viewBox="0 0 150 120" className="text-slate-700 dark:text-slate-300">
+            {/* House structure */}
+            <polygon points="75,20 120,60 30,60" fill="currentColor" />
+            <rect x="40" y="60" width="70" height="50" fill="currentColor" />
+            
+            {/* Door */}
+            <rect x="65" y="85" width="20" height="25" fill="none" stroke="currentColor" strokeWidth="1" />
+            
+            {/* Windows with animation */}
+            <rect x="50" y="70" width="12" height="12" fill="none" stroke="currentColor" strokeWidth="1">
+              <animate attributeName="opacity" values="0.4;0.9;0.4" dur="2.5s" repeatCount="indefinite" />
+            </rect>
+            <rect x="88" y="70" width="12" height="12" fill="none" stroke="currentColor" strokeWidth="1">
+              <animate attributeName="opacity" values="0.4;0.9;0.4" dur="2.5s" repeatCount="indefinite" begin="1s" />
+            </rect>
+            
+            {/* Rent symbol */}
+            <text x="75" y="15" fontSize="12" fill="currentColor" opacity="0.7" textAnchor="middle">
+              <animate attributeName="y" values="15;10;15" dur="3s" repeatCount="indefinite" />
+              $
+            </text>
+          </svg>
+        </div>
       </div>
 
       {/* Hero Section */}
@@ -63,11 +132,11 @@ export default function Home() {
             </div>
             <div className="flex items-center gap-2">
               <Globe className="h-5 w-5 text-blue-600" />
-              <span className="text-sm font-medium">Global Ready</span>
+              <span className="text-sm font-medium">190+ Countries</span>
             </div>
             <div className="flex items-center gap-2">
               <Zap className="h-5 w-5 text-purple-600" />
-              <span className="text-sm font-medium">Lightning Fast</span>
+              <span className="text-sm font-medium">Multi-Currency</span>
             </div>
           </div>
         </div>
@@ -94,33 +163,33 @@ export default function Home() {
                 color: "from-blue-500 to-cyan-500"
               },
               {
-                icon: Users,
-                title: "Tenant Invitations",
-                description: "Branded email invitations with custom onboarding flows. Professional first impressions every time.",
+                icon: Globe,
+                title: "Global Ready",
+                description: "Multi-currency support, timezone awareness, and localization for 190+ countries. GDPR and international compliance built-in.",
                 color: "from-purple-500 to-pink-500"
               },
               {
                 icon: CreditCard,
                 title: "Payment Processing",
-                description: "Automated rent collection with platform fees. Stripe integration for secure, reliable transactions.",
+                description: "Accept payments in 135+ currencies with Stripe integration. Automatic currency conversion and international banking support.",
                 color: "from-green-500 to-emerald-500"
               },
               {
                 icon: ShoppingCart,
                 title: "Resident Marketplace",
-                description: "Community marketplace for residents to buy, sell, and trade. Build stronger tenant relationships.",
+                description: "Community marketplace for residents to buy, sell, and trade. Build stronger tenant relationships worldwide.",
                 color: "from-orange-500 to-red-500"
               },
               {
                 icon: Wrench,
                 title: "Maintenance Tracking",
-                description: "Smart maintenance workflows with photo uploads, priority levels, and automated notifications.",
+                description: "Smart maintenance workflows with photo uploads, priority levels, and automated notifications across time zones.",
                 color: "from-indigo-500 to-blue-500"
               },
               {
                 icon: FileText,
                 title: "Document Management",
-                description: "Secure document storage with categorization, search, and automated lease renewals.",
+                description: "Secure document storage with international compliance. Support for local lease templates and regulations.",
                 color: "from-teal-500 to-cyan-500"
               }
             ].map((feature, index) => (
@@ -142,6 +211,69 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Global Capabilities */}
+      <section className="py-24 px-6 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-600/5 to-purple-600/5"></div>
+        <div className="container mx-auto max-w-6xl relative">
+          <div className="text-center mb-16">
+            <Badge className="mb-6 bg-gradient-to-r from-blue-100 to-purple-100 text-blue-700 dark:from-blue-900 dark:to-purple-900 dark:text-blue-300 border-0">
+              <Globe className="h-4 w-4 mr-2" />
+              Global Platform
+            </Badge>
+            <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-slate-900 to-slate-600 dark:from-white dark:to-slate-300 bg-clip-text text-transparent">
+              Built for Property Managers Everywhere
+            </h2>
+            <p className="text-xl text-slate-600 dark:text-slate-400 max-w-3xl mx-auto">
+              From New York to Tokyo, London to Sydney - our platform adapts to local regulations, currencies, and languages.
+            </p>
+          </div>
+          
+          <div className="grid md:grid-cols-4 gap-8">
+            {[
+              {
+                metric: "190+",
+                label: "Countries Supported",
+                icon: Globe,
+                detail: "Full localization"
+              },
+              {
+                metric: "135+",
+                label: "Currencies",
+                icon: CreditCard,
+                detail: "Auto-conversion"
+              },
+              {
+                metric: "24/7",
+                label: "Global Support",
+                icon: Shield,
+                detail: "All time zones"
+              },
+              {
+                metric: "99.9%",
+                label: "Uptime SLA",
+                icon: Zap,
+                detail: "Enterprise grade"
+              }
+            ].map((stat, index) => (
+              <div key={index} className="text-center p-6 rounded-2xl bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border border-slate-200 dark:border-slate-700">
+                <div className="w-12 h-12 mx-auto mb-4 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl flex items-center justify-center">
+                  <stat.icon className="h-6 w-6 text-white" />
+                </div>
+                <div className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-2">
+                  {stat.metric}
+                </div>
+                <div className="text-slate-900 dark:text-slate-100 font-semibold mb-1">
+                  {stat.label}
+                </div>
+                <div className="text-sm text-slate-600 dark:text-slate-400">
+                  {stat.detail}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Social Proof */}
       <section className="py-24 px-6">
         <div className="container mx-auto max-w-6xl">
@@ -154,17 +286,17 @@ export default function Home() {
           <div className="grid md:grid-cols-3 gap-8">
             {[
               {
-                metric: "10,000+",
+                metric: "50,000+",
                 label: "Properties Managed",
                 icon: Building
               },
               {
-                metric: "50,000+",
-                label: "Happy Residents",
+                metric: "250,000+",
+                label: "Global Residents",
                 icon: Users
               },
               {
-                metric: "$50M+",
+                metric: "$2.5B+",
                 label: "Rent Processed",
                 icon: TrendingUp
               }
