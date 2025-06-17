@@ -15,6 +15,7 @@ import Documents from "@/pages/Documents";
 import Marketplace from "@/pages/Marketplace";
 import Payments from "@/pages/Payments";
 import Maintenance from "@/pages/Maintenance";
+import BrandingSettings from "@/pages/BrandingSettings";
 import Apply from "@/pages/Apply";
 import NotFound from "@/pages/not-found";
 

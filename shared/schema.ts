@@ -11,6 +11,14 @@ export const landlords = pgTable("landlords", {
   plan: text("plan").notNull().default("free"), // free, basic, premium
   createdAt: text("created_at").notNull(),
   stripeCustomerId: text("stripe_customer_id"),
+  // Custom branding fields
+  brandName: text("brand_name"),
+  brandLogo: text("brand_logo"),
+  primaryColor: text("primary_color").default("#2563eb"),
+  secondaryColor: text("secondary_color").default("#64748b"),
+  accentColor: text("accent_color").default("#10b981"),
+  customDomain: text("custom_domain"),
+  welcomeMessage: text("welcome_message"),
 });
 
 // Properties owned by landlords
@@ -116,6 +124,36 @@ export const maintenanceRequests = pgTable("maintenance_requests", {
   updatedAt: text("updated_at").notNull(),
 });
 
+// Unit configuration and invitation system
+export const units = pgTable("units", {
+  id: serial("id").primaryKey(),
+  propertyId: integer("property_id").notNull(),
+  unitNumber: text("unit_number").notNull(),
+  rent: decimal("rent", { precision: 10, scale: 2 }),
+  leaseStartDate: text("lease_start_date"),
+  leaseDocument: text("lease_document"),
+  documentsUploaded: boolean("documents_uploaded").default(false),
+  isConfigured: boolean("is_configured").default(false),
+  residentId: integer("resident_id"),
+  createdAt: text("created_at").notNull(),
+});
+
+// Tenant invitations table
+export const invitations = pgTable("invitations", {
+  id: serial("id").primaryKey(),
+  token: text("token").notNull().unique(),
+  propertyId: integer("property_id").notNull(),
+  unitId: integer("unit_id").notNull(),
+  landlordId: integer("landlord_id").notNull(),
+  email: text("email").notNull(),
+  name: text("name"),
+  phone: text("phone"),
+  status: text("status").notNull().default("pending"), // pending, accepted, expired
+  expiresAt: text("expires_at").notNull(),
+  createdAt: text("created_at").notNull(),
+  acceptedAt: text("accepted_at"),
+});
+
 // Schema definitions for inserts and types
 export const insertLandlordSchema = createInsertSchema(landlords).omit({
   id: true,
@@ -165,6 +203,17 @@ export const insertMaintenanceRequestSchema = createInsertSchema(maintenanceRequ
   updatedAt: true,
 });
 
+export const insertUnitSchema = createInsertSchema(units).omit({
+  id: true,
+  createdAt: true,
+});
+
+export const insertInvitationSchema = createInsertSchema(invitations).omit({
+  id: true,
+  createdAt: true,
+  acceptedAt: true,
+});
+
 // Type exports
 export type InsertLandlord = z.infer<typeof insertLandlordSchema>;
 export type Landlord = typeof landlords.$inferSelect;
@@ -180,6 +229,12 @@ export type Application = typeof applications.$inferSelect;
 
 export type InsertDocument = z.infer<typeof insertDocumentSchema>;
 export type Document = typeof documents.$inferSelect;
+
+export type InsertUnit = z.infer<typeof insertUnitSchema>;
+export type Unit = typeof units.$inferSelect;
+
+export type InsertInvitation = z.infer<typeof insertInvitationSchema>;
+export type Invitation = typeof invitations.$inferSelect;
 
 export type InsertMarketplaceListing = z.infer<typeof insertMarketplaceListingSchema>;
 export type MarketplaceListing = typeof marketplaceListings.$inferSelect;
