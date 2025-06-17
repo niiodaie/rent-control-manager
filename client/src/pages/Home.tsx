@@ -89,166 +89,204 @@ export default function Home() {
       </div>
 
       {/* Hero Section */}
-      <section className="relative min-h-[85vh] flex items-center px-6 py-12">
+      <section className="relative min-h-screen flex items-center py-20 px-6 bg-gradient-to-br from-slate-50 via-white to-blue-50/30 dark:from-slate-900 dark:via-slate-900 dark:to-blue-950/30">
         <div className="container mx-auto max-w-7xl">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
+          <div className="grid lg:grid-cols-2 gap-20 items-center">
             {/* Left Column - Content */}
-            <div className="text-left max-w-2xl">
-              <div className="mb-8">
-                <h1 className="text-5xl md:text-6xl font-bold mb-6 text-slate-900 dark:text-white leading-tight">
+            <div className="text-left max-w-2xl space-y-8">
+              <div className="space-y-6">
+                <Badge className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 hover:bg-blue-100 text-blue-700 border-blue-200 dark:bg-blue-950 dark:text-blue-300 dark:border-blue-800 transition-colors">
+                  <Building className="h-4 w-4" />
+                  Enterprise Property Management
+                </Badge>
+                
+                <h1 className="text-6xl md:text-7xl font-extrabold text-slate-900 dark:text-white leading-[1.1] tracking-tight">
                   Rent Control
                   <br />
-                  <span className="text-blue-600">for Landlords</span>
+                  <span className="bg-gradient-to-r from-blue-600 via-blue-700 to-blue-800 bg-clip-text text-transparent">
+                    Revolutionized
+                  </span>
                 </h1>
                 
-                <p className="text-xl text-slate-600 dark:text-slate-400 mb-8 leading-relaxed">
-                  The modern property management platform trusted by landlords worldwide. Manage properties, collect rent, and engage tenants with custom-branded experiences.
+                <p className="text-2xl text-slate-600 dark:text-slate-300 leading-relaxed font-medium max-w-2xl">
+                  The enterprise-grade property management platform trusted by landlords in 190+ countries. 
+                  <span className="text-slate-800 dark:text-slate-200 font-semibold"> Custom branding, automated workflows, and seamless tenant experiences.</span>
                 </p>
               </div>
 
-              {/* Search-style CTA */}
-              <div className="bg-white dark:bg-slate-800 rounded-2xl p-8 shadow-2xl border border-slate-200 dark:border-slate-700 mb-8">
-                <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-4">
-                  Get started with your property portfolio
-                </h3>
-                <div className="flex flex-col sm:flex-row gap-4">
-                  <div className="flex-1">
-                    <div className="relative">
-                      <Building className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-slate-400" />
-                      <input
-                        type="text"
-                        placeholder="How many properties do you manage?"
-                        className="w-full pl-12 pr-4 py-4 border border-slate-300 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-slate-700 dark:text-white text-lg"
-                        readOnly
-                      />
-                    </div>
+              {/* Enhanced CTA Card */}
+              <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-3xl p-8 shadow-2xl border border-slate-200/50 dark:border-slate-700/50 hover:shadow-3xl transition-all duration-500">
+                <div className="space-y-6">
+                  <div>
+                    <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">
+                      Start managing your portfolio today
+                    </h3>
+                    <p className="text-slate-600 dark:text-slate-400">
+                      Join thousands of landlords using our platform worldwide
+                    </p>
                   </div>
-                  <Button 
-                    size="lg" 
-                    className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-xl text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
-                    onClick={() => setLocation("/login")}
-                  >
-                    Get Started
-                    <ArrowRight className="ml-2 h-5 w-5" />
-                  </Button>
-                </div>
-                
-                <div className="mt-4 text-center">
-                  <Button 
-                    variant="ghost"
-                    className="text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400"
-                    onClick={() => setLocation("/login?resident=true")}
-                  >
-                    Or login as a resident →
-                  </Button>
+                  
+                  <div className="flex flex-col sm:flex-row gap-4">
+                    <div className="flex-1">
+                      <div className="relative group">
+                        <Building className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-slate-400 group-focus-within:text-blue-500 transition-colors" />
+                        <input
+                          type="text"
+                          placeholder="Enter number of properties you manage..."
+                          className="w-full pl-12 pr-4 py-4 border-2 border-slate-200 dark:border-slate-600 rounded-xl focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 dark:bg-slate-700 dark:text-white text-lg font-medium placeholder:text-slate-400 transition-all duration-300"
+                          readOnly
+                        />
+                      </div>
+                    </div>
+                    <Button 
+                      size="lg" 
+                      className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-10 py-4 rounded-xl text-lg font-bold shadow-xl hover:shadow-2xl transform hover:scale-[1.02] transition-all duration-300 border-0"
+                      onClick={() => setLocation("/login")}
+                    >
+                      Get Started Free
+                      <ArrowRight className="ml-2 h-5 w-5" />
+                    </Button>
+                  </div>
+                  
+                  <div className="flex items-center justify-center pt-4 border-t border-slate-200 dark:border-slate-700">
+                    <Button 
+                      variant="ghost"
+                      className="text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 font-semibold text-base"
+                      onClick={() => setLocation("/login?resident=true")}
+                    >
+                      Resident Portal Access →
+                    </Button>
+                  </div>
                 </div>
               </div>
 
-              {/* Trust indicators */}
-              <div className="flex flex-wrap gap-6 text-sm text-slate-600 dark:text-slate-400">
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                  <span className="font-medium">50,000+ Properties</span>
+              {/* Enhanced trust indicators */}
+              <div className="flex flex-wrap gap-8 pt-4">
+                <div className="flex items-center gap-3 bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm rounded-full px-4 py-2 border border-slate-200/50 dark:border-slate-700/50">
+                  <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                  <span className="font-bold text-slate-900 dark:text-white">50,000+</span>
+                  <span className="text-slate-600 dark:text-slate-400">Properties</span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
-                  <span className="font-medium">190+ Countries</span>
+                <div className="flex items-center gap-3 bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm rounded-full px-4 py-2 border border-slate-200/50 dark:border-slate-700/50">
+                  <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
+                  <span className="font-bold text-slate-900 dark:text-white">190+</span>
+                  <span className="text-slate-600 dark:text-slate-400">Countries</span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 bg-purple-500 rounded-full"></div>
-                  <span className="font-medium">$2.5B+ Processed</span>
+                <div className="flex items-center gap-3 bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm rounded-full px-4 py-2 border border-slate-200/50 dark:border-slate-700/50">
+                  <div className="w-2 h-2 bg-purple-500 rounded-full animate-pulse"></div>
+                  <span className="font-bold text-slate-900 dark:text-white">$2.5B+</span>
+                  <span className="text-slate-600 dark:text-slate-400">Processed</span>
                 </div>
               </div>
             </div>
 
-            {/* Right Column - Property Showcase */}
+            {/* Right Column - Enhanced Property Showcase */}
             <div className="relative">
-              {/* Main property card */}
-              <div className="bg-white dark:bg-slate-800 rounded-3xl shadow-2xl overflow-hidden border border-slate-200 dark:border-slate-700 transform hover:scale-105 transition-transform duration-500">
-                <div className="aspect-[4/3] bg-gradient-to-br from-blue-50 to-slate-50 dark:from-blue-900/20 dark:to-slate-900/20 p-8 flex items-center justify-center relative overflow-hidden">
-                  {/* Property illustration */}
-                  <svg width="280" height="180" viewBox="0 0 280 180" className="text-slate-300 dark:text-slate-600">
-                    {/* Modern buildings */}
-                    <rect x="40" y="80" width="50" height="80" fill="currentColor" opacity="0.8" rx="4" />
-                    <rect x="110" y="60" width="70" height="100" fill="currentColor" opacity="0.9" rx="4" />
-                    <rect x="200" y="85" width="45" height="75" fill="currentColor" opacity="0.7" rx="4" />
+              {/* Main property card with glassmorphism */}
+              <div className="bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl rounded-3xl shadow-2xl overflow-hidden border border-slate-200/50 dark:border-slate-700/50 transform hover:scale-[1.02] transition-all duration-700 hover:shadow-3xl">
+                <div className="aspect-[4/3] bg-gradient-to-br from-blue-50 via-slate-50 to-purple-50/50 dark:from-blue-950/30 dark:via-slate-900 dark:to-purple-950/30 p-8 flex items-center justify-center relative overflow-hidden">
+                  {/* Enhanced property illustration */}
+                  <svg width="320" height="200" viewBox="0 0 320 200" className="text-slate-300/80 dark:text-slate-600/80">
+                    {/* Modern buildings with depth */}
+                    <defs>
+                      <linearGradient id="buildingGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stopColor="currentColor" stopOpacity="0.9"/>
+                        <stop offset="100%" stopColor="currentColor" stopOpacity="0.6"/>
+                      </linearGradient>
+                      <linearGradient id="buildingGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stopColor="currentColor" stopOpacity="1"/>
+                        <stop offset="100%" stopColor="currentColor" stopOpacity="0.7"/>
+                      </linearGradient>
+                    </defs>
                     
-                    {/* Animated windows */}
-                    {[...Array(6)].map((_, i) => (
-                      <rect key={i} x={50 + (i % 2) * 20} y={95 + Math.floor(i / 2) * 20} width={10} height={10} fill="rgba(59, 130, 246, 0.5)" rx="2">
-                        <animate attributeName="opacity" values="0.3;0.8;0.3" dur={`${3 + i * 0.4}s`} repeatCount="indefinite" />
+                    <rect x="40" y="90" width="60" height="90" fill="url(#buildingGrad1)" rx="6" />
+                    <rect x="120" y="70" width="80" height="110" fill="url(#buildingGrad2)" rx="6" />
+                    <rect x="220" y="95" width="55" height="85" fill="url(#buildingGrad1)" rx="6" />
+                    
+                    {/* Premium animated windows */}
+                    {[...Array(8)].map((_, i) => (
+                      <rect key={i} x={55 + (i % 2) * 22} y={105 + Math.floor(i / 2) * 18} width={12} height={12} fill="rgba(59, 130, 246, 0.7)" rx="3">
+                        <animate attributeName="opacity" values="0.4;1;0.4" dur={`${3 + i * 0.3}s`} repeatCount="indefinite" />
+                        <animate attributeName="fill" values="rgba(59, 130, 246, 0.7);rgba(99, 179, 237, 0.9);rgba(59, 130, 246, 0.7)" dur={`${4 + i * 0.2}s`} repeatCount="indefinite" />
                       </rect>
                     ))}
                     
-                    {[...Array(9)].map((_, i) => (
-                      <rect key={i} x={125 + (i % 3) * 18} y={75 + Math.floor(i / 3) * 18} width={12} height={12} fill="rgba(147, 51, 234, 0.5)" rx="2">
-                        <animate attributeName="opacity" values="0.3;0.9;0.3" dur={`${2.8 + i * 0.3}s`} repeatCount="indefinite" />
+                    {[...Array(12)].map((_, i) => (
+                      <rect key={i} x={135 + (i % 3) * 20} y={85 + Math.floor(i / 3) * 17} width={14} height={14} fill="rgba(147, 51, 234, 0.7)" rx="3">
+                        <animate attributeName="opacity" values="0.4;1;0.4" dur={`${2.5 + i * 0.25}s`} repeatCount="indefinite" />
+                        <animate attributeName="fill" values="rgba(147, 51, 234, 0.7);rgba(167, 85, 246, 0.9);rgba(147, 51, 234, 0.7)" dur={`${3.5 + i * 0.2}s`} repeatCount="indefinite" />
                       </rect>
                     ))}
                   </svg>
                   
-                  {/* Status badges */}
-                  <div className="absolute top-6 right-6 bg-green-100 dark:bg-green-900/50 text-green-700 dark:text-green-300 px-4 py-2 rounded-full text-sm font-semibold">
-                    98% Occupied
+                  {/* Enhanced status badges */}
+                  <div className="absolute top-6 right-6 bg-green-100/90 dark:bg-green-900/70 backdrop-blur-sm text-green-700 dark:text-green-300 px-5 py-3 rounded-full text-sm font-bold border border-green-200/50 dark:border-green-800/50">
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                      98% Occupied
+                    </div>
                   </div>
-                  <div className="absolute bottom-6 left-6 bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300 px-4 py-2 rounded-full text-sm font-semibold">
-                    $2,850/mo avg
+                  <div className="absolute bottom-6 left-6 bg-blue-100/90 dark:bg-blue-900/70 backdrop-blur-sm text-blue-700 dark:text-blue-300 px-5 py-3 rounded-full text-sm font-bold border border-blue-200/50 dark:border-blue-800/50">
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
+                      $2,850/mo avg
+                    </div>
                   </div>
                 </div>
                 
-                <div className="p-8">
-                  <div className="flex items-start justify-between mb-4">
-                    <div>
-                      <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">
+                <div className="p-8 space-y-6">
+                  <div className="flex items-start justify-between">
+                    <div className="space-y-2">
+                      <h3 className="text-2xl font-bold text-slate-900 dark:text-white">
                         Sunset Apartments
                       </h3>
-                      <p className="text-slate-600 dark:text-slate-400">
-                        Modern complex with premium amenities
+                      <p className="text-slate-600 dark:text-slate-400 font-medium">
+                        Premium complex with smart amenities
                       </p>
                     </div>
-                    <div className="text-right">
-                      <p className="text-2xl font-bold text-blue-600">$68K</p>
-                      <p className="text-sm text-slate-500">monthly revenue</p>
+                    <div className="text-right space-y-1">
+                      <p className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-blue-700 bg-clip-text text-transparent">$68K</p>
+                      <p className="text-sm font-medium text-slate-500 dark:text-slate-400">monthly revenue</p>
                     </div>
                   </div>
                   
-                  <div className="grid grid-cols-3 gap-4 pt-4 border-t border-slate-200 dark:border-slate-700">
-                    <div className="text-center">
+                  <div className="grid grid-cols-3 gap-6 pt-6 border-t border-slate-200 dark:border-slate-700">
+                    <div className="text-center space-y-1">
                       <p className="text-2xl font-bold text-slate-900 dark:text-white">24</p>
-                      <p className="text-sm text-slate-600 dark:text-slate-400">Units</p>
+                      <p className="text-sm font-medium text-slate-600 dark:text-slate-400">Total Units</p>
                     </div>
-                    <div className="text-center">
-                      <p className="text-2xl font-bold text-slate-900 dark:text-white">23</p>
-                      <p className="text-sm text-slate-600 dark:text-slate-400">Occupied</p>
+                    <div className="text-center space-y-1">
+                      <p className="text-2xl font-bold text-green-600">23</p>
+                      <p className="text-sm font-medium text-slate-600 dark:text-slate-400">Occupied</p>
                     </div>
-                    <div className="text-center">
-                      <p className="text-2xl font-bold text-slate-900 dark:text-white">4.8</p>
-                      <p className="text-sm text-slate-600 dark:text-slate-400">Rating</p>
+                    <div className="text-center space-y-1">
+                      <p className="text-2xl font-bold text-yellow-600">4.8</p>
+                      <p className="text-sm font-medium text-slate-600 dark:text-slate-400">★ Rating</p>
                     </div>
                   </div>
                 </div>
               </div>
 
-              {/* Floating notification cards */}
-              <div className="absolute -top-6 -left-6 bg-white dark:bg-slate-800 rounded-2xl p-4 shadow-xl border border-slate-200 dark:border-slate-700 max-w-xs">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-green-100 dark:bg-green-900/50 rounded-full flex items-center justify-center">
-                    <TrendingUp className="h-5 w-5 text-green-600 dark:text-green-400" />
+              {/* Enhanced floating notification cards */}
+              <div className="absolute -top-8 -left-8 bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl rounded-2xl p-5 shadow-2xl border border-slate-200/50 dark:border-slate-700/50 max-w-xs transform hover:scale-105 transition-transform duration-300">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 bg-gradient-to-br from-green-100 to-green-200 dark:from-green-900/50 dark:to-green-800/50 rounded-xl flex items-center justify-center">
+                    <TrendingUp className="h-6 w-6 text-green-600 dark:text-green-400" />
                   </div>
-                  <div>
-                    <p className="text-sm font-semibold text-slate-900 dark:text-white">Revenue Up 15%</p>
+                  <div className="space-y-1">
+                    <p className="text-sm font-bold text-slate-900 dark:text-white">Revenue Up 15%</p>
                     <p className="text-xs text-slate-600 dark:text-slate-400">vs last month</p>
                   </div>
                 </div>
               </div>
 
-              <div className="absolute -bottom-6 -right-6 bg-white dark:bg-slate-800 rounded-2xl p-4 shadow-xl border border-slate-200 dark:border-slate-700 max-w-xs">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-blue-100 dark:bg-blue-900/50 rounded-full flex items-center justify-center">
-                    <Users className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+              <div className="absolute -bottom-8 -right-8 bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl rounded-2xl p-5 shadow-2xl border border-slate-200/50 dark:border-slate-700/50 max-w-xs transform hover:scale-105 transition-transform duration-300">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 bg-gradient-to-br from-blue-100 to-blue-200 dark:from-blue-900/50 dark:to-blue-800/50 rounded-xl flex items-center justify-center">
+                    <Users className="h-6 w-6 text-blue-600 dark:text-blue-400" />
                   </div>
-                  <div>
-                    <p className="text-sm font-semibold text-slate-900 dark:text-white">3 New Applications</p>
+                  <div className="space-y-1">
+                    <p className="text-sm font-bold text-slate-900 dark:text-white">3 New Applications</p>
                     <p className="text-xs text-slate-600 dark:text-slate-400">Ready for review</p>
                   </div>
                 </div>
