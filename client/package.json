@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
   "name": "rest-express",
   "version": "1.0.0",
   "type": "module",
@@ -108,5 +109,17 @@
   },
   "optionalDependencies": {
     "bufferutil": "^4.0.8"
+=======
+  "devDependencies": {
+    "vite": "^5.2.0",
+    "@vitejs/plugin-react": "^4.1.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+>>>>>>> 0189f626df50a34d78a096bc489a9dfd93e0f625
   }
 }

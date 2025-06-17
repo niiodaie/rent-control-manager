@@ -1,5 +1,6 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
+<<<<<<< HEAD
 import path from "path";
 import runtimeErrorOverlay from "@replit/vite-plugin-runtime-error-modal";
 
@@ -34,4 +35,12 @@ export default defineConfig({
       deny: ["**/.*"],
     },
   },
+=======
+
+export default defineConfig({
+  plugins: [react()],
+  build: {
+    outDir: "dist"
+  }
+>>>>>>> 0189f626df50a34d78a096bc489a9dfd93e0f625
 });
