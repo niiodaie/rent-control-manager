@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.50.2",
+    "framer-motion": "^12.23.0",
     "i18next": "^23.15.2",
     "i18next-browser-languagedetector": "^8.0.0",
     "lucide-react": "^0.468.0",
@@ -33,4 +34,3 @@
     "vite": "^6.3.5"
   }
 }
-
