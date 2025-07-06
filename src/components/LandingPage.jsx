@@ -1,450 +1,508 @@
 import React, { useState } from 'react';
+import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { 
   Building2, 
   Users, 
-  DollarSign, 
+  CreditCard, 
+  BarChart3, 
   Shield, 
-  Smartphone, 
   Globe,
-  Check,
   Menu,
   X,
   Star,
   ArrowRight,
-  Play,
+  CheckCircle,
   Zap,
-  CreditCard,
-  BarChart3,
-  MessageSquare,
-  Settings,
-  Moon,
-  Sun
+  Heart,
+  Mail,
+  MapPin,
+  Phone
 } from 'lucide-react';
+import LanguageSelector from './LanguageSelector';
 
 const LandingPage = () => {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [darkMode, setDarkMode] = useState(false);
-
-  const toggleDarkMode = () => {
-    setDarkMode(!darkMode);
-    document.documentElement.classList.toggle('dark');
-  };
+  const { t } = useTranslation();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const features = [
     {
       icon: Building2,
-      title: 'Property Management',
-      description: 'Manage multiple properties with custom branding and dashboards'
+      title: t('features.propertyManagement.title', 'Multi-Property Management'),
+      description: t('features.propertyManagement.description', 'Manage unlimited properties with custom dashboards, branding, and tenant organization.')
     },
     {
       icon: Users,
-      title: 'Tenant Management',
-      description: 'Invite and manage tenants with unit-based assignments'
+      title: t('features.tenantManagement.title', 'Tenant Management'),
+      description: t('features.tenantManagement.description', 'Streamlined tenant onboarding, applications, and communication tools.')
     },
     {
-      icon: DollarSign,
-      title: 'Rent Collection',
-      description: 'Automated rent collection with 2% processing fee'
+      icon: CreditCard,
+      title: t('features.payments.title', 'Stripe Integration'),
+      description: t('features.payments.description', 'Secure payment processing with automatic rent collection and 2% platform fee.')
+    },
+    {
+      icon: BarChart3,
+      title: t('features.analytics.title', 'Analytics & Reports'),
+      description: t('features.analytics.description', 'Comprehensive reporting on occupancy, revenue, and property performance.')
     },
     {
       icon: Shield,
-      title: 'Secure Payments',
-      description: 'Stripe-powered secure payment processing'
-    },
-    {
-      icon: Smartphone,
-      title: 'Mobile First',
-      description: 'Responsive design optimized for all devices'
+      title: t('features.security.title', 'Enterprise Security'),
+      description: t('features.security.description', 'Bank-level security with Supabase backend and encrypted data storage.')
     },
     {
       icon: Globe,
-      title: 'Multi-Language',
-      description: 'Support for English and Spanish languages'
+      title: t('features.global.title', 'Global Ready'),
+      description: t('features.global.description', 'Multi-language support with automatic currency conversion and localization.')
     }
   ];
 
-  const pricingPlans = [
+  const stats = [
+    { number: '10,000+', label: 'Properties Managed' },
+    { number: '50,000+', label: 'Happy Tenants' },
+    { number: '$2M+', label: 'Rent Processed' },
+    { number: '99.9%', label: 'Uptime' }
+  ];
+
+  const testimonials = [
     {
-      name: 'Free',
-      price: '$0',
-      period: '/month',
-      description: 'Perfect for getting started',
-      features: [
-        '1 Property',
-        'Up to 5 Residents',
-        'Basic Dashboard',
-        'Rent Tracking',
-        'Email Support'
-      ],
-      cta: 'Get Started',
-      popular: false
+      name: 'Sarah Johnson',
+      role: 'Property Manager',
+      company: 'Johnson Properties',
+      content: 'Rent Control has transformed how we manage our 50+ properties. The automation saves us 20 hours per week.',
+      rating: 5
     },
     {
-      name: 'Premium',
-      price: '$49.99',
-      period: '/month',
-      description: 'For growing property portfolios',
-      features: [
-        'Up to 5 Properties',
-        'Up to 100 Residents',
-        'Custom Branding',
-        'Advanced Analytics',
-        'Priority Support',
-        'No Ads',
-        'Maintenance Tracking',
-        'Document Storage'
-      ],
-      cta: 'Start Free Trial',
-      popular: true
+      name: 'Mike Chen',
+      role: 'Real Estate Investor',
+      company: 'Chen Holdings',
+      content: 'The Stripe integration and automated rent collection is a game-changer. Our cash flow is more predictable than ever.',
+      rating: 5
     },
     {
-      name: 'Enterprise',
-      price: '$499.99',
-      period: '/month',
-      description: 'For large property management companies',
-      features: [
-        'Unlimited Properties',
-        'Unlimited Residents',
-        'White Label',
-        'API Access',
-        'Dedicated Support',
-        'Custom Integrations',
-        'Advanced Reporting'
-      ],
-      cta: 'Contact Sales',
-      popular: false
+      name: 'Lisa Rodriguez',
+      role: 'Landlord',
+      company: 'Independent',
+      content: 'As a small landlord, I love how easy it is to communicate with tenants and track maintenance requests.',
+      rating: 5
     }
   ];
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        duration: 0.5
+      }
+    }
+  };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
       {/* Navigation */}
-      <nav className="fixed top-0 w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border z-50">
-        <div className="container">
-          <div className="flex items-center justify-between h-16">
-            {/* Logo */}
-            <div className="flex items-center space-x-2">
-              <Building2 className="h-8 w-8 text-primary" />
-              <span className="text-xl font-bold text-foreground">Rent Control</span>
-            </div>
+      <motion.nav 
+        className="fixed top-0 left-0 right-0 z-50 bg-white/90 dark:bg-gray-900/90 backdrop-blur-md border-b border-gray-200 dark:border-gray-700"
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        transition={{ duration: 0.6 }}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            <motion.div 
+              className="flex items-center space-x-2"
+              whileHover={{ scale: 1.05 }}
+            >
+              <Building2 className="w-8 h-8 text-blue-600" />
+              <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                Rent Control
+              </span>
+            </motion.div>
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-8">
-              <a href="#features" className="text-muted-foreground hover:text-foreground transition-colors">
-                Features
-              </a>
-              <a href="#pricing" className="text-muted-foreground hover:text-foreground transition-colors">
-                Pricing
-              </a>
-              <a href="#about" className="text-muted-foreground hover:text-foreground transition-colors">
-                About
-              </a>
-              <select className="bg-background border border-input rounded-md px-2 py-1 text-sm">
-                <option>EN</option>
-                <option>ES</option>
-              </select>
-              <button
-                onClick={toggleDarkMode}
-                className="p-2 rounded-md hover:bg-accent transition-colors"
-              >
-                {darkMode ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-              </button>
+              <Link to="/features" className="text-gray-700 dark:text-gray-300 hover:text-blue-600 transition-colors">
+                {t('nav.features', 'Features')}
+              </Link>
+              <Link to="/pricing" className="text-gray-700 dark:text-gray-300 hover:text-blue-600 transition-colors">
+                {t('nav.pricing', 'Pricing')}
+              </Link>
+              <Link to="/about" className="text-gray-700 dark:text-gray-300 hover:text-blue-600 transition-colors">
+                {t('nav.about', 'About')}
+              </Link>
+              <Link to="/contact" className="text-gray-700 dark:text-gray-300 hover:text-blue-600 transition-colors">
+                {t('nav.contact', 'Contact')}
+              </Link>
+              <LanguageSelector />
               <Link 
                 to="/login" 
-                className="text-muted-foreground hover:text-foreground transition-colors"
+                className="text-blue-600 hover:text-blue-700 font-medium transition-colors"
               >
-                Sign In
+                {t('nav.signIn', 'Sign In')}
               </Link>
               <Link 
                 to="/signup" 
-                className="btn-primary"
+                className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-2 rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 shadow-lg"
               >
-                Get Started
+                {t('nav.getStarted', 'Get Started')}
               </Link>
             </div>
 
             {/* Mobile menu button */}
-            <div className="md:hidden">
+            <div className="md:hidden flex items-center space-x-4">
+              <LanguageSelector />
               <button
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="p-2 rounded-md hover:bg-accent transition-colors"
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                className="text-gray-700 dark:text-gray-300 hover:text-blue-600 transition-colors"
               >
-                {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+                {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
               </button>
             </div>
           </div>
 
           {/* Mobile Navigation */}
-          {mobileMenuOpen && (
-            <div className="md:hidden border-t border-border">
-              <div className="px-2 pt-2 pb-3 space-y-1">
-                <a href="#features" className="block px-3 py-2 text-muted-foreground hover:text-foreground transition-colors">
-                  Features
-                </a>
-                <a href="#pricing" className="block px-3 py-2 text-muted-foreground hover:text-foreground transition-colors">
-                  Pricing
-                </a>
-                <a href="#about" className="block px-3 py-2 text-muted-foreground hover:text-foreground transition-colors">
-                  About
-                </a>
-                <div className="flex items-center justify-between px-3 py-2">
-                  <select className="bg-background border border-input rounded-md px-2 py-1 text-sm">
-                    <option>EN</option>
-                    <option>ES</option>
-                  </select>
-                  <button
-                    onClick={toggleDarkMode}
-                    className="p-2 rounded-md hover:bg-accent transition-colors"
-                  >
-                    {darkMode ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-                  </button>
-                </div>
-                <Link 
-                  to="/login" 
-                  className="block px-3 py-2 text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  Sign In
+          {isMenuOpen && (
+            <motion.div 
+              className="md:hidden py-4 border-t border-gray-200 dark:border-gray-700"
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+            >
+              <div className="flex flex-col space-y-4">
+                <Link to="/features" className="text-gray-700 dark:text-gray-300 hover:text-blue-600 transition-colors">
+                  {t('nav.features', 'Features')}
+                </Link>
+                <Link to="/pricing" className="text-gray-700 dark:text-gray-300 hover:text-blue-600 transition-colors">
+                  {t('nav.pricing', 'Pricing')}
+                </Link>
+                <Link to="/about" className="text-gray-700 dark:text-gray-300 hover:text-blue-600 transition-colors">
+                  {t('nav.about', 'About')}
+                </Link>
+                <Link to="/contact" className="text-gray-700 dark:text-gray-300 hover:text-blue-600 transition-colors">
+                  {t('nav.contact', 'Contact')}
+                </Link>
+                <Link to="/login" className="text-blue-600 hover:text-blue-700 font-medium transition-colors">
+                  {t('nav.signIn', 'Sign In')}
                 </Link>
                 <Link 
                   to="/signup" 
-                  className="block mx-3 my-2 btn-primary text-center"
+                  className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-2 rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 shadow-lg text-center"
                 >
-                  Get Started
+                  {t('nav.getStarted', 'Get Started')}
                 </Link>
               </div>
-            </div>
+            </motion.div>
           )}
         </div>
-      </nav>
+      </motion.nav>
 
       {/* Hero Section */}
-      <section className="pt-24 pb-16 gradient-bg">
-        <div className="container">
-          <div className="text-center max-w-4xl mx-auto">
-            {/* Announcement Banner */}
-            <div className="inline-flex items-center px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-8 animate-fade-in">
-              <Zap className="h-4 w-4 mr-2" />
-              🚀 Now with Stripe Connect Integration
-            </div>
-
-            {/* Main Heading */}
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground mb-6 animate-fade-in">
-              Property Management
-              <span className="block text-primary">Made Simple</span>
-            </h1>
-
-            {/* Subheading */}
-            <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto animate-fade-in">
-              Manage your properties, collect rent, and communicate with tenants all in one platform. 
-              Custom dashboards for each property with your own branding.
-            </p>
-
-            {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12 animate-fade-in">
-              <Link to="/signup" className="btn-primary text-lg px-8 py-4">
-                <ArrowRight className="h-5 w-5 mr-2" />
-                Start Free Trial
+      <motion.section 
+        className="pt-24 pb-16 px-4 sm:px-6 lg:px-8"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+      >
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center">
+            <motion.h1 
+              className="text-4xl md:text-6xl lg:text-7xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-6"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+            >
+              {t('hero.title', 'Property Management Made Simple')}
+            </motion.h1>
+            <motion.p 
+              className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+            >
+              {t('hero.subtitle', 'Streamline rent collection, tenant management, and property operations with our all-in-one platform. Built for landlords, loved by tenants.')}
+            </motion.p>
+            <motion.div 
+              className="flex flex-col sm:flex-row gap-4 justify-center mb-12"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.6 }}
+            >
+              <Link 
+                to="/signup"
+                className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-300 shadow-lg flex items-center justify-center space-x-2"
+              >
+                <span>{t('hero.cta.primary', 'Start Free Trial')}</span>
+                <ArrowRight className="w-5 h-5" />
               </Link>
-              <button className="btn-outline text-lg px-8 py-4">
-                <Play className="h-5 w-5 mr-2" />
-                Watch Demo
-              </button>
-            </div>
+              <Link 
+                to="/demo"
+                className="bg-white dark:bg-gray-800 text-gray-900 dark:text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-300 shadow-lg border border-gray-200 dark:border-gray-600"
+              >
+                {t('hero.cta.secondary', 'Watch Demo')}
+              </Link>
+            </motion.div>
 
-            {/* Trust Indicators */}
-            <div className="text-sm text-muted-foreground animate-fade-in">
-              Free plan available • No credit card required • 2% processing fee
-            </div>
+            {/* Stats */}
+            <motion.div 
+              className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto"
+              variants={containerVariants}
+              initial="hidden"
+              animate="visible"
+            >
+              {stats.map((stat, index) => (
+                <motion.div key={index} className="text-center" variants={itemVariants}>
+                  <div className="text-3xl md:text-4xl font-bold text-blue-600 mb-2">
+                    {stat.number}
+                  </div>
+                  <div className="text-gray-600 dark:text-gray-300 text-sm md:text-base">
+                    {stat.label}
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Features Section */}
-      <section id="features" className="section-padding bg-background">
-        <div className="container">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">
-              Everything You Need
+      <motion.section 
+        className="py-16 px-4 sm:px-6 lg:px-8 bg-white/50 dark:bg-gray-800/50"
+        variants={containerVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+      >
+        <div className="max-w-7xl mx-auto">
+          <motion.div className="text-center mb-16" variants={itemVariants}>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+              {t('features.title', 'Everything You Need to Manage Properties')}
             </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Comprehensive property management tools designed for modern landlords and property managers.
+            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+              {t('features.subtitle', 'From tenant screening to rent collection, our platform handles every aspect of property management.')}
             </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {features.map((feature, index) => {
-              const Icon = feature.icon;
-              return (
-                <div 
-                  key={index}
-                  className="p-6 rounded-xl border border-border bg-card hover:shadow-lg transition-all duration-300 animate-fade-in"
-                  style={{ animationDelay: `${index * 0.1}s` }}
-                >
-                  <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
-                    <Icon className="h-6 w-6 text-primary" />
-                  </div>
-                  <h3 className="text-xl font-semibold text-foreground mb-2">
-                    {feature.title}
-                  </h3>
-                  <p className="text-muted-foreground">
-                    {feature.description}
-                  </p>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* Pricing Section */}
-      <section id="pricing" className="section-padding bg-muted/30">
-        <div className="container">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">
-              Simple, Transparent Pricing
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Choose the plan that fits your property portfolio. All plans include our 2% processing fee on rent payments.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {pricingPlans.map((plan, index) => (
-              <div 
+          </motion.div>
+          
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {features.map((feature, index) => (
+              <motion.div
                 key={index}
-                className={`relative p-8 rounded-xl border bg-card transition-all duration-300 hover:shadow-lg animate-fade-in ${
-                  plan.popular 
-                    ? 'border-primary shadow-lg scale-105' 
-                    : 'border-border'
-                }`}
-                style={{ animationDelay: `${index * 0.1}s` }}
+                className="bg-white dark:bg-gray-800 rounded-xl p-8 shadow-lg hover:shadow-xl transition-all duration-300"
+                variants={itemVariants}
+                whileHover={{ y: -5, scale: 1.02 }}
               >
-                {plan.popular && (
-                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                    <span className="bg-primary text-primary-foreground px-4 py-1 rounded-full text-sm font-medium">
-                      Most Popular
-                    </span>
-                  </div>
-                )}
-
-                <div className="text-center mb-6">
-                  <h3 className="text-2xl font-bold text-foreground mb-2">{plan.name}</h3>
-                  <div className="mb-2">
-                    <span className="text-4xl font-bold text-foreground">{plan.price}</span>
-                    <span className="text-muted-foreground">{plan.period}</span>
-                  </div>
-                  <p className="text-muted-foreground">{plan.description}</p>
+                <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center mb-6">
+                  <feature.icon className="w-6 h-6 text-white" />
                 </div>
-
-                <ul className="space-y-3 mb-8">
-                  {plan.features.map((feature, featureIndex) => (
-                    <li key={featureIndex} className="flex items-center">
-                      <Check className="h-5 w-5 text-green-500 mr-3 flex-shrink-0" />
-                      <span className="text-foreground">{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-
-                <button 
-                  className={`w-full py-3 px-6 rounded-lg font-medium transition-colors duration-200 ${
-                    plan.popular 
-                      ? 'bg-primary text-primary-foreground hover:bg-primary/90' 
-                      : 'btn-outline'
-                  }`}
-                >
-                  {plan.cta}
-                </button>
-              </div>
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">
+                  {feature.title}
+                </h3>
+                <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+                  {feature.description}
+                </p>
+              </motion.div>
             ))}
           </div>
         </div>
-      </section>
+      </motion.section>
 
-      {/* CTA Section */}
-      <section className="section-padding bg-primary">
-        <div className="container">
-          <div className="text-center max-w-3xl mx-auto">
-            <h2 className="text-3xl sm:text-4xl font-bold text-primary-foreground mb-4">
-              Ready to Simplify Your Property Management?
+      {/* Testimonials */}
+      <motion.section 
+        className="py-16 px-4 sm:px-6 lg:px-8"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 0.6 }}
+        viewport={{ once: true }}
+      >
+        <div className="max-w-7xl mx-auto">
+          <motion.div 
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+              Trusted by Property Managers Worldwide
             </h2>
-            <p className="text-xl text-primary-foreground/80 mb-8">
-              Join thousands of property owners who trust Rent Control for their property management needs.
+            <p className="text-xl text-gray-600 dark:text-gray-300">
+              See what our customers have to say about Rent Control
             </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Link to="/signup" className="bg-background text-primary hover:bg-background/90 px-8 py-4 rounded-lg font-medium transition-colors duration-200 inline-flex items-center">
-                <ArrowRight className="h-5 w-5 mr-2" />
-                Start Your Free Trial
-              </Link>
-              <button className="border border-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/10 px-8 py-4 rounded-lg font-medium transition-colors duration-200">
-                Contact Sales
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
+          </motion.div>
 
-      {/* Footer */}
-      <footer className="bg-muted/30 border-t border-border">
-        <div className="container py-12">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            {/* Company Info */}
-            <div className="col-span-1 md:col-span-2">
-              <div className="flex items-center space-x-2 mb-4">
-                <Building2 className="h-8 w-8 text-primary" />
-                <span className="text-xl font-bold text-foreground">Rent Control</span>
-              </div>
-              <p className="text-muted-foreground mb-4 max-w-md">
-                The modern property management platform that simplifies rent collection, 
-                tenant management, and property operations.
-              </p>
-              <div className="flex items-center space-x-4">
-                <div className="flex items-center space-x-1">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+          <div className="grid md:grid-cols-3 gap-8">
+            {testimonials.map((testimonial, index) => (
+              <motion.div
+                key={index}
+                className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                whileHover={{ scale: 1.02 }}
+              >
+                <div className="flex items-center mb-4">
+                  {[...Array(testimonial.rating)].map((_, i) => (
+                    <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
                   ))}
                 </div>
-                <span className="text-sm text-muted-foreground">Trusted by 10,000+ property owners</span>
+                <p className="text-gray-600 dark:text-gray-300 mb-4 italic">
+                  "{testimonial.content}"
+                </p>
+                <div>
+                  <div className="font-semibold text-gray-900 dark:text-white">
+                    {testimonial.name}
+                  </div>
+                  <div className="text-sm text-gray-500 dark:text-gray-400">
+                    {testimonial.role} • {testimonial.company}
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </motion.section>
+
+      {/* CTA Section */}
+      <motion.section 
+        className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-blue-600 to-purple-600"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 0.6 }}
+        viewport={{ once: true }}
+      >
+        <div className="max-w-4xl mx-auto text-center">
+          <motion.h2 
+            className="text-3xl md:text-4xl font-bold text-white mb-4"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
+            Ready to Transform Your Property Management?
+          </motion.h2>
+          <motion.p 
+            className="text-xl text-blue-100 mb-8"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            viewport={{ once: true }}
+          >
+            Join thousands of property owners who have simplified their rental business with Rent Control.
+          </motion.p>
+          <motion.div
+            className="flex flex-col sm:flex-row gap-4 justify-center"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            viewport={{ once: true }}
+          >
+            <Link 
+              to="/signup"
+              className="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors duration-300 shadow-lg"
+            >
+              Start Your Free Trial
+            </Link>
+            <Link 
+              to="/contact"
+              className="bg-blue-700 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-800 transition-colors duration-300 shadow-lg"
+            >
+              Contact Sales
+            </Link>
+          </motion.div>
+        </div>
+      </motion.section>
+
+      {/* Enhanced Footer */}
+      <footer className="bg-gray-900 text-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+          <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-8">
+            {/* Brand */}
+            <div className="lg:col-span-2">
+              <div className="flex items-center space-x-2 mb-4">
+                <Building2 className="w-8 h-8 text-blue-400" />
+                <span className="text-xl font-bold">Rent Control</span>
+              </div>
+              <p className="text-gray-400 mb-6 max-w-md">
+                Modern property management platform built for landlords, property managers, and tenants. 
+                Simplify every part of the rental experience.
+              </p>
+              <div className="space-y-2 text-sm text-gray-400 mb-6">
+                <div className="flex items-center space-x-2">
+                  <MapPin className="w-4 h-4" />
+                  <span>Appleton, Wisconsin, USA</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Mail className="w-4 h-4" />
+                  <span>support@rent-control.net</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Phone className="w-4 h-4" />
+                  <span>9am–5pm CST, Mon–Fri</span>
+                </div>
               </div>
             </div>
 
-            {/* Quick Links */}
+            {/* Product */}
             <div>
-              <h3 className="font-semibold text-foreground mb-4">Product</h3>
+              <h3 className="text-lg font-semibold mb-4">Product</h3>
               <ul className="space-y-2">
-                <li><a href="#features" className="text-muted-foreground hover:text-foreground transition-colors">Features</a></li>
-                <li><a href="#pricing" className="text-muted-foreground hover:text-foreground transition-colors">Pricing</a></li>
-                <li><a href="/demo" className="text-muted-foreground hover:text-foreground transition-colors">Demo</a></li>
-                <li><a href="/api" className="text-muted-foreground hover:text-foreground transition-colors">API</a></li>
+                <li><Link to="/features" className="text-gray-400 hover:text-white transition-colors">Features</Link></li>
+                <li><Link to="/pricing" className="text-gray-400 hover:text-white transition-colors">Pricing</Link></li>
+                <li><Link to="/demo" className="text-gray-400 hover:text-white transition-colors">Demo</Link></li>
+                <li><Link to="/api" className="text-gray-400 hover:text-white transition-colors">API</Link></li>
               </ul>
             </div>
 
             {/* Support */}
             <div>
-              <h3 className="font-semibold text-foreground mb-4">Support</h3>
+              <h3 className="text-lg font-semibold mb-4">Support</h3>
               <ul className="space-y-2">
-                <li><a href="/help" className="text-muted-foreground hover:text-foreground transition-colors">Help Center</a></li>
-                <li><a href="/contact" className="text-muted-foreground hover:text-foreground transition-colors">Contact</a></li>
-                <li><a href="/privacy" className="text-muted-foreground hover:text-foreground transition-colors">Privacy</a></li>
-                <li><a href="/terms" className="text-muted-foreground hover:text-foreground transition-colors">Terms</a></li>
+                <li><Link to="/help" className="text-gray-400 hover:text-white transition-colors">Help Center</Link></li>
+                <li><Link to="/contact" className="text-gray-400 hover:text-white transition-colors">Contact</Link></li>
+                <li><Link to="/privacy" className="text-gray-400 hover:text-white transition-colors">Privacy</Link></li>
+                <li><Link to="/terms" className="text-gray-400 hover:text-white transition-colors">Terms</Link></li>
+              </ul>
+            </div>
+
+            {/* Company */}
+            <div>
+              <h3 className="text-lg font-semibold mb-4">Company</h3>
+              <ul className="space-y-2">
+                <li><Link to="/about" className="text-gray-400 hover:text-white transition-colors">About</Link></li>
+                <li><Link to="/careers" className="text-gray-400 hover:text-white transition-colors">Careers</Link></li>
+                <li><Link to="/blog" className="text-gray-400 hover:text-white transition-colors">Blog</Link></li>
+                <li><Link to="/press" className="text-gray-400 hover:text-white transition-colors">Press</Link></li>
               </ul>
             </div>
           </div>
 
-          <div className="border-t border-border mt-8 pt-8 flex flex-col sm:flex-row items-center justify-between">
-            <p className="text-sm text-muted-foreground">
+          <div className="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
+            <div className="text-gray-400 text-sm mb-4 md:mb-0">
               © 2024 Rent Control. All rights reserved.
-            </p>
-            <div className="flex items-center space-x-4 mt-4 sm:mt-0">
-              <span className="text-sm text-muted-foreground">Powered by</span>
+            </div>
+            <div className="flex items-center space-x-2 text-sm text-gray-400">
+              <span>Powered by</span>
               <a 
                 href="https://visnec.com" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="inline-flex items-center px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium hover:bg-primary/20 transition-colors"
+                className="text-blue-400 hover:text-blue-300 transition-colors font-medium flex items-center space-x-1"
               >
-                <Building2 className="h-4 w-4 mr-1" />
-                Visnec
+                <Heart className="w-4 h-4" />
+                <span>Visnec</span>
               </a>
             </div>
           </div>
