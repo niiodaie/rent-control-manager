@@ -1,12 +1,12 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
-import { 
-  Building2, 
-  Users, 
-  DollarSign, 
-  TrendingUp, 
-  Plus, 
+import {
+  Building2,
+  Users,
+  DollarSign,
+  TrendingUp,
+  Plus,
   Settings,
   Bell,
   Search,
@@ -18,14 +18,14 @@ import {
   LogOut
 } from 'lucide-react';
 
-const Dashboard = () => {
+const Dashboard = ({ tenant = {} }) => {
   const { t } = useTranslation();
 
   const stats = [
-    { label: 'Total Properties', value: '0', icon: Building2, color: 'bg-blue-500' },
-    { label: 'Active Tenants', value: '0', icon: Users, color: 'bg-green-500' },
-    { label: 'Monthly Revenue', value: '$0', icon: DollarSign, color: 'bg-purple-500' },
-    { label: 'Collection Rate', value: '0%', icon: TrendingUp, color: 'bg-orange-500' }
+    { label: 'Total Properties', value: tenant.total_properties || '0', icon: Building2, color: 'bg-blue-500' },
+    { label: 'Active Tenants', value: tenant.active_tenants || '0', icon: Users, color: 'bg-green-500' },
+    { label: 'Monthly Revenue', value: tenant.monthly_revenue ? `$${tenant.monthly_revenue}` : '$0', icon: DollarSign, color: 'bg-purple-500' },
+    { label: 'Collection Rate', value: tenant.collection_rate ? `${tenant.collection_rate}%` : '0%', icon: TrendingUp, color: 'bg-orange-500' }
   ];
 
   const quickActions = [
@@ -35,7 +35,7 @@ const Dashboard = () => {
     { label: 'Generate Report', icon: FileText, color: 'bg-orange-500' }
   ];
 
-  const recentActivity = [
+  const recentActivity = tenant.recent_activity || [
     { type: 'info', message: 'Welcome to Rent Control! Start by adding your first property.', time: 'Just now' },
     { type: 'success', message: 'Your account has been successfully set up.', time: '2 minutes ago' },
     { type: 'info', message: 'Complete your profile to get the most out of the platform.', time: '5 minutes ago' }
@@ -43,19 +43,15 @@ const Dashboard = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      {/* Header */}
       <header className="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            {/* Logo */}
             <div className="flex items-center space-x-3">
               <Building2 className="w-8 h-8 text-blue-600" />
               <h1 className="text-xl font-bold text-gray-900 dark:text-white">
-                Rent Control
+                {tenant.name || 'Rent Control'}
               </h1>
             </div>
-
-            {/* Search */}
             <div className="flex-1 max-w-lg mx-8">
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
@@ -66,8 +62,6 @@ const Dashboard = () => {
                 />
               </div>
             </div>
-
-            {/* Actions */}
             <div className="flex items-center space-x-4">
               <button className="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
                 <Bell className="w-5 h-5" />
@@ -83,42 +77,23 @@ const Dashboard = () => {
         </div>
       </header>
 
-      {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Welcome Message */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mb-8"
-        >
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
-            Welcome to your Dashboard! 🎉
+            Welcome {tenant.name || 'User'} 👋
           </h2>
           <p className="text-gray-600 dark:text-gray-300">
-            Your property management platform is ready. Let's get started by adding your first property.
+            Your property management platform is ready at <strong>{tenant.subdomain ? `${tenant.subdomain}.rent-control.net` : 'your dashboard'}</strong>.
           </p>
         </motion.div>
 
-        {/* Stats Grid */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8"
-        >
-          {stats.map((stat, index) => (
-            <div
-              key={stat.label}
-              className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-200 dark:border-gray-700"
-            >
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          {stats.map((stat) => (
+            <div key={stat.label} className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-200 dark:border-gray-700">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
-                    {stat.label}
-                  </p>
-                  <p className="text-2xl font-bold text-gray-900 dark:text-white">
-                    {stat.value}
-                  </p>
+                  <p className="text-sm font-medium text-gray-600 dark:text-gray-400">{stat.label}</p>
+                  <p className="text-2xl font-bold text-gray-900 dark:text-white">{stat.value}</p>
                 </div>
                 <div className={`p-3 rounded-lg ${stat.color}`}>
                   <stat.icon className="w-6 h-6 text-white" />
@@ -129,45 +104,25 @@ const Dashboard = () => {
         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Quick Actions */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="lg:col-span-2"
-          >
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="lg:col-span-2">
             <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-200 dark:border-gray-700">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-                Quick Actions
-              </h3>
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Quick Actions</h3>
               <div className="grid grid-cols-2 gap-4">
-                {quickActions.map((action, index) => (
-                  <button
-                    key={action.label}
-                    className="flex items-center p-4 border border-gray-200 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors group"
-                  >
+                {quickActions.map((action) => (
+                  <button key={action.label} className="flex items-center p-4 border border-gray-200 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors group">
                     <div className={`p-2 rounded-lg ${action.color} mr-3 group-hover:scale-110 transition-transform`}>
                       <action.icon className="w-5 h-5 text-white" />
                     </div>
-                    <span className="font-medium text-gray-900 dark:text-white">
-                      {action.label}
-                    </span>
+                    <span className="font-medium text-gray-900 dark:text-white">{action.label}</span>
                   </button>
                 ))}
               </div>
             </div>
           </motion.div>
 
-          {/* Recent Activity */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-          >
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
             <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-200 dark:border-gray-700">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-                Recent Activity
-              </h3>
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Recent Activity</h3>
               <div className="space-y-4">
                 {recentActivity.map((activity, index) => (
                   <div key={index} className="flex items-start space-x-3">
@@ -176,12 +131,8 @@ const Dashboard = () => {
                       activity.type === 'warning' ? 'bg-yellow-500' : 'bg-blue-500'
                     }`} />
                     <div className="flex-1">
-                      <p className="text-sm text-gray-900 dark:text-white">
-                        {activity.message}
-                      </p>
-                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                        {activity.time}
-                      </p>
+                      <p className="text-sm text-gray-900 dark:text-white">{activity.message}</p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">{activity.time}</p>
                     </div>
                   </div>
                 ))}
@@ -190,18 +141,10 @@ const Dashboard = () => {
           </motion.div>
         </div>
 
-        {/* Getting Started Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
-          className="mt-8"
-        >
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }} className="mt-8">
           <div className="bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg p-6 text-white">
             <h3 className="text-xl font-bold mb-2">Ready to get started?</h3>
-            <p className="mb-4 opacity-90">
-              Add your first property and start managing your rentals like a pro.
-            </p>
+            <p className="mb-4 opacity-90">Add your first property and start managing your rentals like a pro.</p>
             <button className="bg-white text-blue-600 px-6 py-2 rounded-lg font-medium hover:bg-gray-100 transition-colors flex items-center space-x-2">
               <Plus className="w-4 h-4" />
               <span>Add Your First Property</span>
@@ -214,4 +157,3 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
-
