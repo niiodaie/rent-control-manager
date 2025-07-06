@@ -16,7 +16,7 @@ import NotFound from './components/NotFound';
 import './i18n';
 
 function App() {
-  usePageTracking(); // Track page views for Google Analytics
+  // usePageTracking(); // Track page views for Google Analytics
 
   useEffect(() => {
     // Apply theme on mount
