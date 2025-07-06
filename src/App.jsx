@@ -9,11 +9,11 @@ import PrivacyPolicy from './components/PrivacyPolicy';
 import Contact from './components/Contact';
 import TermsOfUse from './components/TermsOfUse';
 import HelpCenter from './components/HelpCenter';
-import usePageTracking from './hooks/usePageTracking';
+// import usePageTracking from './hooks/usePageTracking';
 import './i18n';
 
 function App() {
-  usePageTracking(); // Track page views for Google Analytics
+ // usePageTracking(); // Track page views for Google Analytics
 
   useEffect(() => {
     // Apply theme on mount
