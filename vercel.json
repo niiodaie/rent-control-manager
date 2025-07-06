@@ -49,11 +49,5 @@
     "VITE_APP_URL": "https://rent-control.net",
     "VITE_APP_DOMAIN": "rent-control.net"
   },
-  "regions": ["iad1", "sfo1", "lhr1"],
-  "functions": {
-    "app/api/**/*.js": {
-      "runtime": "nodejs18.x"
-    }
-  }
+  "regions": ["iad1", "sfo1", "lhr1"]
 }
-
