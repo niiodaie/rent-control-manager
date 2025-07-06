@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { Eye, EyeOff, Mail, Lock, User, ArrowLeft, Building2, UserPlus, CheckCircle } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 const SignUpPage = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const trialType = searchParams.get('trial');
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -18,6 +20,13 @@ const SignUpPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
+  // Store trial type in localStorage when component mounts
+  useEffect(() => {
+    if (trialType) {
+      localStorage.setItem('trialType', trialType);
+    }
+  }, [trialType]);
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -35,6 +44,16 @@ const SignUpPage = () => {
     setTimeout(() => {
       setIsLoading(false);
       console.log('Sign up attempt:', formData);
+      console.log('Trial type:', trialType);
+      
+      // Store user data and trial info
+      const userData = {
+        ...formData,
+        trialType: trialType || 'free',
+        signupDate: new Date().toISOString()
+      };
+      localStorage.setItem('userData', JSON.stringify(userData));
+      
       // Redirect to onboarding after successful signup
       navigate('/onboarding');
     }, 2000);

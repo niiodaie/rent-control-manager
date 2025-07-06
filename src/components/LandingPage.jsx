@@ -241,10 +241,10 @@ const LandingPage = () => {
               transition={{ duration: 0.8, delay: 0.6 }}
             >
               <Link 
-                to="/signup"
+                to="/signup?trial=pro"
                 className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-300 shadow-lg flex items-center justify-center space-x-2"
               >
-                <span>{t('hero.cta.primary', 'Start Free Trial')}</span>
+                <span>{t('hero.cta.primary', 'Start Free Trial (30-day Pro)')}</span>
                 <ArrowRight className="w-5 h-5" />
               </Link>
               <Link 
@@ -410,10 +410,10 @@ const LandingPage = () => {
             viewport={{ once: true }}
           >
             <Link 
-              to="/signup"
+              to="/signup?trial=pro"
               className="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors duration-300 shadow-lg"
             >
-              Start Your Free Trial
+              Start Your Free Trial (30-day Pro)
             </Link>
             <Link 
               to="/contact"
