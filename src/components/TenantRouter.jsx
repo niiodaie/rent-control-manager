@@ -1,16 +1,30 @@
 import React, { useEffect, useState } from 'react';
-import { supabase } from '../utils/supabaseClient';
-import Loader from './Loader';
+import { supabase } from '../utils/supabaseClient'; // make sure this is set up
+import TenantDashboard from './TenantDashboard';
 import NotFound from './NotFound';
 
-const TenantDashboard = ({ subdomain }) => {
-  const [tenantData, setTenantData] = useState(null);
+const TenantRouter = () => {
+  const [tenant, setTenant] = useState(null);
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
 
+  const getSubdomain = () => {
+    const host = window.location.hostname;
+    const parts = host.split('.');
+    if (parts.length > 2) return parts[0]; // e.g. abladei.rent-control.net → "abladei"
+    return null;
+  };
+
   useEffect(() => {
     const fetchTenant = async () => {
-      setLoading(true);
+      const subdomain = getSubdomain();
+
+      if (!subdomain) {
+        setNotFound(true);
+        setLoading(false);
+        return;
+      }
+
       const { data, error } = await supabase
         .from('tenants')
         .select('*')
@@ -18,31 +32,21 @@ const TenantDashboard = ({ subdomain }) => {
         .single();
 
       if (error || !data) {
-        console.error('Tenant not found:', error);
         setNotFound(true);
       } else {
-        setTenantData(data);
+        setTenant(data);
       }
+
       setLoading(false);
     };
 
-    if (subdomain) {
-      fetchTenant();
-    }
-  }, [subdomain]);
+    fetchTenant();
+  }, []);
 
-  if (loading) return <Loader />;
+  if (loading) return <div className="p-6 text-center">Loading tenant dashboard...</div>;
   if (notFound) return <NotFound />;
 
-  return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold mb-2">Welcome to {tenantData?.property_name || subdomain}'s Dashboard</h1>
-      <p><strong>Country:</strong> {tenantData?.country}</p>
-      <p><strong>Currency:</strong> {tenantData?.currency}</p>
-      <p><strong>Preferred Payment:</strong> {tenantData?.payment_method}</p>
-      {/* Additional tenant-specific sections */}
-    </div>
-  );
+  return <TenantDashboard tenant={tenant} />;
 };
 
-export default TenantDashboard;
+export default TenantRouter;
