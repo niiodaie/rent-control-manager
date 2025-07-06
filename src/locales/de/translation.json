@@ -1,0 +1,189 @@
+{
+  "common": {
+    "loading": "Laden...",
+    "save": "Speichern",
+    "cancel": "Abbrechen",
+    "delete": "Löschen",
+    "edit": "Bearbeiten",
+    "add": "Hinzufügen",
+    "search": "Suchen",
+    "filter": "Filtern",
+    "export": "Exportieren",
+    "import": "Importieren",
+    "settings": "Einstellungen",
+    "help": "Hilfe",
+    "logout": "Abmelden",
+    "profile": "Profil"
+  },
+  "navigation": {
+    "home": "Startseite",
+    "dashboard": "Dashboard",
+    "properties": "Immobilien",
+    "tenants": "Mieter",
+    "payments": "Zahlungen",
+    "maintenance": "Wartung",
+    "reports": "Berichte",
+    "settings": "Einstellungen",
+    "features": "Funktionen",
+    "pricing": "Preise",
+    "about": "Über uns",
+    "contact": "Kontakt",
+    "signin": "Anmelden",
+    "signup": "Registrieren",
+    "getStarted": "Loslegen"
+  },
+  "hero": {
+    "announcement": "🚀 Jetzt mit Stripe Connect Integration",
+    "title": "Immobilienverwaltung",
+    "subtitle": "Einfach gemacht",
+    "description": "Verwalten Sie Ihre Immobilien, sammeln Sie Mieten und kommunizieren Sie mit Mietern auf einer Plattform. Individuelle Dashboards für jede Immobilie mit Ihrem eigenen Branding.",
+    "startTrial": "Kostenlose Testversion starten",
+    "watchDemo": "Demo ansehen",
+    "trustText": "Kostenloser Plan verfügbar • Keine Kreditkarte erforderlich • 2% Bearbeitungsgebühr"
+  },
+  "features": {
+    "title": "Alles was Sie brauchen",
+    "subtitle": "Umfassende Immobilienverwaltungstools für moderne Vermieter und Immobilienverwalter.",
+    "propertyManagement": {
+      "title": "Immobilienverwaltung",
+      "description": "Verwalten Sie mehrere Immobilien mit individuellem Branding und Dashboards"
+    },
+    "tenantManagement": {
+      "title": "Mieterverwaltung",
+      "description": "Laden Sie Mieter ein und verwalten Sie sie mit einheitenbasierten Zuweisungen"
+    },
+    "rentCollection": {
+      "title": "Mieteinzug",
+      "description": "Automatisierter Mieteinzug mit 2% Bearbeitungsgebühr"
+    },
+    "securePayments": {
+      "title": "Sichere Zahlungen",
+      "description": "Stripe-betriebene sichere Zahlungsabwicklung"
+    },
+    "mobileFirst": {
+      "title": "Mobile First",
+      "description": "Responsives Design optimiert für alle Geräte"
+    },
+    "multiLanguage": {
+      "title": "Mehrsprachig",
+      "description": "Unterstützung für englische und spanische Sprachen"
+    }
+  },
+  "pricing": {
+    "title": "Einfache, transparente Preisgestaltung",
+    "subtitle": "Wählen Sie den Plan, der zu Ihrem Immobilienportfolio passt. Alle Pläne beinhalten unsere 2% Bearbeitungsgebühr auf Mietzahlungen.",
+    "mostPopular": "Am beliebtesten",
+    "free": {
+      "name": "Kostenlos",
+      "price": "0€",
+      "period": "/Monat",
+      "description": "Perfekt für den Einstieg",
+      "features": [
+        "1 Immobilie",
+        "Bis zu 5 Bewohner",
+        "Basis-Dashboard",
+        "Mietverfolgung",
+        "E-Mail-Support"
+      ],
+      "cta": "Loslegen"
+    },
+    "premium": {
+      "name": "Premium",
+      "price": "45,99€",
+      "period": "/Monat",
+      "description": "Für wachsende Immobilienportfolios",
+      "features": [
+        "Bis zu 5 Immobilien",
+        "Bis zu 100 Bewohner",
+        "Individuelles Branding",
+        "Erweiterte Analysen",
+        "Prioritäts-Support",
+        "Keine Werbung",
+        "Wartungsverfolgung",
+        "Dokumentenspeicher"
+      ],
+      "cta": "Kostenlose Testversion starten"
+    },
+    "enterprise": {
+      "name": "Enterprise",
+      "price": "459,99€",
+      "period": "/Monat",
+      "description": "Für große Immobilienverwaltungsunternehmen",
+      "features": [
+        "Unbegrenzte Immobilien",
+        "Unbegrenzte Bewohner",
+        "White Label",
+        "API-Zugang",
+        "Dedizierter Support",
+        "Individuelle Integrationen",
+        "Erweiterte Berichte"
+      ],
+      "cta": "Vertrieb kontaktieren"
+    }
+  },
+  "auth": {
+    "signin": {
+      "title": "Bei Ihrem Konto anmelden",
+      "subtitle": "Willkommen zurück",
+      "description": "Geben Sie Ihre Anmeldedaten ein, um auf Ihr Dashboard zuzugreifen",
+      "email": "E-Mail",
+      "password": "Passwort",
+      "forgotPassword": "Passwort vergessen?",
+      "signInButton": "Anmelden",
+      "noAccount": "Haben Sie noch kein Konto?",
+      "signUpLink": "Registrieren",
+      "demoAccounts": "Demo-Konten"
+    },
+    "signup": {
+      "title": "Ihr Konto erstellen",
+      "subtitle": "Starten Sie Ihre kostenlose Testversion",
+      "description": "Keine Kreditkarte erforderlich",
+      "firstName": "Vorname",
+      "lastName": "Nachname",
+      "email": "E-Mail",
+      "password": "Passwort",
+      "confirmPassword": "Passwort bestätigen",
+      "agreeTerms": "Ich stimme den Nutzungsbedingungen zu",
+      "signUpButton": "Konto erstellen",
+      "hasAccount": "Haben Sie bereits ein Konto?",
+      "signInLink": "Anmelden"
+    }
+  },
+  "dashboard": {
+    "welcome": "Willkommen",
+    "overview": "Übersicht",
+    "properties": "Immobilien",
+    "tenants": "Mieter",
+    "revenue": "Einnahmen",
+    "maintenance": "Wartung",
+    "recentActivity": "Letzte Aktivität",
+    "quickActions": "Schnellaktionen",
+    "addProperty": "Immobilie hinzufügen",
+    "inviteTenant": "Mieter einladen",
+    "collectRent": "Miete einziehen",
+    "viewReports": "Berichte anzeigen"
+  },
+  "footer": {
+    "description": "Die moderne Immobilienverwaltungsplattform, die Mieteinzug, Mieterverwaltung und Immobilienoperationen vereinfacht.",
+    "product": "Produkt",
+    "features": "Funktionen",
+    "pricing": "Preise",
+    "demo": "Demo",
+    "api": "API",
+    "support": "Support",
+    "helpCenter": "Hilfe-Center",
+    "contact": "Kontakt",
+    "privacy": "Datenschutz",
+    "terms": "Bedingungen",
+    "copyright": "© 2024 Rent Control. Alle Rechte vorbehalten.",
+    "poweredBy": "Betrieben von",
+    "trustedBy": "Vertraut von 10.000+ Immobilieneigentümern"
+  },
+  "cta": {
+    "title": "Bereit, Ihre Immobilienverwaltung zu vereinfachen?",
+    "subtitle": "Schließen Sie sich Tausenden von Immobilieneigentümern an, die Rent Control für ihre Immobilienverwaltungsbedürfnisse vertrauen.",
+    "startTrial": "Starten Sie Ihre kostenlose Testversion",
+    "contactSales": "Vertrieb kontaktieren"
+  }
+}
+
