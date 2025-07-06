@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Eye, EyeOff, Mail, Lock, User, ArrowLeft, Building2, UserPlus, CheckCircle } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 const SignUpPage = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -34,6 +35,8 @@ const SignUpPage = () => {
     setTimeout(() => {
       setIsLoading(false);
       console.log('Sign up attempt:', formData);
+      // Redirect to onboarding after successful signup
+      navigate('/onboarding');
     }, 2000);
   };
 
