@@ -1,1 +1,189 @@
+{
+  "common": {
+    "loading": "Cargando...",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "add": "Agregar",
+    "search": "Buscar",
+    "filter": "Filtrar",
+    "export": "Exportar",
+    "import": "Importar",
+    "settings": "Configuración",
+    "help": "Ayuda",
+    "logout": "Cerrar Sesión",
+    "profile": "Perfil"
+  },
+  "navigation": {
+    "home": "Inicio",
+    "dashboard": "Panel",
+    "properties": "Propiedades",
+    "tenants": "Inquilinos",
+    "payments": "Pagos",
+    "maintenance": "Mantenimiento",
+    "reports": "Reportes",
+    "settings": "Configuración",
+    "features": "Características",
+    "pricing": "Precios",
+    "about": "Acerca de",
+    "contact": "Contacto",
+    "signin": "Iniciar Sesión",
+    "signup": "Registrarse",
+    "getStarted": "Comenzar"
+  },
+  "hero": {
+    "announcement": "🚀 Ahora con Integración de Stripe Connect",
+    "title": "Gestión de Propiedades",
+    "subtitle": "Simplificada",
+    "description": "Gestiona tus propiedades, cobra alquileres y comunícate con inquilinos en una plataforma. Paneles personalizados para cada propiedad con tu propia marca.",
+    "startTrial": "Comenzar Prueba Gratuita",
+    "watchDemo": "Ver Demo",
+    "trustText": "Plan gratuito disponible • Sin tarjeta de crédito • Tarifa de procesamiento del 2%"
+  },
+  "features": {
+    "title": "Todo lo que Necesitas",
+    "subtitle": "Herramientas integrales de gestión de propiedades diseñadas para propietarios y administradores modernos.",
+    "propertyManagement": {
+      "title": "Gestión de Propiedades",
+      "description": "Gestiona múltiples propiedades con marca personalizada y paneles"
+    },
+    "tenantManagement": {
+      "title": "Gestión de Inquilinos",
+      "description": "Invita y gestiona inquilinos con asignaciones basadas en unidades"
+    },
+    "rentCollection": {
+      "title": "Cobro de Alquiler",
+      "description": "Cobro automatizado de alquiler con tarifa de procesamiento del 2%"
+    },
+    "securePayments": {
+      "title": "Pagos Seguros",
+      "description": "Procesamiento de pagos seguro con tecnología Stripe"
+    },
+    "mobileFirst": {
+      "title": "Móvil Primero",
+      "description": "Diseño responsivo optimizado para todos los dispositivos"
+    },
+    "multiLanguage": {
+      "title": "Multi-idioma",
+      "description": "Soporte para múltiples idiomas con detección automática"
+    }
+  },
+  "pricing": {
+    "title": "Precios Simples y Transparentes",
+    "subtitle": "Elige el plan que se adapte a tu cartera de propiedades. Todos los planes incluyen nuestra tarifa de procesamiento del 2% en pagos de alquiler.",
+    "mostPopular": "Más Popular",
+    "free": {
+      "name": "Gratuito",
+      "price": "$0",
+      "period": "/mes",
+      "description": "Perfecto para comenzar",
+      "features": [
+        "1 Propiedad",
+        "Hasta 5 Residentes",
+        "Panel Básico",
+        "Seguimiento de Alquiler",
+        "Soporte por Email"
+      ],
+      "cta": "Comenzar"
+    },
+    "premium": {
+      "name": "Premium",
+      "price": "$49.99",
+      "period": "/mes",
+      "description": "Para carteras de propiedades en crecimiento",
+      "features": [
+        "Hasta 5 Propiedades",
+        "Hasta 100 Residentes",
+        "Marca Personalizada",
+        "Análisis Avanzados",
+        "Soporte Prioritario",
+        "Sin Anuncios",
+        "Seguimiento de Mantenimiento",
+        "Almacenamiento de Documentos"
+      ],
+      "cta": "Comenzar Prueba Gratuita"
+    },
+    "enterprise": {
+      "name": "Empresarial",
+      "price": "$499.99",
+      "period": "/mes",
+      "description": "Para grandes empresas de gestión de propiedades",
+      "features": [
+        "Propiedades Ilimitadas",
+        "Residentes Ilimitados",
+        "Marca Blanca",
+        "Acceso API",
+        "Soporte Dedicado",
+        "Integraciones Personalizadas",
+        "Reportes Avanzados"
+      ],
+      "cta": "Contactar Ventas"
+    }
+  },
+  "auth": {
+    "signin": {
+      "title": "Inicia sesión en tu cuenta",
+      "subtitle": "Bienvenido de Nuevo",
+      "description": "Ingresa tus credenciales para acceder a tu panel",
+      "email": "Email",
+      "password": "Contraseña",
+      "forgotPassword": "¿Olvidaste tu contraseña?",
+      "signInButton": "Iniciar Sesión",
+      "noAccount": "¿No tienes una cuenta?",
+      "signUpLink": "Registrarse",
+      "demoAccounts": "Cuentas Demo"
+    },
+    "signup": {
+      "title": "Crea tu cuenta",
+      "subtitle": "Comienza tu prueba gratuita",
+      "description": "No se requiere tarjeta de crédito",
+      "firstName": "Nombre",
+      "lastName": "Apellido",
+      "email": "Email",
+      "password": "Contraseña",
+      "confirmPassword": "Confirmar Contraseña",
+      "agreeTerms": "Acepto los términos de servicio",
+      "signUpButton": "Crear Cuenta",
+      "hasAccount": "¿Ya tienes una cuenta?",
+      "signInLink": "Iniciar sesión"
+    }
+  },
+  "dashboard": {
+    "welcome": "Bienvenido",
+    "overview": "Resumen",
+    "properties": "Propiedades",
+    "tenants": "Inquilinos",
+    "revenue": "Ingresos",
+    "maintenance": "Mantenimiento",
+    "recentActivity": "Actividad Reciente",
+    "quickActions": "Acciones Rápidas",
+    "addProperty": "Agregar Propiedad",
+    "inviteTenant": "Invitar Inquilino",
+    "collectRent": "Cobrar Alquiler",
+    "viewReports": "Ver Reportes"
+  },
+  "footer": {
+    "description": "La plataforma moderna de gestión de propiedades que simplifica el cobro de alquileres, gestión de inquilinos y operaciones inmobiliarias.",
+    "product": "Producto",
+    "features": "Características",
+    "pricing": "Precios",
+    "demo": "Demo",
+    "api": "API",
+    "support": "Soporte",
+    "helpCenter": "Centro de Ayuda",
+    "contact": "Contacto",
+    "privacy": "Privacidad",
+    "terms": "Términos",
+    "copyright": "© 2024 Rent Control. Todos los derechos reservados.",
+    "poweredBy": "Desarrollado por",
+    "trustedBy": "Confiado por 10,000+ propietarios"
+  },
+  "cta": {
+    "title": "¿Listo para simplificar tu gestión de propiedades?",
+    "subtitle": "Únete a miles de propietarios que confían en Rent Control para sus necesidades de gestión de propiedades.",
+    "startTrial": "Comienza tu prueba gratuita",
+    "contactSales": "Contactar ventas"
+  }
+}
 
