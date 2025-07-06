@@ -12,7 +12,7 @@ import Contact from './components/Contact';
 import TermsOfUse from './components/TermsOfUse';
 import HelpCenter from './components/HelpCenter';
 import NotFound from './components/NotFound';
-import usePageTracking from './hooks/usePageTracking';
+// import usePageTracking from './hooks/usePageTracking';
 import './i18n';
 
 function App() {
