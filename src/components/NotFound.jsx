@@ -1,94 +1,64 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Home, ArrowLeft, Building2 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 const NotFound = () => {
   const { t } = useTranslation();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex items-center justify-center p-4">
-      <div className="text-center max-w-md mx-auto">
-        {/* Logo */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="mb-8"
-        >
-          <Link to="/" className="inline-flex items-center space-x-2">
-            <Building2 className="w-8 h-8 text-blue-600" />
-            <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              Rent Control
-            </span>
-          </Link>
-        </motion.div>
-
-        {/* 404 Animation */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="mb-8"
-        >
-          <div className="text-8xl font-bold text-blue-600 mb-4">404</div>
-          <div className="w-24 h-1 bg-gradient-to-r from-blue-600 to-purple-600 mx-auto rounded-full"></div>
-        </motion.div>
-
-        {/* Content */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="mb-8"
-        >
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-            {t('notFound.title', 'Page Not Found')}
-          </h1>
-          <p className="text-gray-600 dark:text-gray-300 mb-6">
-            {t('notFound.description', 'Sorry, the page you are looking for doesn\'t exist or has been moved.')}
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+      <div className="sm:mx-auto sm:w-full sm:max-w-md text-center">
+        <Link to="/">
+          <div className="flex justify-center">
+            <svg className="h-12 w-12 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+            </svg>
+          </div>
+          <h2 className="mt-2 text-center text-xl font-semibold text-gray-900 dark:text-white">
+            Rent Control
+          </h2>
+        </Link>
+        
+        <div className="mt-8">
+          <h1 className="text-6xl font-bold text-blue-600">404</h1>
+          <div className="mt-4 border-t-2 border-blue-600 w-16 mx-auto"></div>
+          <h2 className="mt-6 text-3xl font-extrabold text-gray-900 dark:text-white">
+            {t('errors.404.title')}
+          </h2>
+          <p className="mt-2 text-center text-md text-gray-600 dark:text-gray-400">
+            {t('errors.404.message')}
           </p>
-        </motion.div>
+        </div>
+      </div>
 
-        {/* Actions */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.6 }}
-          className="space-y-4"
-        >
+      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+        <div className="flex flex-col items-center">
           <Link
             to="/"
-            className="inline-flex items-center justify-center space-x-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-300 shadow-lg w-full"
+            className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
           >
-            <Home className="w-5 h-5" />
-            <span>{t('notFound.goHome', 'Go Back Home')}</span>
+            <svg className="mr-2 -ml-1 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+            </svg>
+            {t('errors.404.button')}
           </Link>
           
           <button
             onClick={() => window.history.back()}
-            className="inline-flex items-center justify-center space-x-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-white px-6 py-3 rounded-lg font-semibold hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-300 shadow-lg border border-gray-200 dark:border-gray-600 w-full"
+            className="mt-4 inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 dark:hover:bg-gray-700"
           >
-            <ArrowLeft className="w-5 h-5" />
-            <span>{t('notFound.goBack', 'Go Back')}</span>
+            <svg className="mr-2 -ml-1 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            {t('common.goBack')}
           </button>
-        </motion.div>
+        </div>
+      </div>
 
-        {/* Help Text */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.8 }}
-          className="mt-8 text-sm text-gray-500 dark:text-gray-400"
-        >
-          <p>
-            {t('notFound.help', 'Need help? ')}
-            <Link to="/contact" className="text-blue-600 hover:text-blue-700 underline">
-              {t('notFound.contact', 'Contact us')}
-            </Link>
-          </p>
-        </motion.div>
+      <div className="mt-8 text-center">
+        <p className="text-sm text-gray-500 dark:text-gray-400">
+          {t('common.needHelp')} <a href="/contact" className="font-medium text-blue-600 hover:text-blue-500 dark:text-blue-400">{t('footer.contact')}</a>
+        </p>
       </div>
     </div>
   );

@@ -1,510 +1,174 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { useTranslation } from 'react-i18next';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import { 
-  Building2, 
-  Users, 
-  CreditCard, 
-  BarChart3, 
-  Shield, 
-  Globe,
-  Menu,
-  X,
-  Star,
-  ArrowRight,
-  CheckCircle,
-  Zap,
-  Heart,
-  Mail,
-  MapPin,
-  Phone
-} from 'lucide-react';
-import LanguageSelector from './LanguageSelector';
+import { useTranslation } from 'react-i18next';
 
 const LandingPage = () => {
   const { t } = useTranslation();
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  const features = [
-    {
-      icon: Building2,
-      title: t('features.propertyManagement.title', 'Multi-Property Management'),
-      description: t('features.propertyManagement.description', 'Manage unlimited properties with custom dashboards, branding, and tenant organization.')
-    },
-    {
-      icon: Users,
-      title: t('features.tenantManagement.title', 'Tenant Management'),
-      description: t('features.tenantManagement.description', 'Streamlined tenant onboarding, applications, and communication tools.')
-    },
-    {
-      icon: CreditCard,
-      title: t('features.payments.title', 'Stripe Integration'),
-      description: t('features.payments.description', 'Secure payment processing with automatic rent collection and 2% platform fee.')
-    },
-    {
-      icon: BarChart3,
-      title: t('features.analytics.title', 'Analytics & Reports'),
-      description: t('features.analytics.description', 'Comprehensive reporting on occupancy, revenue, and property performance.')
-    },
-    {
-      icon: Shield,
-      title: t('features.security.title', 'Enterprise Security'),
-      description: t('features.security.description', 'Bank-level security with Supabase backend and encrypted data storage.')
-    },
-    {
-      icon: Globe,
-      title: t('features.global.title', 'Global Ready'),
-      description: t('features.global.description', 'Multi-language support with automatic currency conversion and localization.')
-    }
-  ];
-
-  const stats = [
-    { number: '10,000+', label: 'Properties Managed' },
-    { number: '50,000+', label: 'Happy Tenants' },
-    { number: '$2M+', label: 'Rent Processed' },
-    { number: '99.9%', label: 'Uptime' }
-  ];
-
-  const testimonials = [
-    {
-      name: 'Sarah Johnson',
-      role: 'Property Manager',
-      company: 'Johnson Properties',
-      content: 'Rent Control has transformed how we manage our 50+ properties. The automation saves us 20 hours per week.',
-      rating: 5
-    },
-    {
-      name: 'Mike Chen',
-      role: 'Real Estate Investor',
-      company: 'Chen Holdings',
-      content: 'The Stripe integration and automated rent collection is a game-changer. Our cash flow is more predictable than ever.',
-      rating: 5
-    },
-    {
-      name: 'Lisa Rodriguez',
-      role: 'Landlord',
-      company: 'Independent',
-      content: 'As a small landlord, I love how easy it is to communicate with tenants and track maintenance requests.',
-      rating: 5
-    }
-  ];
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1
-      }
-    }
-  };
-
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: {
-        duration: 0.5
-      }
-    }
-  };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
-      {/* Navigation */}
-      <motion.nav 
-        className="fixed top-0 left-0 right-0 z-50 bg-white/90 dark:bg-gray-900/90 backdrop-blur-md border-b border-gray-200 dark:border-gray-700"
-        initial={{ y: -100 }}
-        animate={{ y: 0 }}
-        transition={{ duration: 0.6 }}
-      >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <motion.div 
-              className="flex items-center space-x-2"
-              whileHover={{ scale: 1.05 }}
-            >
-              <Building2 className="w-8 h-8 text-blue-600" />
-              <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                Rent Control
-              </span>
-            </motion.div>
-
-            {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center space-x-8">
-              <Link to="/features" className="text-gray-700 dark:text-gray-300 hover:text-blue-600 transition-colors">
-                {t('nav.features', 'Features')}
-              </Link>
-              <Link to="/pricing" className="text-gray-700 dark:text-gray-300 hover:text-blue-600 transition-colors">
-                {t('nav.pricing', 'Pricing')}
-              </Link>
-              <Link to="/about" className="text-gray-700 dark:text-gray-300 hover:text-blue-600 transition-colors">
-                {t('nav.about', 'About')}
-              </Link>
-              <Link to="/contact" className="text-gray-700 dark:text-gray-300 hover:text-blue-600 transition-colors">
-                {t('nav.contact', 'Contact')}
-              </Link>
-              <LanguageSelector />
-              <Link 
-                to="/login" 
-                className="text-blue-600 hover:text-blue-700 font-medium transition-colors"
-              >
-                {t('nav.signIn', 'Sign In')}
-              </Link>
-              <Link 
-                to="/signup" 
-                className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-2 rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 shadow-lg"
-              >
-                {t('nav.getStarted', 'Get Started')}
-              </Link>
-            </div>
-
-            {/* Mobile menu button */}
-            <div className="md:hidden flex items-center space-x-4">
-              <LanguageSelector />
-              <button
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="text-gray-700 dark:text-gray-300 hover:text-blue-600 transition-colors"
-              >
-                {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-              </button>
-            </div>
-          </div>
-
-          {/* Mobile Navigation */}
-          {isMenuOpen && (
-            <motion.div 
-              className="md:hidden py-4 border-t border-gray-200 dark:border-gray-700"
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-            >
-              <div className="flex flex-col space-y-4">
-                <Link to="/features" className="text-gray-700 dark:text-gray-300 hover:text-blue-600 transition-colors">
-                  {t('nav.features', 'Features')}
-                </Link>
-                <Link to="/pricing" className="text-gray-700 dark:text-gray-300 hover:text-blue-600 transition-colors">
-                  {t('nav.pricing', 'Pricing')}
-                </Link>
-                <Link to="/about" className="text-gray-700 dark:text-gray-300 hover:text-blue-600 transition-colors">
-                  {t('nav.about', 'About')}
-                </Link>
-                <Link to="/contact" className="text-gray-700 dark:text-gray-300 hover:text-blue-600 transition-colors">
-                  {t('nav.contact', 'Contact')}
-                </Link>
-                <Link to="/login" className="text-blue-600 hover:text-blue-700 font-medium transition-colors">
-                  {t('nav.signIn', 'Sign In')}
-                </Link>
-                <Link 
-                  to="/signup" 
-                  className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-2 rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 shadow-lg text-center"
-                >
-                  {t('nav.getStarted', 'Get Started')}
-                </Link>
-              </div>
-            </motion.div>
-          )}
+    <div className="min-h-screen bg-gradient-to-b from-white to-gray-100 dark:from-gray-900 dark:to-gray-800">
+      {/* Header */}
+      <header className="container mx-auto px-4 py-6 flex justify-between items-center">
+        <div className="flex items-center">
+          <svg className="h-8 w-8 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+          </svg>
+          <span className="ml-2 text-xl font-bold text-gray-900 dark:text-white">Rent Control</span>
         </div>
-      </motion.nav>
+        <nav className="hidden md:flex space-x-8">
+          <Link to="/" className="text-gray-600 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400">{t('common.home')}</Link>
+          <Link to="/features" className="text-gray-600 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400">{t('common.features')}</Link>
+          <Link to="/pricing" className="text-gray-600 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400">{t('common.pricing')}</Link>
+          <Link to="/about" className="text-gray-600 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400">{t('common.about')}</Link>
+        </nav>
+        <div className="flex items-center space-x-4">
+          <Link to="/login" className="text-gray-600 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400">{t('common.login')}</Link>
+          <Link to="/signup" className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md">{t('common.signup')}</Link>
+        </div>
+      </header>
 
       {/* Hero Section */}
-      <motion.section 
-        className="pt-24 pb-16 px-4 sm:px-6 lg:px-8"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-      >
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center">
-            <motion.h1 
-              className="text-4xl md:text-6xl lg:text-7xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-6"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-            >
-              {t('hero.title', 'Property Management Made Simple')}
-            </motion.h1>
-            <motion.p 
-              className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-            >
-              {t('hero.subtitle', 'Streamline rent collection, tenant management, and property operations with our all-in-one platform. Built for landlords, loved by tenants.')}
-            </motion.p>
-            <motion.div 
-              className="flex flex-col sm:flex-row gap-4 justify-center mb-12"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
-            >
-              <Link 
-                to="/signup?trial=pro"
-                className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-300 shadow-lg flex items-center justify-center space-x-2"
-              >
-                <span>{t('hero.cta.primary', 'Start Free Trial (30-day Pro)')}</span>
-                <ArrowRight className="w-5 h-5" />
-              </Link>
-              <Link 
-                to="/demo"
-                className="bg-white dark:bg-gray-800 text-gray-900 dark:text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-300 shadow-lg border border-gray-200 dark:border-gray-600"
-              >
-                {t('hero.cta.secondary', 'Watch Demo')}
-              </Link>
-            </motion.div>
-
-            {/* Stats */}
-            <motion.div 
-              className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto"
-              variants={containerVariants}
-              initial="hidden"
-              animate="visible"
-            >
-              {stats.map((stat, index) => (
-                <motion.div key={index} className="text-center" variants={itemVariants}>
-                  <div className="text-3xl md:text-4xl font-bold text-blue-600 mb-2">
-                    {stat.number}
-                  </div>
-                  <div className="text-gray-600 dark:text-gray-300 text-sm md:text-base">
-                    {stat.label}
-                  </div>
-                </motion.div>
-              ))}
-            </motion.div>
+      <section className="container mx-auto px-4 py-16 md:py-24">
+        <div className="text-center">
+          <h1 className="text-4xl md:text-6xl font-bold text-gray-900 dark:text-white mb-6">
+            {t('landing.hero.title')}
+          </h1>
+          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto mb-8">
+            {t('landing.hero.subtitle')}
+          </p>
+          <div className="flex flex-col sm:flex-row justify-center gap-4">
+            <Link to="/signup" className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-md text-lg font-medium">
+              {t('landing.hero.cta')}
+            </Link>
+            <Link to="/demo" className="bg-white hover:bg-gray-100 text-gray-800 border border-gray-300 px-6 py-3 rounded-md text-lg font-medium dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-white dark:border-gray-600">
+              {t('landing.hero.demo')}
+            </Link>
           </div>
         </div>
-      </motion.section>
+      </section>
 
       {/* Features Section */}
-      <motion.section 
-        className="py-16 px-4 sm:px-6 lg:px-8 bg-white/50 dark:bg-gray-800/50"
-        variants={containerVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true }}
-      >
-        <div className="max-w-7xl mx-auto">
-          <motion.div className="text-center mb-16" variants={itemVariants}>
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
-              {t('features.title', 'Everything You Need to Manage Properties')}
-            </h2>
-            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-              {t('features.subtitle', 'From tenant screening to rent collection, our platform handles every aspect of property management.')}
+      <section className="container mx-auto px-4 py-16 md:py-24">
+        <div className="text-center mb-16">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+            {t('landing.features.title')}
+          </h2>
+          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+            {t('landing.features.subtitle')}
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {/* Feature 1 */}
+          <div className="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-md">
+            <div className="text-blue-600 mb-4">
+              <svg className="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+              </svg>
+            </div>
+            <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
+              {t('landing.features.feature1.title')}
+            </h3>
+            <p className="text-gray-600 dark:text-gray-300">
+              {t('landing.features.feature1.description')}
             </p>
-          </motion.div>
-          
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {features.map((feature, index) => (
-              <motion.div
-                key={index}
-                className="bg-white dark:bg-gray-800 rounded-xl p-8 shadow-lg hover:shadow-xl transition-all duration-300"
-                variants={itemVariants}
-                whileHover={{ y: -5, scale: 1.02 }}
-              >
-                <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center mb-6">
-                  <feature.icon className="w-6 h-6 text-white" />
-                </div>
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">
-                  {feature.title}
-                </h3>
-                <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
-                  {feature.description}
-                </p>
-              </motion.div>
-            ))}
+          </div>
+
+          {/* Feature 2 */}
+          <div className="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-md">
+            <div className="text-blue-600 mb-4">
+              <svg className="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
+              {t('landing.features.feature2.title')}
+            </h3>
+            <p className="text-gray-600 dark:text-gray-300">
+              {t('landing.features.feature2.description')}
+            </p>
+          </div>
+
+          {/* Feature 3 */}
+          <div className="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-md">
+            <div className="text-blue-600 mb-4">
+              <svg className="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" />
+              </svg>
+            </div>
+            <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
+              {t('landing.features.feature3.title')}
+            </h3>
+            <p className="text-gray-600 dark:text-gray-300">
+              {t('landing.features.feature3.description')}
+            </p>
           </div>
         </div>
-      </motion.section>
-
-      {/* Testimonials */}
-      <motion.section 
-        className="py-16 px-4 sm:px-6 lg:px-8"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        transition={{ duration: 0.6 }}
-        viewport={{ once: true }}
-      >
-        <div className="max-w-7xl mx-auto">
-          <motion.div 
-            className="text-center mb-16"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
-              Trusted by Property Managers Worldwide
-            </h2>
-            <p className="text-xl text-gray-600 dark:text-gray-300">
-              See what our customers have to say about Rent Control
-            </p>
-          </motion.div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {testimonials.map((testimonial, index) => (
-              <motion.div
-                key={index}
-                className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                whileHover={{ scale: 1.02 }}
-              >
-                <div className="flex items-center mb-4">
-                  {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
-                  ))}
-                </div>
-                <p className="text-gray-600 dark:text-gray-300 mb-4 italic">
-                  "{testimonial.content}"
-                </p>
-                <div>
-                  <div className="font-semibold text-gray-900 dark:text-white">
-                    {testimonial.name}
-                  </div>
-                  <div className="text-sm text-gray-500 dark:text-gray-400">
-                    {testimonial.role} • {testimonial.company}
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </motion.section>
+      </section>
 
       {/* CTA Section */}
-      <motion.section 
-        className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-blue-600 to-purple-600"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        transition={{ duration: 0.6 }}
-        viewport={{ once: true }}
-      >
-        <div className="max-w-4xl mx-auto text-center">
-          <motion.h2 
-            className="text-3xl md:text-4xl font-bold text-white mb-4"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-          >
-            Ready to Transform Your Property Management?
-          </motion.h2>
-          <motion.p 
-            className="text-xl text-blue-100 mb-8"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            viewport={{ once: true }}
-          >
-            Join thousands of property owners who have simplified their rental business with Rent Control.
-          </motion.p>
-          <motion.div
-            className="flex flex-col sm:flex-row gap-4 justify-center"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            viewport={{ once: true }}
-          >
-            <Link 
-              to="/signup?trial=pro"
-              className="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors duration-300 shadow-lg"
-            >
-              Start Your Free Trial (30-day Pro)
-            </Link>
-            <Link 
-              to="/contact"
-              className="bg-blue-700 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-800 transition-colors duration-300 shadow-lg"
-            >
-              Contact Sales
-            </Link>
-          </motion.div>
+      <section className="bg-blue-600 py-16 md:py-24">
+        <div className="container mx-auto px-4 text-center">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+            {t('landing.cta.title')}
+          </h2>
+          <p className="text-xl text-blue-100 max-w-3xl mx-auto mb-8">
+            {t('landing.cta.subtitle')}
+          </p>
+          <Link to="/signup" className="bg-white hover:bg-gray-100 text-blue-600 px-6 py-3 rounded-md text-lg font-medium">
+            {t('landing.cta.button')}
+          </Link>
         </div>
-      </motion.section>
+      </section>
 
-      {/* Enhanced Footer */}
-      <footer className="bg-gray-900 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-          <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-8">
-            {/* Brand */}
-            <div className="lg:col-span-2">
-              <div className="flex items-center space-x-2 mb-4">
-                <Building2 className="w-8 h-8 text-blue-400" />
-                <span className="text-xl font-bold">Rent Control</span>
-              </div>
-              <p className="text-gray-400 mb-6 max-w-md">
-                Modern property management platform built for landlords, property managers, and tenants. 
-                Simplify every part of the rental experience.
-              </p>
-              <div className="space-y-2 text-sm text-gray-400 mb-6">
-                <div className="flex items-center space-x-2">
-                  <MapPin className="w-4 h-4" />
-                  <span>Appleton, Wisconsin, USA</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <Mail className="w-4 h-4" />
-                  <span>support@rent-control.net</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <Phone className="w-4 h-4" />
-                  <span>9am–5pm CST, Mon–Fri</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Product */}
+      {/* Footer */}
+      <footer className="bg-gray-900 text-white py-12">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             <div>
-              <h3 className="text-lg font-semibold mb-4">Product</h3>
+              <h3 className="text-lg font-semibold mb-4">{t('footer.product')}</h3>
               <ul className="space-y-2">
-                <li><Link to="/features" className="text-gray-400 hover:text-white transition-colors">Features</Link></li>
-                <li><Link to="/pricing" className="text-gray-400 hover:text-white transition-colors">Pricing</Link></li>
-                <li><Link to="/demo" className="text-gray-400 hover:text-white transition-colors">Demo</Link></li>
-                <li><Link to="/api" className="text-gray-400 hover:text-white transition-colors">API</Link></li>
+                <li><Link to="/features" className="text-gray-400 hover:text-white">{t('footer.features')}</Link></li>
+                <li><Link to="/pricing" className="text-gray-400 hover:text-white">{t('footer.pricing')}</Link></li>
+                <li><Link to="/demo" className="text-gray-400 hover:text-white">{t('footer.demo')}</Link></li>
+                <li><Link to="/api" className="text-gray-400 hover:text-white">{t('footer.api')}</Link></li>
               </ul>
             </div>
-
-            {/* Support */}
             <div>
-              <h3 className="text-lg font-semibold mb-4">Support</h3>
+              <h3 className="text-lg font-semibold mb-4">{t('footer.support')}</h3>
               <ul className="space-y-2">
-                <li><Link to="/help" className="text-gray-400 hover:text-white transition-colors">Help Center</Link></li>
-                <li><Link to="/contact" className="text-gray-400 hover:text-white transition-colors">Contact</Link></li>
-                <li><Link to="/privacy" className="text-gray-400 hover:text-white transition-colors">Privacy</Link></li>
-                <li><Link to="/terms" className="text-gray-400 hover:text-white transition-colors">Terms</Link></li>
+                <li><Link to="/help" className="text-gray-400 hover:text-white">{t('footer.helpCenter')}</Link></li>
+                <li><Link to="/contact" className="text-gray-400 hover:text-white">{t('footer.contact')}</Link></li>
+                <li><Link to="/privacy" className="text-gray-400 hover:text-white">{t('footer.privacy')}</Link></li>
+                <li><Link to="/terms" className="text-gray-400 hover:text-white">{t('footer.terms')}</Link></li>
               </ul>
             </div>
-
-            {/* Company */}
             <div>
-              <h3 className="text-lg font-semibold mb-4">Company</h3>
+              <h3 className="text-lg font-semibold mb-4">{t('footer.company')}</h3>
               <ul className="space-y-2">
-                <li><Link to="/about" className="text-gray-400 hover:text-white transition-colors">About</Link></li>
-                <li><Link to="/careers" className="text-gray-400 hover:text-white transition-colors">Careers</Link></li>
-                <li><Link to="/blog" className="text-gray-400 hover:text-white transition-colors">Blog</Link></li>
-                <li><Link to="/press" className="text-gray-400 hover:text-white transition-colors">Press</Link></li>
+                <li><Link to="/about" className="text-gray-400 hover:text-white">{t('footer.about')}</Link></li>
+                <li><Link to="/careers" className="text-gray-400 hover:text-white">{t('footer.careers')}</Link></li>
+                <li><Link to="/blog" className="text-gray-400 hover:text-white">{t('footer.blog')}</Link></li>
+                <li><Link to="/press" className="text-gray-400 hover:text-white">{t('footer.press')}</Link></li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-lg font-semibold mb-4">{t('footer.legal')}</h3>
+              <ul className="space-y-2">
+                <li><Link to="/privacy" className="text-gray-400 hover:text-white">{t('footer.privacy')}</Link></li>
+                <li><Link to="/terms" className="text-gray-400 hover:text-white">{t('footer.terms')}</Link></li>
+                <li><Link to="/cookies" className="text-gray-400 hover:text-white">{t('common.cookies')}</Link></li>
+                <li><Link to="/gdpr" className="text-gray-400 hover:text-white">{t('common.gdpr')}</Link></li>
               </ul>
             </div>
           </div>
-
-          <div className="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
-            <div className="text-gray-400 text-sm mb-4 md:mb-0">
-              © 2024 Rent Control. All rights reserved.
-            </div>
-            <div className="flex items-center space-x-2 text-sm text-gray-400">
-              <span>Powered by</span>
-              <a 
-                href="https://visnec.com" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="text-blue-400 hover:text-blue-300 transition-colors font-medium flex items-center space-x-1"
-              >
-                <Heart className="w-4 h-4" />
-                <span>Visnec</span>
+          <div className="mt-12 pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center">
+            <p className="text-gray-400">{t('footer.copyright')}</p>
+            <p className="text-gray-400 mt-4 md:mt-0">
+              <a href="https://visnec.com" target="_blank" rel="noopener noreferrer" className="hover:text-white">
+                {t('footer.poweredBy')}
               </a>
-            </div>
+            </p>
           </div>
         </div>
       </footer>
