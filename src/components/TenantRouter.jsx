@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { supabase } from '../utils/supabaseClient'; // make sure this is set up
+import { supabase } from '../utils/supabaseClient';
 import TenantDashboard from './TenantDashboard';
 import NotFound from './NotFound';
 
@@ -9,10 +9,10 @@ const TenantRouter = () => {
   const [notFound, setNotFound] = useState(false);
 
   const getSubdomain = () => {
+    if (typeof window === 'undefined') return null;
     const host = window.location.hostname;
     const parts = host.split('.');
-    if (parts.length > 2) return parts[0]; // e.g. abladei.rent-control.net → "abladei"
-    return null;
+    return parts.length > 2 ? parts[0] : null;
   };
 
   useEffect(() => {
@@ -32,6 +32,7 @@ const TenantRouter = () => {
         .single();
 
       if (error || !data) {
+        console.warn('Subdomain not found:', subdomain);
         setNotFound(true);
       } else {
         setTenant(data);
@@ -43,7 +44,16 @@ const TenantRouter = () => {
     fetchTenant();
   }, []);
 
-  if (loading) return <div className="p-6 text-center">Loading tenant dashboard...</div>;
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-white dark:bg-gray-900">
+        <div className="text-gray-600 dark:text-gray-300 text-lg animate-pulse">
+          Loading tenant dashboard...
+        </div>
+      </div>
+    );
+  }
+
   if (notFound) return <NotFound />;
 
   return <TenantDashboard tenant={tenant} />;
