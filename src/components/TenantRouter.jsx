@@ -7,31 +7,42 @@ const TenantLogin = ({ tenant }) => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
 
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
 
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password
-    });
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
 
     if (error) {
-      setError(error.message);
+      setError(error.message || 'Login failed. Please try again.');
     } else {
-      window.location.reload(); // refresh to trigger session check in TenantRouter
+      setSuccess(true);
+      setTimeout(() => window.location.reload(), 1200); // slight delay for user feedback
     }
+
     setLoading(false);
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 p-4">
       <div className="max-w-md w-full bg-white dark:bg-gray-800 shadow-lg rounded-lg p-8">
-        <h2 className="text-2xl font-bold text-center text-gray-900 dark:text-white mb-6">
+        {/* Optional Logo */}
+        {tenant?.logo_url && (
+          <div className="flex justify-center mb-4">
+            <img src={tenant.logo_url} alt={tenant.name} className="h-12 object-contain" />
+          </div>
+        )}
+
+        <h2 className="text-2xl font-bold text-center text-gray-900 dark:text-white mb-2">
           Welcome to {tenant?.name || 'your property'}
         </h2>
+        <p className="text-center text-sm text-gray-500 dark:text-gray-400 mb-6">
+          Please login to access your tenant portal.
+        </p>
+
         <form onSubmit={handleLogin} className="space-y-6">
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
@@ -49,6 +60,7 @@ const TenantLogin = ({ tenant }) => {
               />
             </div>
           </div>
+
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
               Password
@@ -65,15 +77,33 @@ const TenantLogin = ({ tenant }) => {
               />
             </div>
           </div>
+
           {error && <p className="text-red-500 text-sm text-center">{error}</p>}
+          {success && <p className="text-green-500 text-sm text-center">Login successful! Redirecting...</p>}
+
           <button
             type="submit"
-            className="w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold"
+            className="w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition"
             disabled={loading}
           >
             {loading ? 'Logging in...' : 'Login'}
           </button>
         </form>
+
+        <div className="mt-4 text-center text-sm text-gray-500 dark:text-gray-400">
+          <a href="#" className="text-blue-600 hover:underline">Forgot password?</a>
+          {tenant?.support_email && (
+            <>
+              <br />
+              <span>
+                Need help?{' '}
+                <a href={`mailto:${tenant.support_email}`} className="text-blue-600 hover:underline">
+                  Contact property manager
+                </a>
+              </span>
+            </>
+          )}
+        </div>
       </div>
     </div>
   );
