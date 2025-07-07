@@ -6,6 +6,8 @@ import LoginPage from './components/LoginPage';
 import SignUpPage from './components/SignUpPage';
 import Onboarding from './components/Onboarding';
 import Dashboard from './components/Dashboard';
+import ManagerDashboard from './components/ManagerDashboard';
+import TenantDashboard from './components/TenantDashboard';
 import About from './components/About';
 import PrivacyPolicy from './components/PrivacyPolicy';
 import Contact from './components/Contact';
@@ -42,6 +44,8 @@ function App() {
               <Route path="/signup" element={<SignUpPage />} />
               <Route path="/onboarding" element={<Onboarding />} />
               <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/manager" element={<ManagerDashboard />} />
+              <Route path="/tenant" element={<TenantDashboard />} />
               <Route path="/about" element={<About />} />
               <Route path="/privacy" element={<PrivacyPolicy />} />
               <Route path="/contact" element={<Contact />} />
