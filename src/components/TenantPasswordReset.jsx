@@ -1,4 +1,3 @@
-// components/TenantPasswordReset.jsx
 import React, { useState } from 'react';
 import { supabase } from '../utils/supabaseClient';
 import { Mail } from 'lucide-react';
