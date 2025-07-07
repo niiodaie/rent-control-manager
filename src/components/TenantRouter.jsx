@@ -1,6 +1,12 @@
 import React, { useState } from 'react';
 import { supabase } from '../utils/supabaseClient';
 import { Lock, Mail } from 'lucide-react';
+import { Routes, Route } from 'react-router-dom';
+import TenantLogin from './TenantLogin';
+import TenantDashboard from './TenantDashboard';
+import TenantLogout from './TenantLogout';
+import TenantPasswordReset from './TenantPasswordReset';
+
 
 const TenantLogin = ({ tenant }) => {
   const [email, setEmail] = useState('');
