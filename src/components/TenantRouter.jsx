@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { supabase } from '../../utils/supabaseClient';
+import { supabase } from '../utils/supabaseClient';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import TenantLogin from './TenantLogin';
 import TenantDashboard from './TenantDashboard';
