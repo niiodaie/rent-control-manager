@@ -6,7 +6,7 @@
   "rewrites": [
     {
       "source": "/(.*)",
-      "destination": "/"  // <- this is the correct path
+      "destination": "/" 
     }
   ]
 }
