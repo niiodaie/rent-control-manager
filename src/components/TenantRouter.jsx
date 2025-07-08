@@ -13,15 +13,16 @@ const TenantRouter = () => {
   const [notFound, setNotFound] = useState(false);
   const [session, setSession] = useState(null);
 
- const getSubdomain = () => {
-  const host = window.location.hostname;
-  if (host.includes('vercel.app')) return 'abladei'; // temporary test
-  const parts = host.split('.');
-  if (parts.length > 2) return parts[0];
-  return null;
-};
+  const getSubdomain = () => {
+    const host = window.location.hostname;
+    if (host.includes('vercel.app')) return 'abladei'; // temporary test
+    const parts = host.split('.');
+    if (parts.length > 2) return parts[0];
+    return null;
+  };
 
-  const fetchTenant = async () => {
+  useEffect(() => {
+    const fetchTenant = async () => {
       const subdomain = getSubdomain();
       console.log('Detected subdomain:', subdomain);
 
@@ -46,12 +47,13 @@ const TenantRouter = () => {
       }
 
       const session = (await supabase.auth.getSession()).data.session;
-    setSession(session);
-    setLoading(false);
-  };
+      setSession(session);
+      setLoading(false);
+    };
 
-  fetchTenant(); // ✅ This must be inside the useEffect block
-}, []);
+    fetchTenant();
+  }, []); // ✅ Proper useEffect block
+  
 
   if (loading) return <div className="p-6 text-center">Loading tenant portal...</div>;
   if (notFound) return <NotFound />;
