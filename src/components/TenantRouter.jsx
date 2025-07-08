@@ -45,14 +45,13 @@ const TenantRouter = () => {
         setTenant(data);
       }
 
-      const sessionResult = await supabase.auth.getSession();
-      setSession(sessionResult.data.session);
-      setLoading(false);
-    };
+      const session = (await supabase.auth.getSession()).data.session;
+    setSession(session);
+    setLoading(false);
+  };
 
-    fetchTenant();
-  },
-[]);
+  fetchTenant(); // ✅ This must be inside the useEffect block
+}, []);
 
   if (loading) return <div className="p-6 text-center">Loading tenant portal...</div>;
   if (notFound) return <NotFound />;
