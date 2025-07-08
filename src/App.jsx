@@ -35,9 +35,12 @@ function App() {
 
 
   useEffect(() => {
+  if (typeof window !== 'undefined') {
     const theme = localStorage.getItem('theme') || 'light';
     document.documentElement.classList.toggle('dark', theme === 'dark');
-  }, []);
+  }
+}, []);
+
 
   return (
     <AuthProvider>
