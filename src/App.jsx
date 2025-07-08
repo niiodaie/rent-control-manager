@@ -17,11 +17,11 @@ import NotFound from './components/NotFound';
 import TenantRouter from './components/TenantRouter';
 import Features from './components/Features';
 import PricingPlans from './components/PricingPlans';
-// import usePageTracking from './hooks/usePageTracking';
+import usePageTracking from './hooks/usePageTracking';
 import './i18n';
 
 function App() {
-  // usePageTracking(); // Track page views for Google Analytics
+usePageTracking(); // Track page views for Google Analytics
 
   const isTenantSubdomain = () => {
     const host = window.location.hostname;
