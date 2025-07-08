@@ -13,12 +13,13 @@ const TenantRouter = () => {
   const [notFound, setNotFound] = useState(false);
   const [session, setSession] = useState(null);
 
-  const getSubdomain = () => {
-    const host = window.location.hostname;
-    const parts = host.split('.');
-    if (parts.length > 2) return parts[0];
-    return null;
-  };
+ const getSubdomain = () => {
+  const host = window.location.hostname;
+  if (host.includes('vercel.app')) return 'abladei'; // temporary test
+  const parts = host.split('.');
+  if (parts.length > 2) return parts[0];
+  return null;
+};
 
   useEffect(() => {
     const fetchTenant = async () => {
