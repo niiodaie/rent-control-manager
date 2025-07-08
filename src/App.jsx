@@ -15,6 +15,8 @@ import TermsOfUse from './components/TermsOfUse';
 import HelpCenter from './components/HelpCenter';
 import NotFound from './components/NotFound';
 import TenantRouter from './components/TenantRouter';
+import Features from './components/Features';
+import PricingPlans from './components/PricingPlans';
 // import usePageTracking from './hooks/usePageTracking';
 import './i18n';
 
@@ -55,6 +57,8 @@ function App() {
               <Route path="/pricing" element={<LandingPage />} />
               <Route path="/demo" element={<LandingPage />} />
               <Route path="/api" element={<HelpCenter />} />
+              <Route path="/features" element={<Features />} />
+              <Route path="/pricing" element={<PricingPlans />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           )}
