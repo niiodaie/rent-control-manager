@@ -22,37 +22,37 @@ const TenantRouter = () => {
   };
 
   useEffect(() => {
-    const fetchTenant = async () => {
-      const subdomain = getSubdomain();
-      console.log('Detected subdomain:', subdomain);
+  const fetchTenant = async () => {
+    const subdomain = getSubdomain();
+    console.log('Detected subdomain:', subdomain);
 
-      if (!subdomain) {
-        setNotFound(true);
-        setLoading(false);
-        return;
-      }
-
-      const { data, error } = await supabase
-        .from('tenants')
-        .select('*')
-        .eq('subdomain', subdomain)
-        .single();
-
-      console.log('Tenant fetch result:', data, error);
-
-      if (error || !data) {
-        setNotFound(true);
-      } else {
-        setTenant(data);
-      }
-
-      const session = (await supabase.auth.getSession()).data.session;
-      setSession(session);
+    if (!subdomain) {
+      setNotFound(true);
       setLoading(false);
-    };
+      return;
+    }
 
-    fetchTenant();
-  }, []); // ✅ Proper useEffect block
+    const { data, error } = await supabase
+      .from('tenants')
+      .select('*')
+      .eq('subdomain', subdomain)
+      .single();
+
+    console.log('Tenant fetch result:', data, error);
+
+    if (error || !data) {
+      setNotFound(true);
+    } else {
+      setTenant(data);
+    }
+
+    const session = (await supabase.auth.getSession()).data.session;
+    setSession(session);
+    setLoading(false);
+  };
+
+  fetchTenant(); // ✅ correctly inside useEffect
+}, []);
   
 
   if (loading) return <div className="p-6 text-center">Loading tenant portal...</div>;
