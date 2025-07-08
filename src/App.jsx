@@ -21,7 +21,7 @@ import usePageTracking from './hooks/usePageTracking';
 import './i18n';
 
 function App() {
-usePageTracking(); // Track page views for Google Analytics
+// usePageTracking(); // Track page views for Google Analytics
 
   const isTenantSubdomain = () => {
     const host = window.location.hostname;
