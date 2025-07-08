@@ -57,7 +57,6 @@ usePageTracking(); // Track page views for Google Analytics
               <Route path="/pricing" element={<LandingPage />} />
               <Route path="/demo" element={<LandingPage />} />
               <Route path="/api" element={<HelpCenter />} />
-              <Route path="/features" element={<Features />} />
               <Route path="/pricing" element={<PricingPlans />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
