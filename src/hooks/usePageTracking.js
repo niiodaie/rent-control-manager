@@ -6,11 +6,10 @@ const usePageTracking = () => {
 
   useEffect(() => {
     if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
-  window.gtag('config', 'G-0JC2Q2TNP3', {
-    page_path: location.pathname,
-  });
-}
-
+      window.gtag('config', 'G-0JC2Q2TNP3', {
+        page_path: location.pathname,
+      });
+    }
   }, [location]);
 };
 
