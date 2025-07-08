@@ -5,11 +5,12 @@ const usePageTracking = () => {
   const location = useLocation();
 
   useEffect(() => {
-    if (window.gtag) {
-      window.gtag('config', 'G-0JC2Q2TNP3', {
-        page_path: location.pathname,
-      });
-    }
+    if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
+  window.gtag('config', 'G-0JC2Q2TNP3', {
+    page_path: location.pathname,
+  });
+}
+
   }, [location]);
 };
 
