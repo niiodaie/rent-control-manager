@@ -53,7 +53,7 @@ usePageTracking(); // Track page views for Google Analytics
               <Route path="/contact" element={<Contact />} />
               <Route path="/terms" element={<TermsOfUse />} />
               <Route path="/help" element={<HelpCenter />} />
-              <Route path="/features" element={<LandingPage />} />
+              import Features from './components/Features';
               <Route path="/pricing" element={<LandingPage />} />
               <Route path="/demo" element={<LandingPage />} />
               <Route path="/api" element={<HelpCenter />} />
