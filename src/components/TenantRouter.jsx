@@ -21,9 +21,9 @@ const TenantRouter = () => {
   return null;
 };
 
-  useEffect(() => {
-    const fetchTenant = async () => {
+  const fetchTenant = async () => {
       const subdomain = getSubdomain();
+      console.log('Detected subdomain:', subdomain);
 
       if (!subdomain) {
         setNotFound(true);
@@ -37,14 +37,16 @@ const TenantRouter = () => {
         .eq('subdomain', subdomain)
         .single();
 
+      console.log('Tenant fetch result:', data, error);
+
       if (error || !data) {
         setNotFound(true);
       } else {
         setTenant(data);
       }
 
-      const session = (await supabase.auth.getSession()).data.session;
-      setSession(session);
+      const sessionResult = await supabase.auth.getSession();
+      setSession(sessionResult.data.session);
       setLoading(false);
     };
 
