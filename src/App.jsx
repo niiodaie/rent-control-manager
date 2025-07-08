@@ -24,9 +24,15 @@ function App() {
 // usePageTracking(); // Track page views for Google Analytics
 
   const isTenantSubdomain = () => {
-    const host = window.location.hostname;
-    return host.split('.').length > 2 && !host.startsWith('www');
-  };
+  if (typeof window === 'undefined') return false;
+
+  const host = window.location.hostname;
+  const parts = host.split('.');
+
+  // Example: tenant.example.com → parts.length = 3
+  return parts.length > 2 && !['www', 'app'].includes(parts[0]);
+};
+
 
   useEffect(() => {
     const theme = localStorage.getItem('theme') || 'light';
