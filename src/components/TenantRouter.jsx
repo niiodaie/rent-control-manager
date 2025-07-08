@@ -51,7 +51,8 @@ const TenantRouter = () => {
     };
 
     fetchTenant();
-  }, []);
+  },
+[]);
 
   if (loading) return <div className="p-6 text-center">Loading tenant portal...</div>;
   if (notFound) return <NotFound />;
