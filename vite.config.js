@@ -1,6 +1,9 @@
-import { defineConfig } from 'vite'; // ✅ This is the missing import
+import { defineConfig } from 'vite'; // ✅ import defineConfig
 import react from '@vitejs/plugin-react';
 import path from 'path';
+
+// ✅ wrap the config object in defineConfig(...)
+export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
