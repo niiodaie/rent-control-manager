@@ -31,8 +31,9 @@ const SignUpPage = () => {
 
   try {
     // Send metadata (role) to Supabase
-    const { user, error: signupError } = await signup(email, password, name, {
-      data: { role: 'manager' },
+    const { user, error: signupError } = await signup(email, password, {
+      full_name: name,
+      role: 'property_owner',
     });
 
     if (signupError) {
