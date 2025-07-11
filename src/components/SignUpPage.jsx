@@ -15,29 +15,39 @@ const SignUpPage = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError('');
+ const handleSubmit = async (e) => {
+  e.preventDefault();
+  setError('');
 
-    if (password !== confirmPassword) {
-      return setError('Passwords do not match');
+  if (password !== confirmPassword) {
+    return setError('Passwords do not match');
+  }
+
+  if (!terms) {
+    return setError('You must agree to the Terms of Service and Privacy Policy');
+  }
+
+  setLoading(true);
+
+  try {
+    // Send metadata (role) to Supabase
+    const { user, error: signupError } = await signup(email, password, name, {
+      data: { role: 'manager' },
+    });
+
+    if (signupError) {
+      throw signupError;
     }
 
-    if (!terms) {
-      return setError('You must agree to the Terms of Service and Privacy Policy');
-    }
-
-    setLoading(true);
-
-    try {
-      await signup(email, password, name);
-      navigate('/dashboard');
-    } catch (err) {
-      setError('Failed to create an account. Please try again.');
-    } finally {
-      setLoading(false);
-    }
-  };
+    // Redirect to manager dashboard
+    navigate('/manager/dashboard');
+  } catch (err) {
+    console.error(err);
+    setError('Failed to create an account. Please try again.');
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
