@@ -34,12 +34,25 @@ const handleSubmit = async (e) => {
   setLoading(true);
 
   try {
-    const role = getSignupRole(); // 👈 Get role based on subdomain
+  const role = getSignupRole();
 
-    const { user, error: signupError } = await signup(email, password, {
-      full_name: name,
-      role,
-    });
+  const { user, error: signupError } = await signup(email, password, {
+  data: {
+    full_name: name,
+    role,
+  },
+});
+
+  if (signupError) throw signupError;
+
+  navigate(role === 'tenant' ? '/tenant/dashboard' : '/manager/dashboard');
+} catch (err) {
+  console.error(err);
+  setError('Failed to create an account. Please try again.');
+} finally {
+  setLoading(false);
+}
+
 
     if (signupError) throw signupError;
 
