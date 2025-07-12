@@ -14,8 +14,12 @@ const SignUpPage = () => {
   const [terms, setTerms] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const getSignupRole = () => {
+  const host = window.location.hostname;
+  return host.split('.').length > 2 && !host.startsWith('www') ? 'tenant' : 'property_owner';
+};
 
- const handleSubmit = async (e) => {
+const handleSubmit = async (e) => {
   e.preventDefault();
   setError('');
 
@@ -30,18 +34,16 @@ const SignUpPage = () => {
   setLoading(true);
 
   try {
-    // Send metadata (role) to Supabase
+    const role = getSignupRole(); // 👈 Get role based on subdomain
+
     const { user, error: signupError } = await signup(email, password, {
       full_name: name,
-      role: 'property_owner',
+      role,
     });
 
-    if (signupError) {
-      throw signupError;
-    }
+    if (signupError) throw signupError;
 
-    // Redirect to manager dashboard
-    navigate('/manager/dashboard');
+    navigate(role === 'tenant' ? '/tenant/dashboard' : '/manager/dashboard');
   } catch (err) {
     console.error(err);
     setError('Failed to create an account. Please try again.');
