@@ -53,31 +53,18 @@ export const AuthProvider = ({ children }) => {
 
   const fetchUserProfile = async (userId) => {
     try {
-      setLoading(true);
-      
-      // Fetch user profile
-      const { data: profileData, error: profileError } = await supabase
-        .from('users')
+      const { data, error } = await supabase
+        .from('profiles')
         .select('*')
         .eq('id', userId)
         .single();
 
-      if (profileError) throw profileError;
-      setProfile(profileData);
+      if (error) throw error;
+      setProfile(data);
 
-      // Fetch user's properties if they're a property owner
-      if (profileData.role === 'property_owner') {
-        const { data: propertiesData, error: propertiesError } = await supabase
-          .from('properties')
-          .select(`
-            *,
-            units(count)
-          `)
-          .eq('owner_id', userId)
-          .eq('status', 'active');
-
-        if (propertiesError) throw propertiesError;
-        setProperties(propertiesData || []);
+      // If user is a manager, fetch their properties
+      if (data?.role === 'manager') {
+        await fetchUserProperties(userId);
       }
     } catch (error) {
       console.error('Error fetching user profile:', error);
@@ -86,58 +73,97 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const fetchUserProperties = async (userId) => {
+    try {
+      const { data, error } = await supabase
+        .from('properties')
+        .select('*')
+        .eq('manager_id', userId);
+
+      if (error) throw error;
+      setProperties(data || []);
+    } catch (error) {
+      console.error('Error fetching properties:', error);
+    }
+  };
+
+  const signUp = async ({ email, password, firstName, lastName, inviteToken = null, role = 'manager' }) => {
+    try {
+      // Sign up the user
+      const { data: authData, error: authError } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            first_name: firstName,
+            last_name: lastName,
+          }
+        }
+      });
+
+      if (authError) throw authError;
+
+      if (authData.user) {
+        // Create profile
+        const profileData = {
+          id: authData.user.id,
+          email,
+          first_name: firstName,
+          last_name: lastName,
+          role,
+          created_at: new Date().toISOString()
+        };
+
+        // If there's an invite token, handle tenant signup
+        if (inviteToken) {
+          // TODO: Verify invite token and get property info
+          // const { data: inviteData } = await supabase
+          //   .from('invitations')
+          //   .select('property_id, unit')
+          //   .eq('token', inviteToken)
+          //   .eq('status', 'pending')
+          //   .single();
+
+          profileData.role = 'tenant';
+          // profileData.property_id = inviteData.property_id;
+          // profileData.unit = inviteData.unit;
+        }
+
+        const { error: profileError } = await supabase
+          .from('profiles')
+          .insert([profileData]);
+
+        if (profileError) throw profileError;
+
+        // If invite token, update invitation status
+        if (inviteToken) {
+          // TODO: Update invitation status to 'accepted'
+          // await supabase
+          //   .from('invitations')
+          //   .update({ status: 'accepted', accepted_at: new Date().toISOString() })
+          //   .eq('token', inviteToken);
+        }
+      }
+
+      return authData;
+    } catch (error) {
+      console.error('Error signing up:', error);
+      throw error;
+    }
+  };
+
   const signIn = async (email, password) => {
     try {
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
-        password
-      });
-      
-      if (error) throw error;
-      return { success: true, data };
-    } catch (error) {
-      console.error('Sign in error:', error);
-      return { success: false, error: error.message };
-    }
-  };
-
-  const signUp = async (email, password, userData = {}) => {
-    try {
-      const { data, error } = await supabase.auth.signUp({
-        email,
         password,
-        options: {
-          data: userData
-        }
       });
-      
+
       if (error) throw error;
-
-      // Create user profile
-      if (data.user) {
-        const { error: profileError } = await supabase
-          .from('users')
-          .insert([{
-            id: data.user.id,
-            email: data.user.email,
-            full_name: userData.full_name || '',
-            role: userData.role || 'tenant',
-            phone: userData.phone || '',
-            subscription_status: 'free',
-            plan_limits: {
-              properties: 1,
-              residents: 5,
-              features: ['basic']
-            }
-          }]);
-
-        if (profileError) throw profileError;
-      }
-
-      return { success: true, data };
+      return data;
     } catch (error) {
-      console.error('Sign up error:', error);
-      return { success: false, error: error.message };
+      console.error('Error signing in:', error);
+      throw error;
     }
   };
 
@@ -149,126 +175,19 @@ export const AuthProvider = ({ children }) => {
       setUser(null);
       setProfile(null);
       setProperties([]);
-      return { success: true };
     } catch (error) {
-      console.error('Sign out error:', error);
-      return { success: false, error: error.message };
+      console.error('Error signing out:', error);
+      throw error;
     }
   };
 
-  const updateProfile = async (updates) => {
+  const resetPassword = async (email) => {
     try {
-      if (!user) throw new Error('No user logged in');
-
-      const { data, error } = await supabase
-        .from('users')
-        .update({
-          ...updates,
-          updated_at: new Date().toISOString()
-        })
-        .eq('id', user.id)
-        .select()
-        .single();
-
+      const { error } = await supabase.auth.resetPasswordForEmail(email);
       if (error) throw error;
-      
-      setProfile(data);
-      return { success: true, data };
     } catch (error) {
-      console.error('Update profile error:', error);
-      return { success: false, error: error.message };
-    }
-  };
-
-  const createProperty = async (propertyData) => {
-    try {
-      if (!user || profile?.role !== 'property_owner') {
-        throw new Error('Unauthorized to create properties');
-      }
-
-      // Check plan limits
-      if (profile.subscription_status === 'free' && properties.length >= 1) {
-        throw new Error('Free plan allows only 1 property. Please upgrade to add more.');
-      }
-      if (profile.subscription_status === 'premium' && properties.length >= 5) {
-        throw new Error('Premium plan allows up to 5 properties. Please upgrade to Enterprise for unlimited properties.');
-      }
-
-      const { data, error } = await supabase
-        .from('properties')
-        .insert([{
-          ...propertyData,
-          owner_id: user.id
-        }])
-        .select()
-        .single();
-
-      if (error) throw error;
-      
-      // Refresh properties list
-      await fetchUserProfile(user.id);
-      
-      return { success: true, data };
-    } catch (error) {
-      console.error('Create property error:', error);
-      return { success: false, error: error.message };
-    }
-  };
-
-  const updateProperty = async (propertyId, updates) => {
-    try {
-      if (!user) throw new Error('No user logged in');
-
-      const { data, error } = await supabase
-        .from('properties')
-        .update({
-          ...updates,
-          updated_at: new Date().toISOString()
-        })
-        .eq('id', propertyId)
-        .eq('owner_id', user.id)
-        .select()
-        .single();
-
-      if (error) throw error;
-      
-      // Refresh properties list
-      await fetchUserProfile(user.id);
-      
-      return { success: true, data };
-    } catch (error) {
-      console.error('Update property error:', error);
-      return { success: false, error: error.message };
-    }
-  };
-
-  const getProperty = async (propertyId) => {
-    try {
-      const { data, error } = await supabase
-        .from('properties')
-        .select(`
-          *,
-          units(
-            *,
-            leases(
-              *,
-              tenant:users!leases_tenant_id_fkey(
-                id,
-                full_name,
-                email,
-                phone
-              )
-            )
-          )
-        `)
-        .eq('id', propertyId)
-        .single();
-
-      if (error) throw error;
-      return { success: true, data };
-    } catch (error) {
-      console.error('Get property error:', error);
-      return { success: false, error: error.message };
+      console.error('Error resetting password:', error);
+      throw error;
     }
   };
 
@@ -277,15 +196,11 @@ export const AuthProvider = ({ children }) => {
     profile,
     properties,
     loading,
-    supabase,
-    signIn,
     signUp,
+    signIn,
     signOut,
-    updateProfile,
-    createProperty,
-    updateProperty,
-    getProperty,
-    fetchUserProfile
+    resetPassword,
+    supabase
   };
 
   return (
@@ -295,5 +210,5 @@ export const AuthProvider = ({ children }) => {
   );
 };
 
-export default AuthContext;
+export { AuthContext };
 
