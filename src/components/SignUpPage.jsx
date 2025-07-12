@@ -240,6 +240,8 @@ try {
       </div>
     </div>
   );
-};
+}; // ✅ Close the SignUpPage function
+
 export default SignUpPage;
+
 
