@@ -1,41 +1,189 @@
 {
   "common": {
-    "welcome": "Bem-vindo ao Rent Control",
-    "login": "Entrar",
-    "signup": "Cadastrar",
-    "logout": "Sair",
-    "dashboard": "Painel de Controle",
-    "profile": "Perfil",
-    "settings": "Configurações",
-    "help": "Ajuda",
-    "about": "Sobre",
-    "contact": "Contato",
-    "privacy": "Política de Privacidade",
-    "terms": "Termos de Uso",
-    "language": "Idioma",
-    "theme": "Tema",
-    "dark": "Escuro",
-    "light": "Claro",
+    "loading": "Carregando...",
     "save": "Salvar",
     "cancel": "Cancelar",
-    "submit": "Enviar",
-    "loading": "Carregando...",
-    "error": "Ocorreu um erro",
-    "success": "Sucesso!",
-    "required": "Obrigatório",
-    "invalid": "Inválido"
+    "delete": "Excluir",
+    "edit": "Editar",
+    "add": "Adicionar",
+    "search": "Pesquisar",
+    "filter": "Filtrar",
+    "export": "Exportar",
+    "import": "Importar",
+    "settings": "Configurações",
+    "help": "Ajuda",
+    "logout": "Sair",
+    "profile": "Perfil"
   },
-  "landing": {
-    "hero": {
-      "title": "Gestão de Imóveis Simplificada",
-      "subtitle": "Gerencie seus imóveis, cobre aluguéis e comunique-se com inquilinos em uma única plataforma. Painéis personalizados para cada propriedade com sua própria marca.",
-      "cta": "Iniciar Teste Gratuito",
-      "demo": "Assistir Demo"
+  "navigation": {
+    "home": "Início",
+    "dashboard": "Painel",
+    "properties": "Propriedades",
+    "tenants": "Inquilinos",
+    "payments": "Pagamentos",
+    "maintenance": "Manutenção",
+    "reports": "Relatórios",
+    "settings": "Configurações",
+    "features": "Recursos",
+    "pricing": "Preços",
+    "about": "Sobre",
+    "contact": "Contato",
+    "signin": "Entrar",
+    "signup": "Cadastrar",
+    "getStarted": "Começar"
+  },
+  "hero": {
+    "announcement": "🚀 Agora com Integração Stripe Connect",
+    "title": "Gestão Imobiliária",
+    "subtitle": "Simplificada",
+    "description": "Gerencie suas propriedades, colete aluguéis e se comunique com inquilinos em uma plataforma. Painéis personalizados para cada propriedade com sua própria marca.",
+    "startTrial": "Iniciar Teste Gratuito",
+    "watchDemo": "Assistir Demo",
+    "trustText": "Plano gratuito disponível • Sem cartão de crédito • Taxa de processamento de 2%"
+  },
+  "features": {
+    "title": "Tudo que Você Precisa",
+    "subtitle": "Ferramentas abrangentes de gestão imobiliária projetadas para proprietários e gestores imobiliários modernos.",
+    "propertyManagement": {
+      "title": "Gestão de Propriedades",
+      "description": "Gerencie múltiplas propriedades com marca personalizada e painéis"
+    },
+    "tenantManagement": {
+      "title": "Gestão de Inquilinos",
+      "description": "Convide e gerencie inquilinos com atribuições baseadas em unidades"
+    },
+    "rentCollection": {
+      "title": "Cobrança de Aluguel",
+      "description": "Cobrança automatizada de aluguel com taxa de processamento de 2%"
+    },
+    "securePayments": {
+      "title": "Pagamentos Seguros",
+      "description": "Processamento de pagamento seguro alimentado pelo Stripe"
+    },
+    "mobileFirst": {
+      "title": "Mobile First",
+      "description": "Design responsivo otimizado para todos os dispositivos"
+    },
+    "multiLanguage": {
+      "title": "Multi-idiomas",
+      "description": "Suporte para idiomas inglês e espanhol"
     }
   },
+  "pricing": {
+    "title": "Preços Simples e Transparentes",
+    "subtitle": "Escolha o plano que se adapta ao seu portfólio imobiliário. Todos os planos incluem nossa taxa de processamento de 2% nos pagamentos de aluguel.",
+    "mostPopular": "Mais Popular",
+    "free": {
+      "name": "Gratuito",
+      "price": "R$0",
+      "period": "/mês",
+      "description": "Perfeito para começar",
+      "features": [
+        "1 Propriedade",
+        "Até 5 Moradores",
+        "Painel Básico",
+        "Rastreamento de Aluguel",
+        "Suporte por Email"
+      ],
+      "cta": "Começar"
+    },
+    "premium": {
+      "name": "Premium",
+      "price": "R$249,99",
+      "period": "/mês",
+      "description": "Para portfólios imobiliários em crescimento",
+      "features": [
+        "Até 5 Propriedades",
+        "Até 100 Moradores",
+        "Marca Personalizada",
+        "Análises Avançadas",
+        "Suporte Prioritário",
+        "Sem Anúncios",
+        "Rastreamento de Manutenção",
+        "Armazenamento de Documentos"
+      ],
+      "cta": "Iniciar Teste Gratuito"
+    },
+    "enterprise": {
+      "name": "Empresarial",
+      "price": "R$2.499,99",
+      "period": "/mês",
+      "description": "Para grandes empresas de gestão imobiliária",
+      "features": [
+        "Propriedades Ilimitadas",
+        "Moradores Ilimitados",
+        "Marca Branca",
+        "Acesso à API",
+        "Suporte Dedicado",
+        "Integrações Personalizadas",
+        "Relatórios Avançados"
+      ],
+      "cta": "Contatar Vendas"
+    }
+  },
+  "auth": {
+    "signin": {
+      "title": "Entre na sua conta",
+      "subtitle": "Bem-vindo de volta",
+      "description": "Digite suas credenciais para acessar seu painel",
+      "email": "Email",
+      "password": "Senha",
+      "forgotPassword": "Esqueceu a senha?",
+      "signInButton": "Entrar",
+      "noAccount": "Não tem uma conta?",
+      "signUpLink": "Cadastrar",
+      "demoAccounts": "Contas Demo"
+    },
+    "signup": {
+      "title": "Crie sua conta",
+      "subtitle": "Inicie seu teste gratuito",
+      "description": "Nenhum cartão de crédito necessário",
+      "firstName": "Nome",
+      "lastName": "Sobrenome",
+      "email": "Email",
+      "password": "Senha",
+      "confirmPassword": "Confirmar Senha",
+      "agreeTerms": "Concordo com os termos de serviço",
+      "signUpButton": "Criar Conta",
+      "hasAccount": "Já tem uma conta?",
+      "signInLink": "Entrar"
+    }
+  },
+  "dashboard": {
+    "welcome": "Bem-vindo",
+    "overview": "Visão Geral",
+    "properties": "Propriedades",
+    "tenants": "Inquilinos",
+    "revenue": "Receita",
+    "maintenance": "Manutenção",
+    "recentActivity": "Atividade Recente",
+    "quickActions": "Ações Rápidas",
+    "addProperty": "Adicionar Propriedade",
+    "inviteTenant": "Convidar Inquilino",
+    "collectRent": "Cobrar Aluguel",
+    "viewReports": "Ver Relatórios"
+  },
   "footer": {
-    "copyright": "© 2025 Rent Control. Todos os direitos reservados.",
-    "poweredBy": "Desenvolvido por Visnec"
+    "description": "A plataforma moderna de gestão imobiliária que simplifica a cobrança de aluguel, gestão de inquilinos e operações imobiliárias.",
+    "product": "Produto",
+    "features": "Recursos",
+    "pricing": "Preços",
+    "demo": "Demo",
+    "api": "API",
+    "support": "Suporte",
+    "helpCenter": "Central de Ajuda",
+    "contact": "Contato",
+    "privacy": "Privacidade",
+    "terms": "Termos",
+    "copyright": "© 2024 Rent Control. Todos os direitos reservados.",
+    "poweredBy": "Desenvolvido por",
+    "trustedBy": "Confiado por 10.000+ proprietários"
+  },
+  "cta": {
+    "title": "Pronto para simplificar sua gestão imobiliária?",
+    "subtitle": "Junte-se a milhares de proprietários que confiam no Rent Control para suas necessidades de gestão imobiliária.",
+    "startTrial": "Inicie seu teste gratuito",
+    "contactSales": "Contatar vendas"
   }
 }
 
