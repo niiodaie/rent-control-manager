@@ -33,15 +33,15 @@ const handleSubmit = async (e) => {
 
   setLoading(true);
 
-  try {
+try {
   const role = getSignupRole();
 
   const { user, error: signupError } = await signup(email, password, {
-  data: {
-    full_name: name,
-    role,
-  },
-});
+    data: {
+      full_name: name,
+      role,
+    },
+  });
 
   if (signupError) throw signupError;
 
@@ -52,7 +52,6 @@ const handleSubmit = async (e) => {
 } finally {
   setLoading(false);
 }
-
 
     if (signupError) throw signupError;
 
