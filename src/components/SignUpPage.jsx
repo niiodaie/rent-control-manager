@@ -31,7 +31,7 @@ const handleSubmit = async (e) => {
     return setError('You must agree to the Terms of Service and Privacy Policy');
   }
 
-  setLoading(true);
+setLoading(true);
 
 try {
   const role = getSignupRole();
@@ -53,16 +53,6 @@ try {
   setLoading(false);
 }
 
-    if (signupError) throw signupError;
-
-    navigate(role === 'tenant' ? '/tenant/dashboard' : '/manager/dashboard');
-  } catch (err) {
-    console.error(err);
-    setError('Failed to create an account. Please try again.');
-  } finally {
-    setLoading(false);
-  }
-};
 
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
