@@ -58,7 +58,7 @@
   --accent: oklch(0.97 0 0);
   --accent-foreground: oklch(0.205 0 0);
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
+  --border: transparent;
   --input: oklch(0.922 0 0);
   --ring: oklch(0.708 0 0);
   --chart-1: oklch(0.646 0.222 41.116);
@@ -72,7 +72,7 @@
   --sidebar-primary-foreground: oklch(0.985 0 0);
   --sidebar-accent: oklch(0.97 0 0);
   --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-border: transparent;
   --sidebar-ring: oklch(0.708 0 0);
 }
 
@@ -92,7 +92,7 @@
   --accent: oklch(0.269 0 0);
   --accent-foreground: oklch(0.985 0 0);
   --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
+  --border: transparent;
   --input: oklch(1 0 0 / 15%);
   --ring: oklch(0.556 0 0);
   --chart-1: oklch(0.488 0.243 264.376);
@@ -106,15 +106,38 @@
   --sidebar-primary-foreground: oklch(0.985 0 0);
   --sidebar-accent: oklch(0.269 0 0);
   --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-border: transparent;
   --sidebar-ring: oklch(0.556 0 0);
 }
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    @apply outline-ring/50;
   }
   body {
     @apply bg-background text-foreground;
   }
 }
+
+/* Targeted border removal for specific UI elements */
+@layer utilities {
+  .no-border {
+    border: none !important;
+  }
+  
+  /* Remove borders from common UI elements while preserving functionality */
+  .card, .pricing-card, .feature-card {
+    border: none !important;
+  }
+  
+  /* Remove borders from navigation and buttons */
+  nav, .nav-link, .btn, button {
+    border: none !important;
+  }
+  
+  /* Remove borders from sections and containers */
+  section, .section, .container {
+    border: none !important;
+  }
+}
+
