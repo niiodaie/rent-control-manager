@@ -1,78 +1,150 @@
-import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
-import LandingPage from './components/LandingPage';
-import LoginPage from './components/LoginPage';
-import SignUpPage from './components/SignUpPage';
-import Onboarding from './components/Onboarding';
-import Dashboard from './components/Dashboard';
-import ManagerDashboard from './components/ManagerDashboard';
-import TenantDashboard from './components/TenantDashboard';
-import About from './components/About';
-import PrivacyPolicy from './components/PrivacyPolicy';
-import Contact from './components/Contact';
-import TermsOfUse from './components/TermsOfUse';
-import HelpCenter from './components/HelpCenter';
+import { RoleProvider } from './contexts/RoleContext';
+import { useAuth } from './hooks/useAuth';
+import { useRole } from './hooks/useRole';
+
+// Pages
+import HomePage from './pages/index';
+import LoginPage from './pages/login';
+import SignupPage from './pages/signup';
+import InvitePage from './pages/invite';
+import ManagerDashboardPage from './pages/manager/dashboard';
+import PropertyDetailsPage from './pages/manager/property/[propertyId]';
+import TenantDashboardPage from './pages/tenant/dashboard';
+import TenantLeasePage from './pages/tenant/lease';
+
+// Components
 import NotFound from './components/NotFound';
-import TenantRouter from './components/TenantRouter';
-import Features from './components/Features';
-import PricingPlans from './components/PricingPlans';
-import usePageTracking from './hooks/usePageTracking';
-import './i18n';
+import Loader from './components/common/Loader';
 
-function App() {
-// usePageTracking(); // Track page views for Google Analytics
+// Protected Route Component
+const ProtectedRoute = ({ children, requiredRole = null }) => {
+  const { user, loading: authLoading } = useAuth();
+  const { currentRole, loading: roleLoading } = useRole();
 
-  const isTenantSubdomain = () => {
-  if (typeof window === 'undefined') return false;
+  if (authLoading || roleLoading) {
+    return <Loader />;
+  }
 
-  const host = window.location.hostname;
-  const parts = host.split('.');
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
 
-  // Example: tenant.example.com → parts.length = 3
-  return parts.length > 2 && !['www', 'app'].includes(parts[0]);
+  if (requiredRole && currentRole !== requiredRole) {
+    // Redirect based on user's actual role
+    if (currentRole === 'manager') {
+      return <Navigate to="/manager/dashboard" replace />;
+    } else if (currentRole === 'tenant') {
+      return <Navigate to="/tenant/dashboard" replace />;
+    } else {
+      return <Navigate to="/" replace />;
+    }
+  }
+
+  return children;
 };
 
+// Public Route Component (redirect if already logged in)
+const PublicRoute = ({ children }) => {
+  const { user, loading: authLoading } = useAuth();
+  const { currentRole, loading: roleLoading } = useRole();
 
-  useEffect(() => {
-  if (typeof window !== 'undefined') {
-    const theme = localStorage.getItem('theme') || 'light';
-    document.documentElement.classList.toggle('dark', theme === 'dark');
+  if (authLoading || roleLoading) {
+    return <Loader />;
   }
-}, []);
 
+  if (user && currentRole) {
+    // Redirect based on user's role
+    if (currentRole === 'manager') {
+      return <Navigate to="/manager/dashboard" replace />;
+    } else if (currentRole === 'tenant') {
+      return <Navigate to="/tenant/dashboard" replace />;
+    }
+  }
 
+  return children;
+};
+
+const AppRoutes = () => {
   return (
-    <AuthProvider>
-      <Router>
-        <div className="App">
-          {isTenantSubdomain() ? (
-            <TenantRouter />
-          ) : (
-            <Routes>
-              <Route path="/" element={<LandingPage />} />
-              <Route path="/login" element={<LoginPage />} />
-              <Route path="/signup" element={<SignUpPage />} />
-              <Route path="/onboarding" element={<Onboarding />} />
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/manager" element={<ManagerDashboard />} />
-              <Route path="/tenant" element={<TenantDashboard />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/privacy" element={<PrivacyPolicy />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="/terms" element={<TermsOfUse />} />
-              <Route path="/help" element={<HelpCenter />} />
-              <Route path="/features" element={<Features />} />
-              <Route path="/pricing" element={<PricingPlans />} />
-              <Route path="/demo" element={<LandingPage />} />
-              <Route path="/api" element={<HelpCenter />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          )}
-        </div>
-      </Router>
-    </AuthProvider>
+    <Routes>
+      {/* Public Routes */}
+      <Route path="/" element={<HomePage />} />
+      <Route 
+        path="/login" 
+        element={
+          <PublicRoute>
+            <LoginPage />
+          </PublicRoute>
+        } 
+      />
+      <Route 
+        path="/signup" 
+        element={
+          <PublicRoute>
+            <SignupPage />
+          </PublicRoute>
+        } 
+      />
+      <Route path="/invite/:token" element={<InvitePage />} />
+
+      {/* Manager Routes */}
+      <Route 
+        path="/manager/dashboard" 
+        element={
+          <ProtectedRoute requiredRole="manager">
+            <ManagerDashboardPage />
+          </ProtectedRoute>
+        } 
+      />
+      <Route 
+        path="/manager/property/:propertyId" 
+        element={
+          <ProtectedRoute requiredRole="manager">
+            <PropertyDetailsPage />
+          </ProtectedRoute>
+        } 
+      />
+
+      {/* Tenant Routes */}
+      <Route 
+        path="/tenant/dashboard" 
+        element={
+          <ProtectedRoute requiredRole="tenant">
+            <TenantDashboardPage />
+          </ProtectedRoute>
+        } 
+      />
+      <Route 
+        path="/tenant/lease" 
+        element={
+          <ProtectedRoute requiredRole="tenant">
+            <TenantLeasePage />
+          </ProtectedRoute>
+        } 
+      />
+
+      {/* Fallback Route */}
+      <Route path="*" element={<NotFound />} />
+    </Routes>
+  );
+};
+
+function App() {
+  return (
+    <Router>
+      <AuthProvider>
+        <RoleProvider>
+          <div className="min-h-screen bg-gray-50">
+            <AppRoutes />
+          </div>
+        </RoleProvider>
+      </AuthProvider>
+    </Router>
   );
 }
 
 export default App;
+
