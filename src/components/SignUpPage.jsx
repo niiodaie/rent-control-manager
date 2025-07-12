@@ -240,7 +240,6 @@ try {
       </div>
     </div>
   );
-};
 
 export default SignUpPage;
 
