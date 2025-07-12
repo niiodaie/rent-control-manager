@@ -23,10 +23,10 @@ const NotFound = () => {
           <h1 className="text-6xl font-bold text-blue-600">404</h1>
           <div className="mt-4 border-t-2 border-blue-600 w-16 mx-auto"></div>
           <h2 className="mt-6 text-3xl font-extrabold text-gray-900 dark:text-white">
-            {t('errors.404.title', 'Page Not Found')}
+            {t('errors.404.title')}
           </h2>
           <p className="mt-2 text-center text-md text-gray-600 dark:text-gray-400">
-            {t('errors.404.message', 'Sorry, the page you are looking for doesn\'t exist or has been moved.')}
+            {t('errors.404.message')}
           </p>
         </div>
       </div>
@@ -40,7 +40,7 @@ const NotFound = () => {
             <svg className="mr-2 -ml-1 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
             </svg>
-            {t('errors.404.button', 'Go Back Home')}
+            {t('errors.404.button')}
           </Link>
           
           <button
@@ -50,14 +50,14 @@ const NotFound = () => {
             <svg className="mr-2 -ml-1 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
             </svg>
-            {t('common.goBack', 'Go Back')}
+            {t('common.goBack')}
           </button>
         </div>
       </div>
 
       <div className="mt-8 text-center">
         <p className="text-sm text-gray-500 dark:text-gray-400">
-          {t('common.needHelp', 'Need help?')} <a href="/contact" className="font-medium text-blue-600 hover:text-blue-500 dark:text-blue-400">{t('footer.contact', 'Contact')}</a>
+          {t('common.needHelp')} <a href="/contact" className="font-medium text-blue-600 hover:text-blue-500 dark:text-blue-400">{t('footer.contact')}</a>
         </p>
       </div>
     </div>
