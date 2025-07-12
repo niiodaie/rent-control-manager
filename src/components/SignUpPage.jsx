@@ -45,7 +45,7 @@ try {
 
   if (signupError) throw signupError;
 
-  navigate(role === 'tenant' ? '/tenant/dashboard' : '/manager/dashboard');
+  navigate(role === 'tenant' ? '/tenant/dashboard' : '/manager/dashboard')
 } catch (err) {
   console.error(err);
   setError('Failed to create an account. Please try again.');
