@@ -1,0 +1,51 @@
+{
+  "nav": {
+    "home": "Startseite",
+    "features": "Funktionen",
+    "pricing": "Preise",
+    "about": "Über uns",
+    "contact": "Kontakt",
+    "faq": "FAQ",
+    "signIn": "Anmelden",
+    "getStarted": "Loslegen"
+  },
+  "hero": {
+    "title": "Globale Immobilienverwaltung Vereinfacht",
+    "subtitle": "Optimieren Sie Ihr Mietgeschäft weltweit mit unserer umfassenden Plattform. Verwalten Sie Immobilien, Mieter und Zahlungen in mehreren Ländern und Währungen.",
+    "startTrial": "Kostenlose Testversion Starten",
+    "watchDemo": "Demo Ansehen",
+    "noSetupFees": "Keine Einrichtungsgebühren",
+    "cancelAnytime": "Jederzeit kündbar",
+    "globalSupport": "24/7 globaler Support",
+    "trustedBy": "Vertraut von über 10.000 Immobilienverwaltern weltweit"
+  },
+  "dashboard": {
+    "title": "Immobilien-Dashboard",
+    "allSystemsActive": "Alle Systeme Aktiv",
+    "properties": "Immobilien",
+    "tenants": "Mieter",
+    "occupancy": "Belegung",
+    "liveUpdates": "Live-Updates",
+    "monthlyRevenue": "Monatliche Einnahmen"
+  },
+  "features": {
+    "title": "Alles was Sie für die Globale Immobilienverwaltung Benötigen",
+    "subtitle": "Unsere umfassende Plattform bietet alle Tools, die Sie benötigen, um Mietimmobilien weltweit effizient zu verwalten und außergewöhnliche Erfahrungen für Ihre Mieter zu schaffen."
+  },
+  "pricing": {
+    "title": "Einfache, Transparente Globale Preisgestaltung",
+    "subtitle": "Wählen Sie den perfekten Plan für Ihre Immobilienverwaltungsbedürfnisse. Alle Pläne beinhalten eine 14-tägige kostenlose Testversion ohne Kreditkarte.",
+    "monthly": "Monatlich",
+    "annual": "Jährlich"
+  },
+  "footer": {
+    "description": "Die globale Plattform für moderne Immobilienverwaltung. Optimieren Sie Ihr Mietgeschäft weltweit.",
+    "poweredBy": "Unterstützt von Visnec"
+  },
+  "common": {
+    "loading": "Laden...",
+    "error": "Fehler",
+    "success": "Erfolg"
+  }
+}
+

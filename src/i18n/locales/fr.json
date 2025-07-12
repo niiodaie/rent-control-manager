@@ -1,0 +1,51 @@
+{
+  "nav": {
+    "home": "Accueil",
+    "features": "Fonctionnalités",
+    "pricing": "Tarifs",
+    "about": "À propos",
+    "contact": "Contact",
+    "faq": "FAQ",
+    "signIn": "Se connecter",
+    "getStarted": "Commencer"
+  },
+  "hero": {
+    "title": "Gestion Immobilière Mondiale Simplifiée",
+    "subtitle": "Rationalisez votre activité locative dans le monde entier avec notre plateforme complète. Gérez les propriétés, les locataires et les paiements dans plusieurs pays et devises.",
+    "startTrial": "Commencer l'Essai Gratuit",
+    "watchDemo": "Voir la Démo",
+    "noSetupFees": "Pas de frais d'installation",
+    "cancelAnytime": "Annuler à tout moment",
+    "globalSupport": "Support mondial 24/7",
+    "trustedBy": "Approuvé par plus de 10 000 gestionnaires immobiliers dans le monde"
+  },
+  "dashboard": {
+    "title": "Tableau de Bord des Propriétés",
+    "allSystemsActive": "Tous les Systèmes Actifs",
+    "properties": "Propriétés",
+    "tenants": "Locataires",
+    "occupancy": "Occupation",
+    "liveUpdates": "Mises à Jour en Direct",
+    "monthlyRevenue": "Revenus Mensuels"
+  },
+  "features": {
+    "title": "Tout ce dont Vous Avez Besoin pour Gérer des Propriétés Mondialement",
+    "subtitle": "Notre plateforme complète fournit tous les outils dont vous avez besoin pour gérer efficacement les propriétés locatives dans le monde entier et créer des expériences exceptionnelles pour vos locataires."
+  },
+  "pricing": {
+    "title": "Tarification Mondiale Simple et Transparente",
+    "subtitle": "Choisissez le plan parfait pour vos besoins de gestion immobilière. Tous les plans incluent un essai gratuit de 14 jours sans carte de crédit requise.",
+    "monthly": "Mensuel",
+    "annual": "Annuel"
+  },
+  "footer": {
+    "description": "La plateforme mondiale pour la gestion immobilière moderne. Rationalisez votre activité locative dans le monde entier.",
+    "poweredBy": "Propulsé par Visnec"
+  },
+  "common": {
+    "loading": "Chargement...",
+    "error": "Erreur",
+    "success": "Succès"
+  }
+}
+
