@@ -61,21 +61,24 @@
     "subtitle": "Choose the perfect plan for your property management needs. All plans include a 14-day free trial with no credit card required.",
     "monthly": "Monthly",
     "annual": "Annual",
-    "starter": "Starter",
-    "starterDesc": "Perfect for individual property owners",
-    "professional": "Professional",
-    "professionalDesc": "Ideal for growing property portfolios",
-    "enterprise": "Enterprise",
-    "enterpriseDesc": "For large property management companies",
+    "save20": "Save 20%",
     "mostPopular": "Most Popular",
-    "startFreeTrial": "Start Free Trial",
-    "contactSales": "Contact Sales",
-    "customSolution": "Need a Custom Global Solution?",
-    "customSolutionDesc": "We offer custom enterprise solutions for large property management companies with specific requirements across multiple countries and jurisdictions.",
-    "contactEnterprise": "Contact Enterprise Sales",
-    "questions": "Have questions about our pricing?",
-    "contactUs": "Contact us",
-    "faqLink": "frequently asked questions"
+    "starter": {
+      "name": "Starter",
+      "description": "Perfect for individual property owners"
+    },
+    "professional": {
+      "name": "Professional", 
+      "description": "Ideal for growing property portfolios"
+    },
+    "premium": {
+      "name": "Premium",
+      "description": "For established property managers"
+    },
+    "enterprise": {
+      "name": "Enterprise",
+      "description": "For large property management companies"
+    }
   },
   "footer": {
     "description": "The global platform for modern property management. Streamline your rental business worldwide.",
