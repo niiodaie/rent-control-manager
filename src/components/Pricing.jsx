@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import { Button } from './ui/button';
 import { Check, Star } from 'lucide-react';
 
@@ -147,9 +148,18 @@ const pricingPlans = {
 
 export function Pricing() {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const [billingCycle, setBillingCycle] = useState('monthly');
 
   const plans = pricingPlans[billingCycle];
+
+  const handlePlanClick = (plan) => {
+    if (plan.cta === 'Contact Sales') {
+      navigate('/contact');
+    } else {
+      navigate('/signup');
+    }
+  };
 
   return (
     <section id="pricing" className="py-24 bg-muted/30">
@@ -236,6 +246,7 @@ export function Pricing() {
                 <Button 
                   className={`w-full mt-6 ${plan.popular ? '' : 'variant-outline'}`}
                   variant={plan.popular ? 'default' : 'outline'}
+                  onClick={() => handlePlanClick(plan)}
                 >
                   {plan.cta}
                 </Button>
@@ -262,7 +273,7 @@ export function Pricing() {
             <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
               {t('pricing.customSolutionDesc')}
             </p>
-            <Button size="lg">
+            <Button size="lg" onClick={() => navigate('/contact')}>
               {t('pricing.contactEnterprise')}
             </Button>
           </div>

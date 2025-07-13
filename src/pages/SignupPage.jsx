@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { Eye, EyeOff, Check } from 'lucide-react';
 import rcLogo from '../assets/RC-Logo.png';
 
 export function SignupPage() {
+  const { t } = useTranslation();
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     firstName: '',
@@ -40,9 +42,9 @@ export function SignupPage() {
               className="h-16 w-16 object-contain"
             />
           </div>
-          <h2 className="text-3xl font-bold">Create your account</h2>
+          <h2 className="text-3xl font-bold">{t('auth.createAccount')}</h2>
           <p className="mt-2 text-muted-foreground">
-            Start managing your properties today
+            {t('auth.signupDesc')}
           </p>
         </div>
 
@@ -50,27 +52,27 @@ export function SignupPage() {
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label htmlFor="firstName" className="block text-sm font-medium mb-2">
-                First name
+                {t('auth.firstName')}
               </label>
               <Input
                 id="firstName"
                 name="firstName"
                 value={formData.firstName}
                 onChange={handleChange}
-                placeholder="First name"
+                placeholder={t('auth.firstName')}
                 required
               />
             </div>
             <div>
               <label htmlFor="lastName" className="block text-sm font-medium mb-2">
-                Last name
+                {t('auth.lastName')}
               </label>
               <Input
                 id="lastName"
                 name="lastName"
                 value={formData.lastName}
                 onChange={handleChange}
-                placeholder="Last name"
+                placeholder={t('auth.lastName')}
                 required
               />
             </div>
@@ -78,7 +80,7 @@ export function SignupPage() {
 
           <div>
             <label htmlFor="email" className="block text-sm font-medium mb-2">
-              Email address
+              {t('auth.emailAddress')}
             </label>
             <Input
               id="email"
@@ -86,14 +88,14 @@ export function SignupPage() {
               type="email"
               value={formData.email}
               onChange={handleChange}
-              placeholder="Enter your email"
+              placeholder={t('auth.emailAddress')}
               required
             />
           </div>
 
           <div>
             <label htmlFor="password" className="block text-sm font-medium mb-2">
-              Password
+              {t('auth.password')}
             </label>
             <div className="relative">
               <Input
@@ -102,7 +104,7 @@ export function SignupPage() {
                 type={showPassword ? 'text' : 'password'}
                 value={formData.password}
                 onChange={handleChange}
-                placeholder="Create a password"
+                placeholder={t('auth.password')}
                 required
               />
               <button
@@ -117,7 +119,7 @@ export function SignupPage() {
 
           <div>
             <label htmlFor="confirmPassword" className="block text-sm font-medium mb-2">
-              Confirm password
+              {t('auth.confirmPassword')}
             </label>
             <Input
               id="confirmPassword"
@@ -125,7 +127,7 @@ export function SignupPage() {
               type="password"
               value={formData.confirmPassword}
               onChange={handleChange}
-              placeholder="Confirm your password"
+              placeholder={t('auth.confirmPassword')}
               required
             />
           </div>
@@ -141,41 +143,41 @@ export function SignupPage() {
               required
             />
             <label htmlFor="agreeToTerms" className="ml-2 block text-sm text-muted-foreground">
-              I agree to the{' '}
+              {t('auth.agreeTerms')}{' '}
               <a href="#" className="text-primary hover:text-primary/80 underline">
-                Terms of Service
+                {t('auth.termsOfService')}
               </a>
               {' '}and{' '}
               <a href="#" className="text-primary hover:text-primary/80 underline">
-                Privacy Policy
+                {t('auth.privacyPolicy')}
               </a>
             </label>
           </div>
 
           <Button type="submit" className="w-full">
-            Create account
+            {t('auth.createAccountBtn')}
           </Button>
         </form>
 
         <div className="bg-muted/50 rounded-lg p-4">
           <h3 className="font-medium mb-2 flex items-center">
             <Check className="h-4 w-4 text-green-500 mr-2" />
-            Free Starter Plan Includes:
+            {t('auth.freeStarterIncludes')}
           </h3>
           <ul className="text-sm text-muted-foreground space-y-1">
-            <li>• Manage up to 1 property</li>
-            <li>• Basic tenant management</li>
-            <li>• Online rent collection</li>
-            <li>• Email support</li>
-            <li>• No credit card required</li>
+            <li>• {t('auth.manageProperty')}</li>
+            <li>• {t('auth.basicTenant')}</li>
+            <li>• {t('auth.onlineRent')}</li>
+            <li>• {t('auth.emailSupport')}</li>
+            <li>• {t('auth.noCreditCard')}</li>
           </ul>
         </div>
 
         <div className="text-center">
           <p className="text-sm text-muted-foreground">
-            Already have an account?{' '}
+            {t('auth.haveAccount')}{' '}
             <a href="/login" className="font-medium text-primary hover:text-primary/80">
-              Sign in
+              {t('auth.signIn')}
             </a>
           </p>
         </div>

@@ -1,7 +1,9 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Building2, Mail, Phone, MapPin, Globe } from 'lucide-react';
 
 export function Footer() {
+  const { t } = useTranslation();
   return (
     <footer className="bg-gray-900 text-white">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16">
@@ -13,8 +15,7 @@ export function Footer() {
               <span className="text-xl font-bold">Rent Control</span>
             </div>
             <p className="text-gray-400 text-sm">
-              Global property management platform trusted by thousands of landlords 
-              and property managers worldwide.
+              {t('footer.description')}
             </p>
             <div className="flex space-x-4">
               <a href="#" className="text-gray-400 hover:text-white transition-colors">
@@ -37,7 +38,7 @@ export function Footer() {
 
           {/* Product */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold">Product</h3>
+            <h3 className="text-lg font-semibold">{t('footer.product')}</h3>
             <ul className="space-y-2 text-sm">
               <li><a href="#features" className="text-gray-400 hover:text-white transition-colors">Features</a></li>
               <li><a href="#pricing" className="text-gray-400 hover:text-white transition-colors">Pricing</a></li>
@@ -49,7 +50,7 @@ export function Footer() {
 
           {/* Support */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold">Support</h3>
+            <h3 className="text-lg font-semibold">{t('footer.support')}</h3>
             <ul className="space-y-2 text-sm">
               <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Help Center</a></li>
               <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Contact Support</a></li>
@@ -65,15 +66,15 @@ export function Footer() {
             <ul className="space-y-3 text-sm">
               <li className="flex items-center space-x-2">
                 <Mail className="h-4 w-4 text-gray-400" />
-                <span className="text-gray-400">support@rentcontrol.com</span>
+                <span className="text-gray-400">support@rentcontrol.net</span>
               </li>
               <li className="flex items-center space-x-2">
                 <Phone className="h-4 w-4 text-gray-400" />
-                <span className="text-gray-400">+1 (555) 123-4567</span>
+                <span className="text-gray-400">+1 (920) 123-4567</span>
               </li>
               <li className="flex items-center space-x-2">
                 <MapPin className="h-4 w-4 text-gray-400" />
-                <span className="text-gray-400">Global Headquarters</span>
+                <span className="text-gray-400">Appleton, WI — Global Headquarters</span>
               </li>
               <li className="flex items-center space-x-2">
                 <Globe className="h-4 w-4 text-gray-400" />
@@ -87,7 +88,7 @@ export function Footer() {
         <div className="border-t border-gray-800 mt-12 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-6 text-sm text-gray-400">
-              <span>© 2024 Rent Control. All rights reserved.</span>
+              <span>© 2024 Rent Control. {t('footer.allRightsReserved')}</span>
               <div className="flex space-x-4">
                 <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
                 <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
@@ -95,7 +96,7 @@ export function Footer() {
               </div>
             </div>
             <div className="flex items-center space-x-2 text-sm text-gray-400">
-              <span>Powered by</span>
+              <span>{t('footer.poweredBy')}</span>
               <a 
                 href="https://visnec.com" 
                 target="_blank" 

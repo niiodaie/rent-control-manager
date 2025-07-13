@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { Button } from './ui/button';
 import { Menu, X, Globe } from 'lucide-react';
 import { ThemeToggle } from './ThemeToggle';
@@ -9,6 +10,7 @@ import rcLogo from '../assets/RC-Logo.png';
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
+  const { t } = useTranslation();
 
   const scrollToSection = (sectionId) => {
     if (location.pathname !== '/') {
@@ -44,28 +46,28 @@ export function Header() {
               onClick={() => scrollToSection('home')}
               className="text-sm font-medium hover:text-primary transition-colors"
             >
-              Home
+              {t('nav.home')}
             </button>
             <button 
               onClick={() => scrollToSection('features')}
               className="text-sm font-medium hover:text-primary transition-colors"
             >
-              Features
+              {t('nav.features')}
             </button>
             <button 
               onClick={() => scrollToSection('pricing')}
               className="text-sm font-medium hover:text-primary transition-colors"
             >
-              Pricing
+              {t('nav.pricing')}
             </button>
             <Link to="/about" className="text-sm font-medium hover:text-primary transition-colors">
-              About
+              {t('nav.about')}
             </Link>
             <Link to="/contact" className="text-sm font-medium hover:text-primary transition-colors">
-              Contact
+              {t('nav.contact')}
             </Link>
             <Link to="/faq" className="text-sm font-medium hover:text-primary transition-colors">
-              FAQ
+              {t('nav.faq')}
             </Link>
           </nav>
 
@@ -75,12 +77,12 @@ export function Header() {
             <ThemeToggle />
             <Link to="/login">
               <Button variant="ghost" size="sm">
-                Sign In
+                {t('nav.signIn')}
               </Button>
             </Link>
             <Link to="/signup">
               <Button size="sm">
-                Get Started
+                {t('nav.getStarted')}
               </Button>
             </Link>
           </div>
@@ -106,28 +108,28 @@ export function Header() {
                 onClick={() => scrollToSection('home')}
                 className="block w-full text-left px-3 py-2 text-sm font-medium hover:text-primary transition-colors"
               >
-                Home
+                {t('nav.home')}
               </button>
               <button 
                 onClick={() => scrollToSection('features')}
                 className="block w-full text-left px-3 py-2 text-sm font-medium hover:text-primary transition-colors"
               >
-                Features
+                {t('nav.features')}
               </button>
               <button 
                 onClick={() => scrollToSection('pricing')}
                 className="block w-full text-left px-3 py-2 text-sm font-medium hover:text-primary transition-colors"
               >
-                Pricing
+                {t('nav.pricing')}
               </button>
               <Link to="/about" className="block px-3 py-2 text-sm font-medium hover:text-primary transition-colors">
-                About
+                {t('nav.about')}
               </Link>
               <Link to="/contact" className="block px-3 py-2 text-sm font-medium hover:text-primary transition-colors">
-                Contact
+                {t('nav.contact')}
               </Link>
               <Link to="/faq" className="block px-3 py-2 text-sm font-medium hover:text-primary transition-colors">
-                FAQ
+                {t('nav.faq')}
               </Link>
               <div className="flex items-center space-x-2 px-3 py-2">
                 <LanguageSelector />
@@ -135,12 +137,12 @@ export function Header() {
               <div className="px-3 py-2 space-y-2">
                 <Link to="/login">
                   <Button variant="ghost" size="sm" className="w-full">
-                    Sign In
+                    {t('nav.signIn')}
                   </Button>
                 </Link>
                 <Link to="/signup">
                   <Button size="sm" className="w-full">
-                    Get Started
+                    {t('nav.getStarted')}
                   </Button>
                 </Link>
               </div>
