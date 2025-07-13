@@ -1,0 +1,51 @@
+{
+  "nav": {
+    "home": "ホーム",
+    "features": "機能",
+    "pricing": "料金",
+    "about": "会社概要",
+    "contact": "お問い合わせ",
+    "faq": "よくある質問",
+    "signIn": "ログイン",
+    "getStarted": "始める"
+  },
+  "hero": {
+    "title": "グローバル不動産管理の簡素化",
+    "subtitle": "包括的なプラットフォームで世界中の賃貸事業を合理化。複数の国と通貨で物件、テナント、支払いを管理。",
+    "startTrial": "無料トライアル開始",
+    "watchDemo": "デモを見る",
+    "noSetupFees": "設定料金なし",
+    "cancelAnytime": "いつでもキャンセル可能",
+    "globalSupport": "24/7グローバルサポート",
+    "trustedBy": "世界中の10,000+の不動産管理者に信頼されています"
+  },
+  "dashboard": {
+    "title": "物件ダッシュボード",
+    "allSystemsActive": "全システム稼働中",
+    "properties": "物件",
+    "tenants": "テナント",
+    "occupancy": "入居率",
+    "liveUpdates": "リアルタイム更新",
+    "monthlyRevenue": "月間収益"
+  },
+  "features": {
+    "title": "グローバル不動産管理に必要なすべて",
+    "subtitle": "包括的なプラットフォームは、世界中で賃貸物件を効率的に管理し、テナントに優れた体験を提供するために必要なすべてのツールを提供します。"
+  },
+  "pricing": {
+    "title": "シンプルで透明なグローバル料金",
+    "subtitle": "不動産管理ニーズに最適なプランを選択してください。すべてのプランにクレジットカード不要の14日間無料トライアルが含まれています。",
+    "monthly": "月額",
+    "annual": "年額"
+  },
+  "footer": {
+    "description": "現代の不動産管理のためのグローバルプラットフォーム。世界中で賃貸事業を合理化。",
+    "poweredBy": "Visnecによって提供"
+  },
+  "common": {
+    "loading": "読み込み中...",
+    "error": "エラー",
+    "success": "成功"
+  }
+}
+

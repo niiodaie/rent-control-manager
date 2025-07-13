@@ -1,0 +1,51 @@
+{
+  "nav": {
+    "home": "首页",
+    "features": "功能",
+    "pricing": "价格",
+    "about": "关于",
+    "contact": "联系",
+    "faq": "常见问题",
+    "signIn": "登录",
+    "getStarted": "开始使用"
+  },
+  "hero": {
+    "title": "全球房产管理简化",
+    "subtitle": "通过我们的综合平台在全球范围内简化您的租赁业务。管理多个国家和货币的房产、租户和付款。",
+    "startTrial": "开始免费试用",
+    "watchDemo": "观看演示",
+    "noSetupFees": "无设置费用",
+    "cancelAnytime": "随时取消",
+    "globalSupport": "24/7全球支持",
+    "trustedBy": "受到全球10,000+房产管理者信赖"
+  },
+  "dashboard": {
+    "title": "房产仪表板",
+    "allSystemsActive": "所有系统正常",
+    "properties": "房产",
+    "tenants": "租户",
+    "occupancy": "入住率",
+    "liveUpdates": "实时更新",
+    "monthlyRevenue": "月收入"
+  },
+  "features": {
+    "title": "全球房产管理所需的一切",
+    "subtitle": "我们的综合平台提供您在全球范围内高效管理租赁房产所需的所有工具，为您的租户创造卓越体验。"
+  },
+  "pricing": {
+    "title": "简单透明的全球定价",
+    "subtitle": "为您的房产管理需求选择完美的计划。所有计划都包含14天免费试用，无需信用卡。",
+    "monthly": "月付",
+    "annual": "年付"
+  },
+  "footer": {
+    "description": "现代房产管理的全球平台。在全球范围内简化您的租赁业务。",
+    "poweredBy": "由Visnec提供支持"
+  },
+  "common": {
+    "loading": "加载中...",
+    "error": "错误",
+    "success": "成功"
+  }
+}
+
