@@ -6,11 +6,13 @@ import { HomePage } from './pages/HomePage';
 import { AboutPage } from './pages/AboutPage';
 import { ContactPage } from './pages/ContactPage';
 import { FAQPage } from './pages/FAQPage';
+import { PricingPage } from './pages/PricingPage';
 import { LoginPage } from './pages/LoginPage';
 import { SignupPage } from './pages/SignupPage';
 import { PaymentProcessingPage } from './pages/PaymentProcessingPage';
 import { PaymentSuccessPage } from './pages/PaymentSuccessPage';
 import { TenantPortalPage } from './pages/TenantPortalPage';
+import { TenantPortalScopedPage } from './pages/TenantPortalScopedPage';
 import { BlogPage } from './pages/BlogPage';
 import { BlogPostPage } from './pages/BlogPostPage';
 import { AdminDashboard } from './pages/AdminDashboard';
@@ -29,9 +31,11 @@ function App() {
                 <Routes>
                   <Route path="/" element={<HomePage />} />
                   <Route path="/about" element={<AboutPage />} />
+                  <Route path="/pricing" element={<PricingPage />} />
                   <Route path="/contact" element={<ContactPage />} />
                   <Route path="/faq" element={<FAQPage />} />
                   <Route path="/tenant-portal" element={<TenantPortalPage />} />
+                  <Route path="/tenant/:landlordSlug/:propertySlug" element={<TenantPortalScopedPage />} />
                   <Route path="/blog" element={<BlogPage />} />
                   <Route path="/blog/:slug" element={<BlogPostPage />} />
                   <Route path="/payment-success" element={<PaymentSuccessPage />} />

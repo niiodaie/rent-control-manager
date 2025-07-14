@@ -66,15 +66,6 @@ export function Header() {
             <Link to="/blog" className="text-sm font-medium hover:text-primary transition-colors">
               Blog
             </Link>
-            <Link to="/tenant-portal" className="text-sm font-medium hover:text-primary transition-colors">
-              {t('nav.tenantPortal', 'Tenant Portal')}
-            </Link>
-            <Link to="/contact" className="text-sm font-medium hover:text-primary transition-colors">
-              {t('nav.contact')}
-            </Link>
-            <Link to="/faq" className="text-sm font-medium hover:text-primary transition-colors">
-              {t('nav.faq')}
-            </Link>
           </nav>
 
           {/* Right side controls */}
@@ -131,11 +122,8 @@ export function Header() {
               <Link to="/about" className="block px-3 py-2 text-sm font-medium hover:text-primary transition-colors">
                 {t('nav.about')}
               </Link>
-              <Link to="/contact" className="block px-3 py-2 text-sm font-medium hover:text-primary transition-colors">
-                {t('nav.contact')}
-              </Link>
-              <Link to="/faq" className="block px-3 py-2 text-sm font-medium hover:text-primary transition-colors">
-                {t('nav.faq')}
+              <Link to="/blog" className="block px-3 py-2 text-sm font-medium hover:text-primary transition-colors">
+                Blog
               </Link>
               <div className="flex items-center space-x-2 px-3 py-2">
                 <LanguageSelector />

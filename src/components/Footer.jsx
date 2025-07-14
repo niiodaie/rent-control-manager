@@ -62,8 +62,9 @@ export function Footer() {
           <div className="space-y-4">
             <h3 className="text-lg font-semibold">{t('footer.support')}</h3>
             <ul className="space-y-2 text-sm">
-              <li><a href="/faq" className="text-gray-400 hover:text-white transition-colors">Help Center</a></li>
-              <li><a href="/contact" className="text-gray-400 hover:text-white transition-colors">Contact Support</a></li>
+              <li><a href="/faq" className="text-gray-400 hover:text-white transition-colors">FAQ</a></li>
+              <li><a href="/contact" className="text-gray-400 hover:text-white transition-colors">Contact Us</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Help Center</a></li>
               <li><a href="#" className="text-gray-400 hover:text-white transition-colors">System Status</a></li>
               <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Training</a></li>
               <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Community</a></li>
