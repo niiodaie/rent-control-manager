@@ -13,7 +13,16 @@ import {
   Eye,
   Edit,
   Trash2,
-  RefreshCw
+  RefreshCw,
+  Calendar,
+  Globe,
+  Activity,
+  PieChart,
+  BarChart3,
+  UserCheck,
+  UserX,
+  Mail,
+  Phone
 } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card';
 import { Button } from '../components/ui/button';
@@ -33,6 +42,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '../components/ui/dropdown-menu';
+import SEOHead from '../components/SEOHead';
 
 export function AdminDashboard() {
   const [users, setUsers] = useState([]);
