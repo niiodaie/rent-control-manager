@@ -63,6 +63,12 @@ export function Header() {
             <Link to="/about" className="text-sm font-medium hover:text-primary transition-colors">
               {t('nav.about')}
             </Link>
+            <Link to="/blog" className="text-sm font-medium hover:text-primary transition-colors">
+              Blog
+            </Link>
+            <Link to="/tenant-portal" className="text-sm font-medium hover:text-primary transition-colors">
+              {t('nav.tenantPortal', 'Tenant Portal')}
+            </Link>
             <Link to="/contact" className="text-sm font-medium hover:text-primary transition-colors">
               {t('nav.contact')}
             </Link>
