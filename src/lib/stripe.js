@@ -11,7 +11,7 @@ export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localho
 // Stripe checkout session creation
 export const createCheckoutSession = async (paymentData) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/api/create-checkout-session`, {
+    const response = await fetch(`${API_BASE_URL}/api/create-subscription-session`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
