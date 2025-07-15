@@ -34,7 +34,7 @@ export const createCheckoutSession = async (paymentData) => {
 // Payment verification
 export const verifyPayment = async (sessionId) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/api/verify-payment?session_id=${sessionId}`);
+    const response = await fetch(`${API_BASE_URL}/api/session/${sessionId}`);
     
     if (!response.ok) {
       throw new Error('Failed to verify payment');
