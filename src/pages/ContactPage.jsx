@@ -46,7 +46,7 @@ export function ContactPage() {
                   <Mail className="h-6 w-6 text-primary mt-1" />
                   <div>
                     <h3 className="font-medium">Email Support</h3>
-                    <p className="text-muted-foreground">info@rent-control.net</p>
+                    <p className="text-muted-foreground">support@rentcontrol.net</p>
                     <p className="text-sm text-muted-foreground">We typically respond within 24 hours</p>
                   </div>
                 </div>

@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
@@ -7,7 +8,10 @@ import rcLogo from '../assets/RC-Logo.png';
 
 export function SignupPage() {
   const { t } = useTranslation();
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const [showPassword, setShowPassword] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState('starter');
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -17,10 +21,19 @@ export function SignupPage() {
     agreeToTerms: false
   });
 
+  useEffect(() => {
+    const plan = searchParams.get('plan');
+    if (plan) {
+      setSelectedPlan(plan);
+    }
+  }, [searchParams]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle signup
-    console.log('Signup attempt:', formData);
+    // Handle signup - for demo purposes, redirect to home
+    console.log('Signup attempt:', formData, 'Plan:', selectedPlan);
+    // In a real app, this would create the user account
+    navigate('/');
   };
 
   const handleChange = (e) => {
@@ -31,21 +44,37 @@ export function SignupPage() {
     });
   };
 
+  const planNames = {
+    starter: t('pricing.starter.name'),
+    professional: t('pricing.professional.name'),
+    premium: t('pricing.premium.name'),
+    enterprise: t('pricing.enterprise.name')
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-background py-12">
       <div className="w-full max-w-md space-y-8 px-4">
         <div className="text-center">
           <div className="flex justify-center mb-6">
-            <img 
-              src={rcLogo} 
-              alt="Rent Control Logo" 
-              className="h-16 w-16 object-contain"
-            />
+            <Link to="/">
+              <img 
+                src={rcLogo} 
+                alt="Rent Control Logo" 
+                className="h-16 w-16 object-contain"
+              />
+            </Link>
           </div>
           <h2 className="text-3xl font-bold">{t('auth.createAccount')}</h2>
           <p className="mt-2 text-muted-foreground">
-            {t('auth.signupDesc')}
+            {t('auth.startManaging')}
           </p>
+          {selectedPlan && selectedPlan !== 'starter' && (
+            <div className="mt-4 p-3 bg-primary/10 rounded-lg">
+              <p className="text-sm text-primary font-medium">
+                {t('auth.selectedPlan')}: {planNames[selectedPlan]}
+              </p>
+            </div>
+          )}
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -57,9 +86,10 @@ export function SignupPage() {
               <Input
                 id="firstName"
                 name="firstName"
+                type="text"
                 value={formData.firstName}
                 onChange={handleChange}
-                placeholder={t('auth.firstName')}
+                placeholder={t('auth.enterFirstName')}
                 required
               />
             </div>
@@ -70,9 +100,10 @@ export function SignupPage() {
               <Input
                 id="lastName"
                 name="lastName"
+                type="text"
                 value={formData.lastName}
                 onChange={handleChange}
-                placeholder={t('auth.lastName')}
+                placeholder={t('auth.enterLastName')}
                 required
               />
             </div>
@@ -88,7 +119,7 @@ export function SignupPage() {
               type="email"
               value={formData.email}
               onChange={handleChange}
-              placeholder={t('auth.emailAddress')}
+              placeholder={t('auth.enterEmail')}
               required
             />
           </div>
@@ -104,7 +135,7 @@ export function SignupPage() {
                 type={showPassword ? 'text' : 'password'}
                 value={formData.password}
                 onChange={handleChange}
-                placeholder={t('auth.password')}
+                placeholder={t('auth.enterPassword')}
                 required
               />
               <button
@@ -132,55 +163,56 @@ export function SignupPage() {
             />
           </div>
 
-          <div className="flex items-center">
+          <div className="flex items-start">
             <input
               id="agreeToTerms"
               name="agreeToTerms"
               type="checkbox"
               checked={formData.agreeToTerms}
               onChange={handleChange}
-              className="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
+              className="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded mt-1"
               required
             />
             <label htmlFor="agreeToTerms" className="ml-2 block text-sm text-muted-foreground">
-              {t('auth.agreeTerms')}{' '}
+              {t('auth.agreeToTerms')}{' '}
               <a href="#" className="text-primary hover:text-primary/80 underline">
                 {t('auth.termsOfService')}
               </a>
-              {' '}and{' '}
+              {' '}{t('auth.and')}{' '}
               <a href="#" className="text-primary hover:text-primary/80 underline">
                 {t('auth.privacyPolicy')}
               </a>
             </label>
           </div>
 
-          <Button type="submit" className="w-full">
-            {t('auth.createAccountBtn')}
+          <Button type="submit" className="w-full" disabled={!formData.agreeToTerms}>
+            {selectedPlan === 'starter' ? t('auth.createFreeAccount') : t('auth.startFreeTrial')}
           </Button>
         </form>
 
-        <div className="bg-muted/50 rounded-lg p-4">
-          <h3 className="font-medium mb-2 flex items-center">
-            <Check className="h-4 w-4 text-green-500 mr-2" />
-            {t('auth.freeStarterIncludes')}
-          </h3>
-          <ul className="text-sm text-muted-foreground space-y-1">
-            <li>• {t('auth.manageProperty')}</li>
-            <li>• {t('auth.basicTenant')}</li>
-            <li>• {t('auth.onlineRent')}</li>
-            <li>• {t('auth.emailSupport')}</li>
-            <li>• {t('auth.noCreditCard')}</li>
-          </ul>
+        <div className="text-center">
+          <p className="text-sm text-muted-foreground">
+            {t('auth.alreadyHaveAccount')}{' '}
+            <Link to="/login" className="font-medium text-primary hover:text-primary/80">
+              {t('auth.signIn')}
+            </Link>
+          </p>
         </div>
 
         <div className="text-center">
-          <p className="text-sm text-muted-foreground">
-            {t('auth.haveAccount')}{' '}
-            <a href="/login" className="font-medium text-primary hover:text-primary/80">
-              {t('auth.signIn')}
-            </a>
-          </p>
+          <Link to="/" className="text-sm text-primary hover:text-primary/80">
+            ← {t('nav.home')}
+          </Link>
         </div>
+
+        {selectedPlan === 'starter' && (
+          <div className="text-center p-4 bg-green-50 dark:bg-green-900/20 rounded-lg">
+            <div className="flex items-center justify-center gap-2 text-green-600 dark:text-green-400">
+              <Check className="h-4 w-4" />
+              <span className="text-sm font-medium">{t('auth.freeForever')}</span>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -1,19 +1,25 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
 import { X, Play } from 'lucide-react';
 import { Button } from './ui/button';
 import demoVideo from '../assets/demo-complete.mp4';
 
 export function VideoModal({ isOpen, onClose }) {
   const { t } = useTranslation();
-  const navigate = useNavigate();
   const [isPlaying, setIsPlaying] = useState(false);
 
   if (!isOpen) return null;
 
   const handleVideoClick = () => {
     setIsPlaying(true);
+  };
+
+  const handleStartTrial = () => {
+    window.location.href = '/signup';
+  };
+
+  const handleScheduleDemo = () => {
+    window.location.href = '/contact?inquiry=demo';
   };
 
   return (
@@ -40,10 +46,10 @@ export function VideoModal({ isOpen, onClose }) {
                     <Play className="h-8 w-8 text-white ml-1" />
                   </div>
                   <h3 className="text-white text-xl font-semibold mb-2">
-                    {t('hero.watchDemo')}
+                    {t('video.watchDemo')}
                   </h3>
                   <p className="text-white/80 text-sm">
-                    See how our platform simplifies property management
+                    {t('video.demoDescription')}
                   </p>
                 </div>
               </div>
@@ -56,7 +62,7 @@ export function VideoModal({ isOpen, onClose }) {
                 onEnded={() => setIsPlaying(false)}
               >
                 <source src={demoVideo} type="video/mp4" />
-                Your browser does not support the video tag.
+                {t('video.browserNotSupported')}
               </video>
             )}
           </div>
@@ -64,25 +70,11 @@ export function VideoModal({ isOpen, onClose }) {
 
         {/* Call to action */}
         <div className="mt-6 text-center">
-          <Button 
-            size="lg" 
-            className="mr-4"
-            onClick={() => {
-              onClose();
-              navigate('/signup');
-            }}
-          >
+          <Button size="lg" className="mr-4" onClick={handleStartTrial}>
             {t('hero.startTrial')}
           </Button>
-          <Button 
-            variant="outline" 
-            size="lg"
-            onClick={() => {
-              onClose();
-              navigate('/contact');
-            }}
-          >
-            Schedule Demo
+          <Button variant="outline" size="lg" onClick={handleScheduleDemo}>
+            {t('video.scheduleDemo')}
           </Button>
         </div>
       </div>

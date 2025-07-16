@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
@@ -7,6 +8,7 @@ import rcLogo from '../assets/RC-Logo.png';
 
 export function LoginPage() {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     email: '',
@@ -15,8 +17,10 @@ export function LoginPage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle login
+    // Handle login - for demo purposes, redirect to home
     console.log('Login attempt:', formData);
+    // In a real app, this would authenticate the user
+    navigate('/');
   };
 
   const handleChange = (e) => {
@@ -31,15 +35,17 @@ export function LoginPage() {
       <div className="w-full max-w-md space-y-8 px-4">
         <div className="text-center">
           <div className="flex justify-center mb-6">
-            <img 
-              src={rcLogo} 
-              alt="Rent Control Logo" 
-              className="h-16 w-16 object-contain"
-            />
+            <Link to="/">
+              <img 
+                src={rcLogo} 
+                alt="Rent Control Logo" 
+                className="h-16 w-16 object-contain"
+              />
+            </Link>
           </div>
           <h2 className="text-3xl font-bold">{t('auth.welcomeBack')}</h2>
           <p className="mt-2 text-muted-foreground">
-            {t('auth.signInDesc')}
+            {t('auth.signInToAccount')}
           </p>
         </div>
 
@@ -54,7 +60,7 @@ export function LoginPage() {
               type="email"
               value={formData.email}
               onChange={handleChange}
-              placeholder={t('auth.emailAddress')}
+              placeholder={t('auth.enterEmail')}
               required
             />
           </div>
@@ -70,7 +76,7 @@ export function LoginPage() {
                 type={showPassword ? 'text' : 'password'}
                 value={formData.password}
                 onChange={handleChange}
-                placeholder={t('auth.password')}
+                placeholder={t('auth.enterPassword')}
                 required
               />
               <button
@@ -111,17 +117,23 @@ export function LoginPage() {
         <div className="text-center">
           <p className="text-sm text-muted-foreground">
             {t('auth.noAccount')}{' '}
-            <a href="/signup" className="font-medium text-primary hover:text-primary/80">
+            <Link to="/signup" className="font-medium text-primary hover:text-primary/80">
               {t('auth.signUpFree')}
-            </a>
+            </Link>
           </p>
+        </div>
+
+        <div className="text-center">
+          <Link to="/" className="text-sm text-primary hover:text-primary/80">
+            ← {t('nav.home')}
+          </Link>
         </div>
 
         <div className="text-center text-xs text-muted-foreground">
           <p>
-            {t('auth.agreeTerms')}{' '}
+            {t('auth.bySigningIn')}{' '}
             <a href="#" className="underline hover:text-foreground">{t('auth.termsOfService')}</a>
-            {' '}and{' '}
+            {' '}{t('auth.and')}{' '}
             <a href="#" className="underline hover:text-foreground">{t('auth.privacyPolicy')}</a>
           </p>
         </div>
