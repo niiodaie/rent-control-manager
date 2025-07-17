@@ -168,5 +168,3 @@ export function ContactPage() {
   );
 }
 
-
-export default ContactPage;

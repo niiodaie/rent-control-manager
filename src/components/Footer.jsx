@@ -1,28 +1,20 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
 import { Building2, Mail, Phone, MapPin, Globe } from 'lucide-react';
-import rcLogo from '../assets/RC-Logo.png';
 
 export function Footer() {
-  const { t } = useTranslation();
-
   return (
     <footer className="bg-gray-900 text-white">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Company Info */}
           <div className="space-y-4">
-            <Link to="/" className="flex items-center space-x-2">
-              <img 
-                src={rcLogo} 
-                alt="Rent Control Logo" 
-                className="h-8 w-8 object-contain"
-              />
+            <div className="flex items-center space-x-2">
+              <Building2 className="h-8 w-8 text-blue-400" />
               <span className="text-xl font-bold">Rent Control</span>
-            </Link>
+            </div>
             <p className="text-gray-400 text-sm">
-              {t('footer.description')}
+              Global property management platform trusted by thousands of landlords 
+              and property managers worldwide.
             </p>
             <div className="flex space-x-4">
               <a href="#" className="text-gray-400 hover:text-white transition-colors">
@@ -45,63 +37,49 @@ export function Footer() {
 
           {/* Product */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold">{t('footer.product')}</h3>
+            <h3 className="text-lg font-semibold">Product</h3>
             <ul className="space-y-2 text-sm">
-              <li><a href="#features" className="text-gray-400 hover:text-white transition-colors">{t('nav.features')}</a></li>
-              <li><a href="#pricing" className="text-gray-400 hover:text-white transition-colors">{t('nav.pricing')}</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">{t('footer.apiDocs')}</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">{t('footer.integrations')}</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">{t('footer.mobileApps')}</a></li>
+              <li><a href="#features" className="text-gray-400 hover:text-white transition-colors">Features</a></li>
+              <li><a href="#pricing" className="text-gray-400 hover:text-white transition-colors">Pricing</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">API Documentation</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Integrations</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Mobile Apps</a></li>
             </ul>
           </div>
 
           {/* Support */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold">{t('footer.support')}</h3>
+            <h3 className="text-lg font-semibold">Support</h3>
             <ul className="space-y-2 text-sm">
-              <li><Link to="/faq" className="text-gray-400 hover:text-white transition-colors">{t('footer.helpCenter')}</Link></li>
-              <li><Link to="/contact" className="text-gray-400 hover:text-white transition-colors">{t('footer.contactSupport')}</Link></li>
-              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">{t('footer.systemStatus')}</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">{t('footer.training')}</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">{t('footer.community')}</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Help Center</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Contact Support</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">System Status</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Training</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Community</a></li>
             </ul>
           </div>
 
           {/* Contact */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold">{t('nav.contact')}</h3>
+            <h3 className="text-lg font-semibold">Contact</h3>
             <ul className="space-y-3 text-sm">
               <li className="flex items-center space-x-2">
                 <Mail className="h-4 w-4 text-gray-400" />
-                <a href="mailto:info@rent-control.net" className="text-gray-400 hover:text-white transition-colors">
-                  info@rent-control.net
-                </a>
+                <span className="text-gray-400">support@rentcontrol.com</span>
               </li>
               <li className="flex items-center space-x-2">
                 <Phone className="h-4 w-4 text-gray-400" />
-                <a href="tel:+19208081188" className="text-gray-400 hover:text-white transition-colors">
-                  +1 (920) 808-1188
-                </a>
+                <span className="text-gray-400">+1 (555) 123-4567</span>
               </li>
               <li className="flex items-center space-x-2">
                 <MapPin className="h-4 w-4 text-gray-400" />
-                <span className="text-gray-400">Appleton, WI — Global Headquarters</span>
+                <span className="text-gray-400">Global Headquarters</span>
               </li>
               <li className="flex items-center space-x-2">
                 <Globe className="h-4 w-4 text-gray-400" />
-                <span className="text-gray-400">{t('footer.availableWorldwide')}</span>
+                <span className="text-gray-400">Available Worldwide</span>
               </li>
             </ul>
-            <div className="text-xs text-gray-500 mt-4">
-              <p>{t('contact.mondayFriday')}</p>
-              <p>{t('contact.emergency')}</p>
-              <p className="mt-2 text-blue-400">
-                Have feedback? Email{' '}
-                <a href="mailto:info@rent-control.net" className="hover:text-blue-300 transition-colors">
-                  info@rent-control.net
-                </a>
-              </p>
-            </div>
           </div>
         </div>
 
@@ -109,15 +87,15 @@ export function Footer() {
         <div className="border-t border-gray-800 mt-12 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-6 text-sm text-gray-400">
-              <span>{t('footer.copyright')}</span>
+              <span>© 2024 Rent Control. All rights reserved.</span>
               <div className="flex space-x-4">
-                <a href="#" className="hover:text-white transition-colors">{t('auth.privacyPolicy')}</a>
-                <a href="#" className="hover:text-white transition-colors">{t('auth.termsOfService')}</a>
-                <a href="#" className="hover:text-white transition-colors">{t('footer.cookiePolicy')}</a>
+                <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
+                <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
+                <a href="#" className="hover:text-white transition-colors">Cookie Policy</a>
               </div>
             </div>
             <div className="flex items-center space-x-2 text-sm text-gray-400">
-              <span>{t('footer.poweredBy')}</span>
+              <span>Powered by</span>
               <a 
                 href="https://visnec.com" 
                 target="_blank" 

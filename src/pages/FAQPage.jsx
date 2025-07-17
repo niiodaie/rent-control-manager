@@ -118,5 +118,3 @@ export function FAQPage() {
   );
 }
 
-
-export default FAQPage;

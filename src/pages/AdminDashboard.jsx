@@ -1,392 +1,294 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react'
+import { useAuth } from '../contexts/AuthContext'
+import { Button } from '../components/ui/button'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card'
+import { Badge } from '../components/ui/badge'
 import { 
+  Building2, 
   Users, 
   DollarSign, 
   TrendingUp, 
-  Building, 
-  CreditCard,
-  AlertCircle,
+  Settings, 
+  LogOut,
+  Plus,
   Search,
-  Filter,
-  Download,
-  MoreHorizontal,
-  Eye,
-  Edit,
-  Trash2,
-  RefreshCw,
-  Calendar,
-  Globe,
-  Activity,
-  PieChart,
-  BarChart3,
-  UserCheck,
-  UserX,
-  Mail,
-  Phone
-} from 'lucide-react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card';
-import { Button } from '../components/ui/button';
-import { Input } from '../components/ui/input';
-import { Badge } from '../components/ui/badge';
-import { 
-  Table, 
-  TableBody, 
-  TableCell, 
-  TableHead, 
-  TableHeader, 
-  TableRow 
-} from '../components/ui/table';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '../components/ui/dropdown-menu';
-import SEOHead from '../components/SEOHead';
+  Filter
+} from 'lucide-react'
 
 export function AdminDashboard() {
-  const [users, setUsers] = useState([]);
-  const [subscriptions, setSubscriptions] = useState([]);
-  const [analytics, setAnalytics] = useState({});
-  const [loading, setLoading] = useState(true);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [filterStatus, setFilterStatus] = useState('all');
+  const { user, signOut } = useAuth()
+  const [activeTab, setActiveTab] = useState('overview')
 
-  useEffect(() => {
-    fetchDashboardData();
-  }, []);
-
-  const fetchDashboardData = async () => {
-    try {
-      setLoading(true);
-      
-      // In production, these would be real API calls
-      const mockAnalytics = {
-        totalUsers: 1247,
-        activeSubscriptions: 892,
-        monthlyRevenue: 44650,
-        totalProperties: 3421,
-        growthRate: 12.5,
-        churnRate: 2.1
-      };
-
-      const mockUsers = [
-        {
-          id: '1',
-          name: 'John Smith',
-          email: 'john@example.com',
-          plan: 'Professional',
-          status: 'active',
-          properties: 5,
-          joinDate: '2024-01-15',
-          lastActive: '2024-01-20',
-          revenue: 599.88
-        },
-        {
-          id: '2',
-          name: 'Sarah Johnson',
-          email: 'sarah@example.com',
-          plan: 'Premium',
-          status: 'active',
-          properties: 12,
-          joinDate: '2024-01-10',
-          lastActive: '2024-01-19',
-          revenue: 1199.88
-        },
-        {
-          id: '3',
-          name: 'Mike Wilson',
-          email: 'mike@example.com',
-          plan: 'Starter',
-          status: 'trial',
-          properties: 1,
-          joinDate: '2024-01-18',
-          lastActive: '2024-01-20',
-          revenue: 0
-        },
-        {
-          id: '4',
-          name: 'Emily Davis',
-          email: 'emily@example.com',
-          plan: 'Professional',
-          status: 'cancelled',
-          properties: 3,
-          joinDate: '2023-12-01',
-          lastActive: '2024-01-15',
-          revenue: 299.94
-        }
-      ];
-
-      const mockSubscriptions = [
-        {
-          id: 'sub_1',
-          userId: '1',
-          plan: 'Professional',
-          status: 'active',
-          amount: 49.99,
-          interval: 'monthly',
-          currentPeriodEnd: '2024-02-15',
-          trialEnd: null
-        },
-        {
-          id: 'sub_2',
-          userId: '2',
-          plan: 'Premium',
-          status: 'active',
-          amount: 99.99,
-          interval: 'monthly',
-          currentPeriodEnd: '2024-02-10',
-          trialEnd: null
-        },
-        {
-          id: 'sub_3',
-          userId: '3',
-          plan: 'Professional',
-          status: 'trialing',
-          amount: 49.99,
-          interval: 'monthly',
-          currentPeriodEnd: '2024-02-01',
-          trialEnd: '2024-02-01'
-        }
-      ];
-
-      setAnalytics(mockAnalytics);
-      setUsers(mockUsers);
-      setSubscriptions(mockSubscriptions);
-      
-    } catch (error) {
-      console.error('Error fetching dashboard data:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleUserAction = async (action, userId) => {
-    console.log(`${action} user:`, userId);
-    // In production, implement actual user management actions
-  };
-
-  const handleRefund = async (subscriptionId) => {
-    console.log('Processing refund for subscription:', subscriptionId);
-    // In production, implement refund processing
-  };
-
-  const filteredUsers = users.filter(user => {
-    const matchesSearch = user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         user.email.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesFilter = filterStatus === 'all' || user.status === filterStatus;
-    return matchesSearch && matchesFilter;
-  });
-
-  const getStatusBadge = (status) => {
-    const variants = {
-      active: 'bg-green-100 text-green-800',
-      trial: 'bg-blue-100 text-blue-800',
-      cancelled: 'bg-red-100 text-red-800',
-      trialing: 'bg-yellow-100 text-yellow-800'
-    };
-    
-    return (
-      <Badge className={variants[status] || 'bg-gray-100 text-gray-800'}>
-        {status}
-      </Badge>
-    );
-  };
-
-  if (loading) {
-    return (
-      <div className="min-h-screen pt-16 flex items-center justify-center">
-        <div className="text-center">
-          <RefreshCw className="w-8 h-8 animate-spin mx-auto mb-4" />
-          <p>Loading dashboard...</p>
-        </div>
-      </div>
-    );
+  const handleSignOut = async () => {
+    await signOut()
   }
 
+  const stats = [
+    {
+      title: 'Total Properties',
+      value: '12',
+      change: '+2 this month',
+      icon: Building2,
+      color: 'text-blue-600'
+    },
+    {
+      title: 'Active Tenants',
+      value: '34',
+      change: '+5 this month',
+      icon: Users,
+      color: 'text-green-600'
+    },
+    {
+      title: 'Monthly Revenue',
+      value: '$24,500',
+      change: '+12% from last month',
+      icon: DollarSign,
+      color: 'text-yellow-600'
+    },
+    {
+      title: 'Occupancy Rate',
+      value: '94%',
+      change: '+3% from last month',
+      icon: TrendingUp,
+      color: 'text-purple-600'
+    }
+  ]
+
+  const recentProperties = [
+    { id: 1, name: 'Sunset Apartments', units: 24, occupied: 22, revenue: '$8,400' },
+    { id: 2, name: 'Downtown Lofts', units: 16, occupied: 15, revenue: '$6,750' },
+    { id: 3, name: 'Garden View Complex', units: 32, occupied: 30, revenue: '$9,350' }
+  ]
+
+  const recentTenants = [
+    { id: 1, name: 'John Smith', property: 'Sunset Apartments', unit: 'A-101', status: 'Active' },
+    { id: 2, name: 'Sarah Johnson', property: 'Downtown Lofts', unit: 'B-205', status: 'Active' },
+    { id: 3, name: 'Mike Wilson', property: 'Garden View Complex', unit: 'C-301', status: 'Pending' }
+  ]
+
   return (
-    <div className="min-h-screen pt-16 bg-gray-50">
-      <div className="container mx-auto px-4 py-8">
-        {/* Header */}
-        <div className="flex justify-between items-center mb-8">
-          <div>
-            <h1 className="text-3xl font-bold">Admin Dashboard</h1>
-            <p className="text-muted-foreground">
-              Manage users, subscriptions, and platform analytics
-            </p>
+    <div className="min-h-screen bg-background">
+      {/* Header */}
+      <header className="border-b bg-card">
+        <div className="flex h-16 items-center px-6">
+          <div className="flex items-center space-x-4">
+            <Building2 className="h-8 w-8 text-primary" />
+            <h1 className="text-xl font-semibold">Rent Control Admin</h1>
           </div>
-          <div className="flex space-x-2">
-            <Button variant="outline" onClick={fetchDashboardData}>
-              <RefreshCw className="w-4 h-4 mr-2" />
-              Refresh
-            </Button>
-            <Button>
-              <Download className="w-4 h-4 mr-2" />
-              Export Data
+          
+          <div className="ml-auto flex items-center space-x-4">
+            <span className="text-sm text-muted-foreground">
+              Welcome, {user?.email}
+            </span>
+            <Button variant="ghost" size="sm" onClick={handleSignOut}>
+              <LogOut className="h-4 w-4 mr-2" />
+              Sign Out
             </Button>
           </div>
         </div>
+      </header>
 
-        {/* Analytics Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Users</CardTitle>
-              <Users className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{analytics.totalUsers?.toLocaleString()}</div>
-              <p className="text-xs text-muted-foreground">
-                +{analytics.growthRate}% from last month
-              </p>
-            </CardContent>
-          </Card>
+      <div className="flex">
+        {/* Sidebar */}
+        <aside className="w-64 border-r bg-card min-h-[calc(100vh-4rem)]">
+          <nav className="p-4 space-y-2">
+            <Button
+              variant={activeTab === 'overview' ? 'default' : 'ghost'}
+              className="w-full justify-start"
+              onClick={() => setActiveTab('overview')}
+            >
+              <TrendingUp className="h-4 w-4 mr-2" />
+              Overview
+            </Button>
+            <Button
+              variant={activeTab === 'properties' ? 'default' : 'ghost'}
+              className="w-full justify-start"
+              onClick={() => setActiveTab('properties')}
+            >
+              <Building2 className="h-4 w-4 mr-2" />
+              Properties
+            </Button>
+            <Button
+              variant={activeTab === 'tenants' ? 'default' : 'ghost'}
+              className="w-full justify-start"
+              onClick={() => setActiveTab('tenants')}
+            >
+              <Users className="h-4 w-4 mr-2" />
+              Tenants
+            </Button>
+            <Button
+              variant={activeTab === 'settings' ? 'default' : 'ghost'}
+              className="w-full justify-start"
+              onClick={() => setActiveTab('settings')}
+            >
+              <Settings className="h-4 w-4 mr-2" />
+              Settings
+            </Button>
+          </nav>
+        </aside>
 
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Active Subscriptions</CardTitle>
-              <CreditCard className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{analytics.activeSubscriptions?.toLocaleString()}</div>
-              <p className="text-xs text-muted-foreground">
-                {analytics.churnRate}% churn rate
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Monthly Revenue</CardTitle>
-              <DollarSign className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">
-                ${analytics.monthlyRevenue?.toLocaleString()}
+        {/* Main Content */}
+        <main className="flex-1 p-6">
+          {activeTab === 'overview' && (
+            <div className="space-y-6">
+              <div className="flex items-center justify-between">
+                <h2 className="text-2xl font-bold">Dashboard Overview</h2>
+                <Button>
+                  <Plus className="h-4 w-4 mr-2" />
+                  Add Property
+                </Button>
               </div>
-              <p className="text-xs text-muted-foreground">
-                +{analytics.growthRate}% from last month
-              </p>
-            </CardContent>
-          </Card>
 
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Properties</CardTitle>
-              <Building className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{analytics.totalProperties?.toLocaleString()}</div>
-              <p className="text-xs text-muted-foreground">
-                Across all users
-              </p>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* User Management */}
-        <Card>
-          <CardHeader>
-            <CardTitle>User Management</CardTitle>
-            <CardDescription>
-              Manage user accounts, subscriptions, and access
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            {/* Filters */}
-            <div className="flex flex-col sm:flex-row gap-4 mb-6">
-              <div className="flex-1">
-                <Input
-                  placeholder="Search users..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="max-w-sm"
-                />
+              {/* Stats Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                {stats.map((stat, index) => (
+                  <Card key={index}>
+                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                      <CardTitle className="text-sm font-medium">
+                        {stat.title}
+                      </CardTitle>
+                      <stat.icon className={`h-4 w-4 ${stat.color}`} />
+                    </CardHeader>
+                    <CardContent>
+                      <div className="text-2xl font-bold">{stat.value}</div>
+                      <p className="text-xs text-muted-foreground">
+                        {stat.change}
+                      </p>
+                    </CardContent>
+                  </Card>
+                ))}
               </div>
-              <div className="flex gap-2">
-                <select
-                  value={filterStatus}
-                  onChange={(e) => setFilterStatus(e.target.value)}
-                  className="px-3 py-2 border rounded-md"
-                >
-                  <option value="all">All Status</option>
-                  <option value="active">Active</option>
-                  <option value="trial">Trial</option>
-                  <option value="cancelled">Cancelled</option>
-                </select>
-              </div>
-            </div>
 
-            {/* Users Table */}
-            <div className="rounded-md border">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>User</TableHead>
-                    <TableHead>Plan</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead>Properties</TableHead>
-                    <TableHead>Revenue</TableHead>
-                    <TableHead>Last Active</TableHead>
-                    <TableHead className="text-right">Actions</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {filteredUsers.map((user) => (
-                    <TableRow key={user.id}>
-                      <TableCell>
-                        <div>
-                          <div className="font-medium">{user.name}</div>
-                          <div className="text-sm text-muted-foreground">{user.email}</div>
+              {/* Recent Activity */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Recent Properties</CardTitle>
+                    <CardDescription>
+                      Your latest property additions
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-4">
+                      {recentProperties.map((property) => (
+                        <div key={property.id} className="flex items-center justify-between">
+                          <div>
+                            <p className="font-medium">{property.name}</p>
+                            <p className="text-sm text-muted-foreground">
+                              {property.occupied}/{property.units} units occupied
+                            </p>
+                          </div>
+                          <div className="text-right">
+                            <p className="font-medium">{property.revenue}</p>
+                            <p className="text-sm text-muted-foreground">monthly</p>
+                          </div>
                         </div>
-                      </TableCell>
-                      <TableCell>{user.plan}</TableCell>
-                      <TableCell>{getStatusBadge(user.status)}</TableCell>
-                      <TableCell>{user.properties}</TableCell>
-                      <TableCell>${user.revenue}</TableCell>
-                      <TableCell>{user.lastActive}</TableCell>
-                      <TableCell className="text-right">
-                        <DropdownMenu>
-                          <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" className="h-8 w-8 p-0">
-                              <MoreHorizontal className="h-4 w-4" />
-                            </Button>
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent align="end">
-                            <DropdownMenuItem onClick={() => handleUserAction('view', user.id)}>
-                              <Eye className="mr-2 h-4 w-4" />
-                              View Details
-                            </DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => handleUserAction('edit', user.id)}>
-                              <Edit className="mr-2 h-4 w-4" />
-                              Edit User
-                            </DropdownMenuItem>
-                            <DropdownMenuItem 
-                              onClick={() => handleRefund(user.id)}
-                              className="text-orange-600"
-                            >
-                              <DollarSign className="mr-2 h-4 w-4" />
-                              Process Refund
-                            </DropdownMenuItem>
-                            <DropdownMenuItem 
-                              onClick={() => handleUserAction('delete', user.id)}
-                              className="text-red-600"
-                            >
-                              <Trash2 className="mr-2 h-4 w-4" />
-                              Delete User
-                            </DropdownMenuItem>
-                          </DropdownMenuContent>
-                        </DropdownMenu>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Recent Tenants</CardTitle>
+                    <CardDescription>
+                      Latest tenant applications
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-4">
+                      {recentTenants.map((tenant) => (
+                        <div key={tenant.id} className="flex items-center justify-between">
+                          <div>
+                            <p className="font-medium">{tenant.name}</p>
+                            <p className="text-sm text-muted-foreground">
+                              {tenant.property} - {tenant.unit}
+                            </p>
+                          </div>
+                          <Badge variant={tenant.status === 'Active' ? 'default' : 'secondary'}>
+                            {tenant.status}
+                          </Badge>
+                        </div>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
             </div>
-          </CardContent>
-        </Card>
+          )}
+
+          {activeTab === 'properties' && (
+            <div className="space-y-6">
+              <div className="flex items-center justify-between">
+                <h2 className="text-2xl font-bold">Properties</h2>
+                <div className="flex items-center space-x-2">
+                  <Button variant="outline" size="sm">
+                    <Search className="h-4 w-4 mr-2" />
+                    Search
+                  </Button>
+                  <Button variant="outline" size="sm">
+                    <Filter className="h-4 w-4 mr-2" />
+                    Filter
+                  </Button>
+                  <Button>
+                    <Plus className="h-4 w-4 mr-2" />
+                    Add Property
+                  </Button>
+                </div>
+              </div>
+
+              <Card>
+                <CardContent className="p-6">
+                  <p className="text-center text-muted-foreground">
+                    Property management interface will be implemented here.
+                  </p>
+                </CardContent>
+              </Card>
+            </div>
+          )}
+
+          {activeTab === 'tenants' && (
+            <div className="space-y-6">
+              <div className="flex items-center justify-between">
+                <h2 className="text-2xl font-bold">Tenants</h2>
+                <div className="flex items-center space-x-2">
+                  <Button variant="outline" size="sm">
+                    <Search className="h-4 w-4 mr-2" />
+                    Search
+                  </Button>
+                  <Button variant="outline" size="sm">
+                    <Filter className="h-4 w-4 mr-2" />
+                    Filter
+                  </Button>
+                </div>
+              </div>
+
+              <Card>
+                <CardContent className="p-6">
+                  <p className="text-center text-muted-foreground">
+                    Tenant management interface will be implemented here.
+                  </p>
+                </CardContent>
+              </Card>
+            </div>
+          )}
+
+          {activeTab === 'settings' && (
+            <div className="space-y-6">
+              <h2 className="text-2xl font-bold">Settings</h2>
+              
+              <Card>
+                <CardContent className="p-6">
+                  <p className="text-center text-muted-foreground">
+                    Settings interface will be implemented here.
+                  </p>
+                </CardContent>
+              </Card>
+            </div>
+          )}
+        </main>
       </div>
     </div>
-  );
+  )
 }
 

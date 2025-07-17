@@ -1,54 +1,101 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useNavigate, useSearchParams } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
-import { Eye, EyeOff, Check } from 'lucide-react';
+import { Alert, AlertDescription } from '../components/ui/alert';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../components/ui/select';
+import { Eye, EyeOff, Mail, AlertCircle, CheckCircle } from 'lucide-react';
 import rcLogo from '../assets/RC-Logo.png';
 
 export function SignupPage() {
-  const { t } = useTranslation();
-  const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
   const [showPassword, setShowPassword] = useState(false);
-  const [selectedPlan, setSelectedPlan] = useState('starter');
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
     email: '',
     password: '',
     confirmPassword: '',
-    agreeToTerms: false
+    firstName: '',
+    lastName: '',
+    role: 'tenant' // default to tenant
   });
 
-  useEffect(() => {
-    const plan = searchParams.get('plan');
-    if (plan) {
-      setSelectedPlan(plan);
-    }
-  }, [searchParams]);
+  const { signUp, signInWithGoogle } = useAuth();
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle signup - for demo purposes, redirect to home
-    console.log('Signup attempt:', formData, 'Plan:', selectedPlan);
-    // In a real app, this would create the user account
-    navigate('/');
+    setLoading(true);
+    setError('');
+    setSuccess('');
+
+    // Validation
+    if (formData.password !== formData.confirmPassword) {
+      setError('Passwords do not match');
+      setLoading(false);
+      return;
+    }
+
+    if (formData.password.length < 6) {
+      setError('Password must be at least 6 characters long');
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const { error } = await signUp(formData.email, formData.password, {
+        first_name: formData.firstName,
+        last_name: formData.lastName,
+        role: formData.role,
+        full_name: `${formData.firstName} ${formData.lastName}`
+      });
+      
+      if (error) {
+        setError(error.message);
+      } else {
+        setSuccess('Account created successfully! Please check your email to verify your account.');
+        // Don't navigate immediately - let user verify email first
+      }
+    } catch (err) {
+      setError('An unexpected error occurred. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleGoogleSignUp = async () => {
+    setLoading(true);
+    setError('');
+
+    try {
+      const { error } = await signInWithGoogle();
+      
+      if (error) {
+        setError(error.message);
+      }
+      // OAuth redirect will handle navigation
+    } catch (err) {
+      setError('An unexpected error occurred. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
     setFormData({
       ...formData,
-      [name]: type === 'checkbox' ? checked : value
+      [e.target.name]: e.target.value
     });
   };
 
-  const planNames = {
-    starter: t('pricing.starter.name'),
-    professional: t('pricing.professional.name'),
-    premium: t('pricing.premium.name'),
-    enterprise: t('pricing.enterprise.name')
+  const handleRoleChange = (value) => {
+    setFormData({
+      ...formData,
+      role: value
+    });
   };
 
   return (
@@ -56,32 +103,37 @@ export function SignupPage() {
       <div className="w-full max-w-md space-y-8 px-4">
         <div className="text-center">
           <div className="flex justify-center mb-6">
-            <Link to="/">
-              <img 
-                src={rcLogo} 
-                alt="Rent Control Logo" 
-                className="h-16 w-16 object-contain"
-              />
-            </Link>
+            <img 
+              src={rcLogo} 
+              alt="Rent Control Logo" 
+              className="h-16 w-16 object-contain"
+            />
           </div>
-          <h2 className="text-3xl font-bold">{t('auth.createAccount')}</h2>
+          <h2 className="text-3xl font-bold">Create your account</h2>
           <p className="mt-2 text-muted-foreground">
-            {t('auth.startManaging')}
+            Join Rent Control and start managing your properties
           </p>
-          {selectedPlan && selectedPlan !== 'starter' && (
-            <div className="mt-4 p-3 bg-primary/10 rounded-lg">
-              <p className="text-sm text-primary font-medium">
-                {t('auth.selectedPlan')}: {planNames[selectedPlan]}
-              </p>
-            </div>
-          )}
         </div>
+
+        {error && (
+          <Alert variant="destructive">
+            <AlertCircle className="h-4 w-4" />
+            <AlertDescription>{error}</AlertDescription>
+          </Alert>
+        )}
+
+        {success && (
+          <Alert>
+            <CheckCircle className="h-4 w-4" />
+            <AlertDescription>{success}</AlertDescription>
+          </Alert>
+        )}
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label htmlFor="firstName" className="block text-sm font-medium mb-2">
-                {t('auth.firstName')}
+                First name
               </label>
               <Input
                 id="firstName"
@@ -89,13 +141,14 @@ export function SignupPage() {
                 type="text"
                 value={formData.firstName}
                 onChange={handleChange}
-                placeholder={t('auth.enterFirstName')}
+                placeholder="First name"
                 required
+                disabled={loading}
               />
             </div>
             <div>
               <label htmlFor="lastName" className="block text-sm font-medium mb-2">
-                {t('auth.lastName')}
+                Last name
               </label>
               <Input
                 id="lastName"
@@ -103,15 +156,16 @@ export function SignupPage() {
                 type="text"
                 value={formData.lastName}
                 onChange={handleChange}
-                placeholder={t('auth.enterLastName')}
+                placeholder="Last name"
                 required
+                disabled={loading}
               />
             </div>
           </div>
 
           <div>
             <label htmlFor="email" className="block text-sm font-medium mb-2">
-              {t('auth.emailAddress')}
+              Email address
             </label>
             <Input
               id="email"
@@ -119,14 +173,30 @@ export function SignupPage() {
               type="email"
               value={formData.email}
               onChange={handleChange}
-              placeholder={t('auth.enterEmail')}
+              placeholder="Enter your email"
               required
+              disabled={loading}
             />
           </div>
 
           <div>
+            <label htmlFor="role" className="block text-sm font-medium mb-2">
+              Account type
+            </label>
+            <Select value={formData.role} onValueChange={handleRoleChange} disabled={loading}>
+              <SelectTrigger>
+                <SelectValue placeholder="Select your role" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="tenant">Tenant/Resident</SelectItem>
+                <SelectItem value="admin">Landlord/Property Manager</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div>
             <label htmlFor="password" className="block text-sm font-medium mb-2">
-              {t('auth.password')}
+              Password
             </label>
             <div className="relative">
               <Input
@@ -135,13 +205,15 @@ export function SignupPage() {
                 type={showPassword ? 'text' : 'password'}
                 value={formData.password}
                 onChange={handleChange}
-                placeholder={t('auth.enterPassword')}
+                placeholder="Create a password"
                 required
+                disabled={loading}
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                disabled={loading}
               >
                 {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
               </button>
@@ -150,73 +222,75 @@ export function SignupPage() {
 
           <div>
             <label htmlFor="confirmPassword" className="block text-sm font-medium mb-2">
-              {t('auth.confirmPassword')}
+              Confirm password
             </label>
-            <Input
-              id="confirmPassword"
-              name="confirmPassword"
-              type="password"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              placeholder={t('auth.confirmPassword')}
-              required
-            />
+            <div className="relative">
+              <Input
+                id="confirmPassword"
+                name="confirmPassword"
+                type={showConfirmPassword ? 'text' : 'password'}
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                placeholder="Confirm your password"
+                required
+                disabled={loading}
+              />
+              <button
+                type="button"
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                disabled={loading}
+              >
+                {showConfirmPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+              </button>
+            </div>
           </div>
 
-          <div className="flex items-start">
-            <input
-              id="agreeToTerms"
-              name="agreeToTerms"
-              type="checkbox"
-              checked={formData.agreeToTerms}
-              onChange={handleChange}
-              className="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded mt-1"
-              required
-            />
-            <label htmlFor="agreeToTerms" className="ml-2 block text-sm text-muted-foreground">
-              {t('auth.agreeToTerms')}{' '}
-              <a href="#" className="text-primary hover:text-primary/80 underline">
-                {t('auth.termsOfService')}
-              </a>
-              {' '}{t('auth.and')}{' '}
-              <a href="#" className="text-primary hover:text-primary/80 underline">
-                {t('auth.privacyPolicy')}
-              </a>
-            </label>
-          </div>
-
-          <Button type="submit" className="w-full" disabled={!formData.agreeToTerms}>
-            {selectedPlan === 'starter' ? t('auth.createFreeAccount') : t('auth.startFreeTrial')}
+          <Button type="submit" className="w-full" disabled={loading}>
+            {loading ? 'Creating account...' : 'Create account'}
           </Button>
         </form>
 
+        <div className="relative">
+          <div className="absolute inset-0 flex items-center">
+            <span className="w-full border-t" />
+          </div>
+          <div className="relative flex justify-center text-xs uppercase">
+            <span className="bg-background px-2 text-muted-foreground">
+              Or continue with
+            </span>
+          </div>
+        </div>
+
+        <Button
+          variant="outline"
+          className="w-full"
+          onClick={handleGoogleSignUp}
+          disabled={loading}
+        >
+          <Mail className="h-4 w-4 mr-2" />
+          Sign up with Google
+        </Button>
+
         <div className="text-center">
           <p className="text-sm text-muted-foreground">
-            {t('auth.alreadyHaveAccount')}{' '}
+            Already have an account?{' '}
             <Link to="/login" className="font-medium text-primary hover:text-primary/80">
-              {t('auth.signIn')}
+              Sign in
             </Link>
           </p>
         </div>
 
-        <div className="text-center">
-          <Link to="/" className="text-sm text-primary hover:text-primary/80">
-            ← {t('nav.home')}
-          </Link>
+        <div className="text-center text-xs text-muted-foreground">
+          <p>
+            By creating an account, you agree to our{' '}
+            <a href="#" className="underline hover:text-foreground">Terms of Service</a>
+            {' '}and{' '}
+            <a href="#" className="underline hover:text-foreground">Privacy Policy</a>
+          </p>
         </div>
-
-        {selectedPlan === 'starter' && (
-          <div className="text-center p-4 bg-green-50 dark:bg-green-900/20 rounded-lg">
-            <div className="flex items-center justify-center gap-2 text-green-600 dark:text-green-400">
-              <Check className="h-4 w-4" />
-              <span className="text-sm font-medium">{t('auth.freeForever')}</span>
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );
 }
-
-export default SignupPage;
 

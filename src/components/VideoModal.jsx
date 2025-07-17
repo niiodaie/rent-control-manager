@@ -1,25 +1,15 @@
 import React, { useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { X, Play } from 'lucide-react';
 import { Button } from './ui/button';
 import demoVideo from '../assets/demo-complete.mp4';
 
 export function VideoModal({ isOpen, onClose }) {
-  const { t } = useTranslation();
   const [isPlaying, setIsPlaying] = useState(false);
 
   if (!isOpen) return null;
 
   const handleVideoClick = () => {
     setIsPlaying(true);
-  };
-
-  const handleStartTrial = () => {
-    window.location.href = '/signup';
-  };
-
-  const handleScheduleDemo = () => {
-    window.location.href = '/contact?inquiry=demo';
   };
 
   return (
@@ -46,10 +36,10 @@ export function VideoModal({ isOpen, onClose }) {
                     <Play className="h-8 w-8 text-white ml-1" />
                   </div>
                   <h3 className="text-white text-xl font-semibold mb-2">
-                    {t('video.watchDemo')}
+                    Watch Rent Control Demo
                   </h3>
                   <p className="text-white/80 text-sm">
-                    {t('video.demoDescription')}
+                    See how our platform simplifies property management
                   </p>
                 </div>
               </div>
@@ -62,7 +52,7 @@ export function VideoModal({ isOpen, onClose }) {
                 onEnded={() => setIsPlaying(false)}
               >
                 <source src={demoVideo} type="video/mp4" />
-                {t('video.browserNotSupported')}
+                Your browser does not support the video tag.
               </video>
             )}
           </div>
@@ -70,11 +60,11 @@ export function VideoModal({ isOpen, onClose }) {
 
         {/* Call to action */}
         <div className="mt-6 text-center">
-          <Button size="lg" className="mr-4" onClick={handleStartTrial}>
-            {t('hero.startTrial')}
+          <Button size="lg" className="mr-4">
+            Start Free Trial
           </Button>
-          <Button variant="outline" size="lg" onClick={handleScheduleDemo}>
-            {t('video.scheduleDemo')}
+          <Button variant="outline" size="lg">
+            Schedule Demo
           </Button>
         </div>
       </div>

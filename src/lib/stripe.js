@@ -1,94 +1,68 @@
-import { loadStripe } from '@stripe/stripe-js';
+import { loadStripe } from '@stripe/stripe-js'
 
-// Initialize Stripe with publishable key from environment variables
-const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
+// Initialize Stripe
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || 'pk_test_placeholder')
 
-export default stripePromise;
+export { stripePromise }
 
-// API base URL for backend communication
-export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5050';
+// Stripe pricing configuration
+export const STRIPE_PRICES = {
+  starter: {
+    monthly: import.meta.env.VITE_STRIPE_STARTER_MONTHLY_PRICE_ID || 'price_starter_monthly',
+    yearly: import.meta.env.VITE_STRIPE_STARTER_YEARLY_PRICE_ID || 'price_starter_yearly'
+  },
+  professional: {
+    monthly: import.meta.env.VITE_STRIPE_PROFESSIONAL_MONTHLY_PRICE_ID || 'price_professional_monthly',
+    yearly: import.meta.env.VITE_STRIPE_PROFESSIONAL_YEARLY_PRICE_ID || 'price_professional_yearly'
+  },
+  enterprise: {
+    monthly: import.meta.env.VITE_STRIPE_ENTERPRISE_MONTHLY_PRICE_ID || 'price_enterprise_monthly',
+    yearly: import.meta.env.VITE_STRIPE_ENTERPRISE_YEARLY_PRICE_ID || 'price_enterprise_yearly'
+  }
+}
 
-// Stripe checkout session creation
-export const createCheckoutSession = async (paymentData) => {
+// Helper function to create checkout session
+export const createCheckoutSession = async (priceId, userId, userEmail) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/api/create-subscription-session`, {
+    const response = await fetch('/api/create-checkout-session', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(paymentData),
-    });
+      body: JSON.stringify({
+        priceId,
+        userId,
+        userEmail,
+        successUrl: `${window.location.origin}/dashboard?session_id={CHECKOUT_SESSION_ID}`,
+        cancelUrl: `${window.location.origin}/pricing`
+      }),
+    })
 
     if (!response.ok) {
-      throw new Error('Failed to create checkout session');
+      throw new Error('Failed to create checkout session')
     }
 
-    const data = await response.json();
-    return data;
+    const { sessionId } = await response.json()
+    return sessionId
   } catch (error) {
-    console.error('Error creating checkout session:', error);
-    throw error;
+    console.error('Error creating checkout session:', error)
+    throw error
   }
-};
+}
 
-// Payment verification
-export const verifyPayment = async (sessionId) => {
+// Helper function to redirect to Stripe Checkout
+export const redirectToCheckout = async (sessionId) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/api/session/${sessionId}`);
+    const stripe = await stripePromise
+    const { error } = await stripe.redirectToCheckout({ sessionId })
     
-    if (!response.ok) {
-      throw new Error('Failed to verify payment');
+    if (error) {
+      console.error('Stripe redirect error:', error)
+      throw error
     }
-
-    const data = await response.json();
-    return data;
   } catch (error) {
-    console.error('Error verifying payment:', error);
-    throw error;
+    console.error('Error redirecting to checkout:', error)
+    throw error
   }
-};
-
-// Currency formatting utility
-export const formatCurrency = (amount, currency = 'USD') => {
-  return new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: currency.toUpperCase(),
-  }).format(amount / 100); // Stripe amounts are in cents
-};
-
-// Supported currencies for global payments
-export const SUPPORTED_CURRENCIES = [
-  { code: 'USD', name: 'US Dollar', symbol: '$' },
-  { code: 'EUR', name: 'Euro', symbol: '€' },
-  { code: 'GBP', name: 'British Pound', symbol: '£' },
-  { code: 'CAD', name: 'Canadian Dollar', symbol: 'C$' },
-  { code: 'AUD', name: 'Australian Dollar', symbol: 'A$' },
-  { code: 'JPY', name: 'Japanese Yen', symbol: '¥' },
-  { code: 'CHF', name: 'Swiss Franc', symbol: 'CHF' },
-  { code: 'SEK', name: 'Swedish Krona', symbol: 'kr' },
-  { code: 'NOK', name: 'Norwegian Krone', symbol: 'kr' },
-  { code: 'DKK', name: 'Danish Krone', symbol: 'kr' },
-];
-
-// Get user's preferred currency based on location
-export const getUserCurrency = () => {
-  // This could be enhanced with geolocation API
-  const userLocale = navigator.language || 'en-US';
-  const currencyMap = {
-    'en-US': 'USD',
-    'en-GB': 'GBP',
-    'en-CA': 'CAD',
-    'en-AU': 'AUD',
-    'de': 'EUR',
-    'fr': 'EUR',
-    'es': 'EUR',
-    'it': 'EUR',
-    'ja': 'JPY',
-    'sv': 'SEK',
-    'no': 'NOK',
-    'da': 'DKK',
-  };
-
-  return currencyMap[userLocale] || 'USD';
-};
+}
 

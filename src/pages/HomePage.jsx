@@ -6,12 +6,16 @@ import { Pricing } from '../components/Pricing';
 export function HomePage() {
   return (
     <div>
-      <Hero />
-      <Features />
-      <Pricing />
+      <section id="home">
+        <Hero />
+      </section>
+      <section id="features">
+        <Features />
+      </section>
+      <section id="pricing">
+        <Pricing />
+      </section>
     </div>
   );
 }
 
-
-export default HomePage;
