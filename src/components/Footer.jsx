@@ -73,14 +73,14 @@ export function Footer() {
             <ul className="space-y-3 text-sm">
               <li className="flex items-center space-x-2">
                 <Mail className="h-4 w-4 text-gray-400" />
-                <a href="mailto:support@rentcontrol.net" className="text-gray-400 hover:text-white transition-colors">
-                  support@rentcontrol.net
+                <a href="mailto:info@rent-control.net" className="text-gray-400 hover:text-white transition-colors">
+                  info@rent-control.net
                 </a>
               </li>
               <li className="flex items-center space-x-2">
                 <Phone className="h-4 w-4 text-gray-400" />
-                <a href="tel:+19201234567" className="text-gray-400 hover:text-white transition-colors">
-                  +1 (920) 123-4567
+                <a href="tel:+19208081188" className="text-gray-400 hover:text-white transition-colors">
+                  +1 (920) 808-1188
                 </a>
               </li>
               <li className="flex items-center space-x-2">
@@ -95,6 +95,12 @@ export function Footer() {
             <div className="text-xs text-gray-500 mt-4">
               <p>{t('contact.mondayFriday')}</p>
               <p>{t('contact.emergency')}</p>
+              <p className="mt-2 text-blue-400">
+                Have feedback? Email{' '}
+                <a href="mailto:info@rent-control.net" className="hover:text-blue-300 transition-colors">
+                  info@rent-control.net
+                </a>
+              </p>
             </div>
           </div>
         </div>

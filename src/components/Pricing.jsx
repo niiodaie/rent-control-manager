@@ -2,16 +2,44 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from './ui/button';
 import { Check, Star } from 'lucide-react';
+import { apiService } from '../services/api';
 
 export function Pricing() {
   const { t } = useTranslation();
   const [isAnnual, setIsAnnual] = useState(false);
+  const [loading, setLoading] = useState(null);
 
-  const handleStartTrial = (planName) => {
+  const handleStartTrial = async (planName) => {
     if (planName === 'Starter') {
       window.location.href = '/signup?plan=starter';
-    } else {
-      window.location.href = '/signup?plan=' + planName.toLowerCase();
+      return;
+    }
+
+    setLoading(planName);
+    
+    try {
+      // For paid plans, create Stripe subscription session
+      const planData = {
+        planName: planName.toLowerCase(),
+        billingCycle: isAnnual ? 'annual' : 'monthly',
+        successUrl: `${window.location.origin}/dashboard?payment=success`,
+        cancelUrl: `${window.location.origin}/pricing?payment=cancelled`
+      };
+
+      const response = await apiService.createSubscriptionSession(planData);
+      
+      if (response.checkoutUrl) {
+        window.location.href = response.checkoutUrl;
+      } else {
+        // Fallback to signup page if API is not available
+        window.location.href = `/signup?plan=${planName.toLowerCase()}`;
+      }
+    } catch (error) {
+      console.error('Payment session creation failed:', error);
+      // Fallback to signup page on error
+      window.location.href = `/signup?plan=${planName.toLowerCase()}`;
+    } finally {
+      setLoading(null);
     }
   };
 
@@ -264,8 +292,9 @@ export function Pricing() {
                 }`}
                 variant={plan.popular ? 'secondary' : 'default'}
                 onClick={() => plan.name === t('pricing.enterprise.name') ? handleContactSales() : handleStartTrial(plan.name)}
+                disabled={loading === plan.name}
               >
-                {plan.cta}
+                {loading === plan.name ? 'Processing...' : plan.cta}
               </Button>
             </div>
           ))}
