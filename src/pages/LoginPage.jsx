@@ -5,6 +5,7 @@ import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { Eye, EyeOff } from 'lucide-react';
 import rcLogo from '../assets/RC-Logo.png';
+import GoogleSignIn from '../components/GoogleSignIn';
 
 export function LoginPage() {
   const { t } = useTranslation();
@@ -143,4 +144,3 @@ export function LoginPage() {
 }
 
 export default LoginPage;
-
