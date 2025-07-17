@@ -1,15 +1,34 @@
-// pages/SuccessPage.jsx
-import React from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 
-export const SuccessPage = () => {
+export default function SuccessPage() {
+  const location = useLocation();
+  const [sessionId, setSessionId] = useState(null);
+
+  useEffect(() => {
+    const queryParams = new URLSearchParams(location.search);
+    const id = queryParams.get('session_id');
+    setSessionId(id);
+
+    // OPTIONAL: send to backend for verification
+    // fetch('/api/stripe/verify-session', {
+    //   method: 'POST',
+    //   headers: { 'Content-Type': 'application/json' },
+    //   body: JSON.stringify({ sessionId: id }),
+    // });
+  }, [location.search]);
+
   return (
-    <div className="flex flex-col items-center justify-center py-20 px-4 text-center">
-      <h1 className="text-4xl font-bold text-green-600 mb-4">🎉 Payment Successful!</h1>
-      <p className="text-lg mb-6">Your subscription is now active.</p>
-      <Link to="/admin/dashboard" className="text-blue-600 underline">
-        Go to your dashboard
-      </Link>
+    <div className="p-6 text-center">
+      <h1 className="text-3xl font-bold">🎉 Payment Successful!</h1>
+      <p className="mt-4 text-lg">
+        Thank you for subscribing.
+      </p>
+      {sessionId && (
+        <p className="mt-2 text-sm text-gray-500">
+          Stripe session ID: <code>{sessionId}</code>
+        </p>
+      )}
     </div>
   );
-};
+}
