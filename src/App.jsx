@@ -1,6 +1,8 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { AuthProvider } from './contexts/AuthContext';
+// App.jsx
+
+import React, { useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
+import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { ProtectedRoute, AuthRoute } from './components/ProtectedRoute';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
@@ -14,30 +16,38 @@ import { SignupPage } from './pages/SignupPage';
 import { AdminDashboard } from './pages/AdminDashboard';
 import { ResidentDashboard } from './pages/ResidentDashboard';
 import { AuthCallback } from './pages/AuthCallback';
+import { ChoosePlanPage } from './pages/ChoosePlanPage'; // Add this if needed
 import './App.css';
+
+function PlanRedirectWatcher() {
+  const { user } = useAuth();
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (
+      user &&
+      user.role === 'admin' &&
+      (!user.plan || user.plan === 'free') &&
+      location.pathname !== '/choose-plan'
+    ) {
+      navigate('/choose-plan');
+    }
+  }, [user, location.pathname, navigate]);
+
+  return null;
+}
 
 function App() {
   return (
     <AuthProvider>
       <Router>
+        <PlanRedirectWatcher />
         <div className="min-h-screen bg-background text-foreground">
           <Routes>
-            {/* Auth callback route */}
             <Route path="/auth/callback" element={<AuthCallback />} />
-            
-            {/* Auth pages without header/footer - redirect if already logged in */}
-            <Route path="/login" element={
-              <AuthRoute>
-                <LoginPage />
-              </AuthRoute>
-            } />
-            <Route path="/signup" element={
-              <AuthRoute>
-                <SignupPage />
-              </AuthRoute>
-            } />
-            
-            {/* Protected dashboard routes */}
+            <Route path="/login" element={<AuthRoute><LoginPage /></AuthRoute>} />
+            <Route path="/signup" element={<AuthRoute><SignupPage /></AuthRoute>} />
             <Route path="/admin/dashboard" element={
               <ProtectedRoute requiredRole="admin">
                 <AdminDashboard />
@@ -48,8 +58,7 @@ function App() {
                 <ResidentDashboard />
               </ProtectedRoute>
             } />
-            
-            {/* Main pages with header/footer */}
+            <Route path="/choose-plan" element={<ChoosePlanPage />} />
             <Route path="/*" element={
               <>
                 <Header />
@@ -73,4 +82,3 @@ function App() {
 }
 
 export default App;
-
