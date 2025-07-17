@@ -18,9 +18,7 @@ export function LoginPage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle login - for demo purposes, redirect to home
     console.log('Login attempt:', formData);
-    // In a real app, this would authenticate the user
     navigate('/');
   };
 
@@ -114,6 +112,8 @@ export function LoginPage() {
             {t('auth.signIn')}
           </Button>
         </form>
+
+        <GoogleSignIn />
 
         <div className="text-center">
           <p className="text-sm text-muted-foreground">
