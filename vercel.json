@@ -1,7 +1,19 @@
 {
   "rewrites": [
     {
-      "source": "/(en|fr|es|de|it|pt|ja|zh|ar|ru|hi)/(.*)",
+      "source": "/signup",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/login",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/dashboard",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/pricing",
       "destination": "/index.html"
     },
     {
