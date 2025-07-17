@@ -1,26 +1,8 @@
 {
   "rewrites": [
-    {
-      "source": "/signup",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/login",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/dashboard",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/pricing",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
-    }
-  ],
-  "cleanUrls": true,
-  "trailingSlash": false
+    { "source": "/signup", "destination": "/" },
+    { "source": "/login", "destination": "/" },
+    { "source": "/signup/(.*)", "destination": "/" },
+    { "source": "/login/(.*)", "destination": "/" }
+  ]
 }
