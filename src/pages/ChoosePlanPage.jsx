@@ -1,7 +1,7 @@
 import { useRouter } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import { updateUserPlan } from '../utils';
+import { updateUserPlan } from '../lib/utils';
 
 export function ChoosePlanPage() {
   const { user } = useAuth();
