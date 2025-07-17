@@ -10,4 +10,5 @@
     }
   ],
   "cleanUrls": true,
- 
+  "trailingSlash": false
+}
