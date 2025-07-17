@@ -17,6 +17,7 @@ import { AdminDashboard } from './pages/AdminDashboard';
 import { ResidentDashboard } from './pages/ResidentDashboard';
 import { AuthCallback } from './pages/AuthCallback';
 import { ChoosePlanPage } from './pages/ChoosePlanPage';
+import { SuccessPage } from './pages/SuccessPage';
 import './App.css';
 
 function PlanRedirectWatcher() {
@@ -48,6 +49,7 @@ function App() {
             <Route path="/auth/callback" element={<AuthCallback />} />
             <Route path="/login" element={<AuthRoute><LoginPage /></AuthRoute>} />
             <Route path="/signup" element={<AuthRoute><SignupPage /></AuthRoute>} />
+            <Route path="/success" element={<SuccessPage />} />
             <Route path="/admin/dashboard" element={
               <ProtectedRoute requiredRole="admin">
                 <AdminDashboard />
