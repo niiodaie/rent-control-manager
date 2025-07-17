@@ -100,3 +100,5 @@ export function AboutPage() {
   );
 }
 
+
+export default AboutPage;

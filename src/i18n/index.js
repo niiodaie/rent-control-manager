@@ -27,23 +27,64 @@ const resources = {
   ar: { translation: ar }
 };
 
-i18n
-  .use(LanguageDetector)
-  .use(initReactI18next)
-  .init({
-    resources,
-    fallbackLng: 'en',
-    debug: false,
-    
-    detection: {
-      order: ['localStorage', 'navigator', 'htmlTag'],
-      caches: ['localStorage'],
-    },
+// Initialize i18n with error handling
+const initI18n = async () => {
+  try {
+    await i18n
+      .use(LanguageDetector)
+      .use(initReactI18next)
+      .init({
+        resources,
+        fallbackLng: 'en',
+        debug: false,
+        
+        detection: {
+          order: ['localStorage', 'navigator'],
+          caches: ['localStorage'],
+        },
 
-    interpolation: {
-      escapeValue: false,
-    },
-  });
+        interpolation: {
+          escapeValue: false,
+        },
+
+        // Simplified React configuration
+        react: {
+          useSuspense: false,
+        },
+
+        // Prevent crashes on missing translations
+        returnEmptyString: false,
+        returnNull: false,
+        returnObjects: false,
+        
+        // Add missing key handler
+        saveMissing: false,
+        missingKeyHandler: (lng, ns, key) => {
+          console.warn(`Missing translation: ${key} for ${lng}`);
+          return key;
+        },
+      });
+  } catch (error) {
+    console.error('i18n initialization failed:', error);
+    // Force fallback to English
+    i18n.changeLanguage('en');
+  }
+};
+
+// Initialize i18n
+initI18n();
+
+// Add error handlers
+i18n.on('failedLoading', (lng, ns, msg) => {
+  console.error(`Failed loading language ${lng}:`, msg);
+  if (lng !== 'en') {
+    i18n.changeLanguage('en');
+  }
+});
+
+i18n.on('missingKey', (lng, namespace, key, res) => {
+  console.warn(`Missing key "${key}" for language "${lng}"`);
+});
 
 export default i18n;
 
