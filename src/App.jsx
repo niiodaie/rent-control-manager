@@ -16,7 +16,7 @@ import { SignupPage } from './pages/SignupPage';
 import { AdminDashboard } from './pages/AdminDashboard';
 import { ResidentDashboard } from './pages/ResidentDashboard';
 import { AuthCallback } from './pages/AuthCallback';
-import { ChoosePlanPage } from './pages/ChoosePlanPage'; // Add this if needed
+import { ChoosePlanPage } from './pages/ChoosePlanPage';
 import './App.css';
 
 function PlanRedirectWatcher() {
