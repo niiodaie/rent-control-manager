@@ -1,55 +1,42 @@
-import { useRouter } from 'next/router';
+import { useRouter } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { useUser } from '@/lib/AuthContext'; // adjust path if needed
+import { useAuth } from '../contexts/AuthContext';
 import { updateUserPlan } from '../utils';
 
-export default function ChoosePlan() {
-  const { user } = useUser();
+export function ChoosePlanPage() {
+  const { user } = useAuth();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
-  const handlePlanSelect = async (plan) => {
+  useEffect(() => {
+    if (!user) {
+      router.push('/login');
+    }
+  }, [user]);
+
+  const handleSelect = async (plan) => {
     try {
       setLoading(true);
       await updateUserPlan(user.id, plan);
       router.push('/admin/dashboard');
     } catch (err) {
-      alert('Plan update failed');
-      console.error(err);
+      alert('Failed to select plan');
     } finally {
       setLoading(false);
     }
   };
 
-  useEffect(() => {
-    if (!user) {
-      router.push('/signin');
-    }
-  }, [user]);
-
   return (
-    <div className="max-w-2xl mx-auto mt-12 px-4">
-      <h1 className="text-2xl font-bold mb-6">Choose Your Plan</h1>
+    <div className="max-w-xl mx-auto p-6 mt-10">
+      <h1 className="text-2xl font-bold mb-4">Choose Your Plan</h1>
       <div className="grid gap-4">
-        <button
-          className="p-4 border rounded hover:bg-gray-100"
-          onClick={() => handlePlanSelect('free')}
-          disabled={loading}
-        >
+        <button onClick={() => handleSelect('free')} disabled={loading} className="p-4 border rounded">
           Free – Basic features
         </button>
-        <button
-          className="p-4 border rounded hover:bg-gray-100"
-          onClick={() => handlePlanSelect('starter')}
-          disabled={loading}
-        >
+        <button onClick={() => handleSelect('starter')} disabled={loading} className="p-4 border rounded">
           Starter – $49.99/month
         </button>
-        <button
-          className="p-4 border rounded hover:bg-gray-100"
-          onClick={() => handlePlanSelect('pro')}
-          disabled={loading}
-        >
+        <button onClick={() => handleSelect('pro')} disabled={loading} className="p-4 border rounded">
           Pro – $99.99/month
         </button>
       </div>
