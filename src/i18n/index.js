@@ -1,3 +1,6 @@
+
+// src/i18n/index.js
+
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
@@ -27,7 +30,25 @@ const resources = {
   ar: { translation: ar }
 };
 
-// Initialize i18n with error handling
+// Normalize language helper
+const normalizeLang = (lng) => {
+  const short = lng?.split('-')?.[0];
+  return Object.keys(resources).includes(short) ? short : 'en';
+};
+
+// Optional: Pre-configure detector before init()
+i18n.services?.languageDetector?.init({
+  lookupLocalStorage: 'i18nextLng',
+  checkWhitelist: true,
+});
+
+// Event handler for user switching
+i18n.on('languageChanged', (lng) => {
+  const normalized = normalizeLang(lng);
+  if (lng !== normalized) i18n.changeLanguage(normalized);
+});
+
+// Initialize i18n with safety and fallback handling
 const initI18n = async () => {
   try {
     await i18n
@@ -36,28 +57,22 @@ const initI18n = async () => {
       .init({
         resources,
         fallbackLng: 'en',
+        supportedLngs: Object.keys(resources),
+        load: 'languageOnly',
         debug: false,
-        
         detection: {
           order: ['localStorage', 'navigator'],
           caches: ['localStorage'],
         },
-
         interpolation: {
           escapeValue: false,
         },
-
-        // Simplified React configuration
         react: {
           useSuspense: false,
         },
-
-        // Prevent crashes on missing translations
         returnEmptyString: false,
         returnNull: false,
         returnObjects: false,
-        
-        // Add missing key handler
         saveMissing: false,
         missingKeyHandler: (lng, ns, key) => {
           console.warn(`Missing translation: ${key} for ${lng}`);
@@ -66,20 +81,16 @@ const initI18n = async () => {
       });
   } catch (error) {
     console.error('i18n initialization failed:', error);
-    // Force fallback to English
     i18n.changeLanguage('en');
   }
 };
 
-// Initialize i18n
 initI18n();
 
-// Add error handlers
+// Additional handlers
 i18n.on('failedLoading', (lng, ns, msg) => {
   console.error(`Failed loading language ${lng}:`, msg);
-  if (lng !== 'en') {
-    i18n.changeLanguage('en');
-  }
+  if (lng !== 'en') i18n.changeLanguage('en');
 });
 
 i18n.on('missingKey', (lng, namespace, key, res) => {
@@ -87,4 +98,3 @@ i18n.on('missingKey', (lng, namespace, key, res) => {
 });
 
 export default i18n;
-
