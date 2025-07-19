@@ -1,8 +1,12 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useAuth } from '../contexts/AuthContext'
+import { useProfile } from '../hooks/useProfile'
+import { useMaintenanceRequests } from '../hooks/useMaintenanceRequests'
+import { supabase } from '../lib/supabaseClient'
 import { Button } from '../components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card'
 import { Badge } from '../components/ui/badge'
+import { Skeleton } from '../components/ui/skeleton'
 import { 
   Home, 
   CreditCard, 
@@ -13,359 +17,442 @@ import {
   Calendar,
   DollarSign,
   AlertCircle,
-  CheckCircle
+  CheckCircle,
+  Clock,
+  Plus,
+  FileText
 } from 'lucide-react'
 
 export function ResidentDashboard() {
   const { user, signOut } = useAuth()
+  const { profile, loading: profileLoading } = useProfile()
+  const { requests: maintenanceRequests, groupedRequests, loading: requestsLoading } = useMaintenanceRequests('tenant')
   const [activeTab, setActiveTab] = useState('overview')
+  const [propertyInfo, setPropertyInfo] = useState(null)
+  const [leaseInfo, setLeaseInfo] = useState(null)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchTenantData = async () => {
+      if (!user) return
+
+      try {
+        // Fetch property information for the tenant
+        const { data: propertyData, error: propertyError } = await supabase
+          .from('properties')
+          .select(`
+            *,
+            lease:leases(
+              id,
+              start_date,
+              end_date,
+              rent_amount,
+              security_deposit,
+              status
+            )
+          `)
+          .eq('tenant_id', user.id)
+          .single()
+
+        if (propertyError && propertyError.code !== 'PGRST116') {
+          console.error('Error fetching property:', propertyError)
+        } else if (propertyData) {
+          setPropertyInfo(propertyData)
+          setLeaseInfo(propertyData.lease?.[0] || null)
+        }
+      } catch (error) {
+        console.error('Error fetching tenant data:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchTenantData()
+  }, [user])
 
   const handleSignOut = async () => {
     await signOut()
   }
 
-  const rentInfo = {
-    amount: '$1,250',
-    dueDate: 'January 1, 2024',
-    status: 'Paid',
-    nextDue: 'February 1, 2024'
+  const handleCreateMaintenanceRequest = () => {
+    // This would open a modal or navigate to a form
+    console.log('Create maintenance request')
   }
 
-  const propertyInfo = {
-    name: 'Sunset Apartments',
-    unit: 'A-101',
-    address: '123 Main Street, Apt A-101',
-    leaseEnd: 'December 31, 2024'
+  if (profileLoading || loading) {
+    return (
+      <div className="min-h-screen bg-background p-6">
+        <div className="max-w-6xl mx-auto space-y-6">
+          <Skeleton className="h-8 w-64" />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[...Array(6)].map((_, i) => (
+              <Skeleton key={i} className="h-32" />
+            ))}
+          </div>
+        </div>
+      </div>
+    )
   }
-
-  const maintenanceRequests = [
-    { id: 1, title: 'Leaky Faucet', status: 'In Progress', date: '2024-01-15', priority: 'Medium' },
-    { id: 2, title: 'AC Not Working', status: 'Completed', date: '2024-01-10', priority: 'High' },
-    { id: 3, title: 'Light Bulb Replacement', status: 'Pending', date: '2024-01-12', priority: 'Low' }
-  ]
-
-  const paymentHistory = [
-    { id: 1, amount: '$1,250', date: '2024-01-01', status: 'Paid', type: 'Rent' },
-    { id: 2, amount: '$1,250', date: '2023-12-01', status: 'Paid', type: 'Rent' },
-    { id: 3, amount: '$1,250', date: '2023-11-01', status: 'Paid', type: 'Rent' }
-  ]
 
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
       <header className="border-b bg-card">
-        <div className="flex h-16 items-center px-6">
-          <div className="flex items-center space-x-4">
-            <Home className="h-8 w-8 text-primary" />
-            <h1 className="text-xl font-semibold">Resident Portal</h1>
-          </div>
-          
-          <div className="ml-auto flex items-center space-x-4">
-            <span className="text-sm text-muted-foreground">
-              Welcome, {user?.email}
-            </span>
-            <Button variant="ghost" size="sm" onClick={handleSignOut}>
-              <LogOut className="h-4 w-4 mr-2" />
-              Sign Out
-            </Button>
+        <div className="max-w-6xl mx-auto px-6 py-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-2xl font-bold text-foreground">
+                Resident Dashboard
+              </h1>
+              <p className="text-muted-foreground">
+                Welcome back, {profile?.full_name || user?.email}
+              </p>
+            </div>
+            <div className="flex items-center space-x-4">
+              <Button variant="outline" size="sm">
+                <Settings className="h-4 w-4 mr-2" />
+                Settings
+              </Button>
+              <Button variant="outline" size="sm" onClick={handleSignOut}>
+                <LogOut className="h-4 w-4 mr-2" />
+                Sign Out
+              </Button>
+            </div>
           </div>
         </div>
       </header>
 
-      <div className="flex">
-        {/* Sidebar */}
-        <aside className="w-64 border-r bg-card min-h-[calc(100vh-4rem)]">
-          <nav className="p-4 space-y-2">
-            <Button
-              variant={activeTab === 'overview' ? 'default' : 'ghost'}
-              className="w-full justify-start"
-              onClick={() => setActiveTab('overview')}
+      <div className="max-w-6xl mx-auto p-6 space-y-6">
+        {/* Navigation Tabs */}
+        <div className="flex space-x-1 bg-muted p-1 rounded-lg w-fit">
+          {[
+            { id: 'overview', label: 'Overview' },
+            { id: 'maintenance', label: 'Maintenance' },
+            { id: 'payments', label: 'Payments' },
+            { id: 'lease', label: 'Lease Info' },
+            { id: 'messages', label: 'Messages' }
+          ].map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                activeTab === tab.id
+                  ? 'bg-background text-foreground shadow-sm'
+                  : 'text-muted-foreground hover:text-foreground'
+              }`}
             >
-              <Home className="h-4 w-4 mr-2" />
-              Overview
-            </Button>
-            <Button
-              variant={activeTab === 'payments' ? 'default' : 'ghost'}
-              className="w-full justify-start"
-              onClick={() => setActiveTab('payments')}
-            >
-              <CreditCard className="h-4 w-4 mr-2" />
-              Payments
-            </Button>
-            <Button
-              variant={activeTab === 'maintenance' ? 'default' : 'ghost'}
-              className="w-full justify-start"
-              onClick={() => setActiveTab('maintenance')}
-            >
-              <Wrench className="h-4 w-4 mr-2" />
-              Maintenance
-            </Button>
-            <Button
-              variant={activeTab === 'messages' ? 'default' : 'ghost'}
-              className="w-full justify-start"
-              onClick={() => setActiveTab('messages')}
-            >
-              <MessageSquare className="h-4 w-4 mr-2" />
-              Messages
-            </Button>
-            <Button
-              variant={activeTab === 'settings' ? 'default' : 'ghost'}
-              className="w-full justify-start"
-              onClick={() => setActiveTab('settings')}
-            >
-              <Settings className="h-4 w-4 mr-2" />
-              Settings
-            </Button>
-          </nav>
-        </aside>
+              {tab.label}
+            </button>
+          ))}
+        </div>
 
-        {/* Main Content */}
-        <main className="flex-1 p-6">
-          {activeTab === 'overview' && (
-            <div className="space-y-6">
-              <h2 className="text-2xl font-bold">Dashboard Overview</h2>
-
-              {/* Quick Stats */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <Card>
-                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">
-                      Current Rent
-                    </CardTitle>
-                    <DollarSign className="h-4 w-4 text-green-600" />
-                  </CardHeader>
-                  <CardContent>
-                    <div className="text-2xl font-bold">{rentInfo.amount}</div>
-                    <p className="text-xs text-muted-foreground">
-                      Due {rentInfo.nextDue}
-                    </p>
-                  </CardContent>
-                </Card>
-
-                <Card>
-                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">
-                      Payment Status
-                    </CardTitle>
-                    <CheckCircle className="h-4 w-4 text-green-600" />
-                  </CardHeader>
-                  <CardContent>
-                    <div className="text-2xl font-bold">{rentInfo.status}</div>
-                    <p className="text-xs text-muted-foreground">
-                      Last payment: {rentInfo.dueDate}
-                    </p>
-                  </CardContent>
-                </Card>
-
-                <Card>
-                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">
-                      Maintenance Requests
-                    </CardTitle>
-                    <Wrench className="h-4 w-4 text-blue-600" />
-                  </CardHeader>
-                  <CardContent>
-                    <div className="text-2xl font-bold">2</div>
-                    <p className="text-xs text-muted-foreground">
-                      1 in progress, 1 pending
-                    </p>
-                  </CardContent>
-                </Card>
-
-                <Card>
-                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">
-                      Lease Expires
-                    </CardTitle>
-                    <Calendar className="h-4 w-4 text-purple-600" />
-                  </CardHeader>
-                  <CardContent>
-                    <div className="text-2xl font-bold">11</div>
-                    <p className="text-xs text-muted-foreground">
-                      months remaining
-                    </p>
-                  </CardContent>
-                </Card>
-              </div>
-
-              {/* Property Info and Recent Activity */}
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Property Information</CardTitle>
-                    <CardDescription>
-                      Your current residence details
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div>
-                      <p className="font-medium">{propertyInfo.name}</p>
-                      <p className="text-sm text-muted-foreground">Unit {propertyInfo.unit}</p>
-                    </div>
-                    <div>
-                      <p className="text-sm font-medium">Address</p>
-                      <p className="text-sm text-muted-foreground">{propertyInfo.address}</p>
-                    </div>
-                    <div>
-                      <p className="text-sm font-medium">Lease End Date</p>
-                      <p className="text-sm text-muted-foreground">{propertyInfo.leaseEnd}</p>
-                    </div>
-                  </CardContent>
-                </Card>
-
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Recent Maintenance</CardTitle>
-                    <CardDescription>
-                      Your latest maintenance requests
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-4">
-                      {maintenanceRequests.slice(0, 3).map((request) => (
-                        <div key={request.id} className="flex items-center justify-between">
-                          <div>
-                            <p className="font-medium">{request.title}</p>
-                            <p className="text-sm text-muted-foreground">{request.date}</p>
-                          </div>
-                          <Badge 
-                            variant={
-                              request.status === 'Completed' ? 'default' : 
-                              request.status === 'In Progress' ? 'secondary' : 'outline'
-                            }
-                          >
-                            {request.status}
-                          </Badge>
-                        </div>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
-            </div>
-          )}
-
-          {activeTab === 'payments' && (
-            <div className="space-y-6">
-              <div className="flex items-center justify-between">
-                <h2 className="text-2xl font-bold">Payments</h2>
-                <Button>
-                  <CreditCard className="h-4 w-4 mr-2" />
-                  Make Payment
-                </Button>
-              </div>
-
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <Card className="lg:col-span-1">
-                  <CardHeader>
-                    <CardTitle>Current Rent</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="text-3xl font-bold">{rentInfo.amount}</div>
-                    <p className="text-muted-foreground">Due {rentInfo.nextDue}</p>
-                    <Button className="w-full mt-4">Pay Now</Button>
-                  </CardContent>
-                </Card>
-
-                <Card className="lg:col-span-2">
-                  <CardHeader>
-                    <CardTitle>Payment History</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-4">
-                      {paymentHistory.map((payment) => (
-                        <div key={payment.id} className="flex items-center justify-between border-b pb-2">
-                          <div>
-                            <p className="font-medium">{payment.type}</p>
-                            <p className="text-sm text-muted-foreground">{payment.date}</p>
-                          </div>
-                          <div className="text-right">
-                            <p className="font-medium">{payment.amount}</p>
-                            <Badge variant="default">{payment.status}</Badge>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
-            </div>
-          )}
-
-          {activeTab === 'maintenance' && (
-            <div className="space-y-6">
-              <div className="flex items-center justify-between">
-                <h2 className="text-2xl font-bold">Maintenance Requests</h2>
-                <Button>
-                  <Wrench className="h-4 w-4 mr-2" />
-                  New Request
-                </Button>
-              </div>
+        {/* Overview Tab */}
+        {activeTab === 'overview' && (
+          <div className="space-y-6">
+            {/* Quick Stats */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">Current Rent</CardTitle>
+                  <DollarSign className="h-4 w-4 text-green-600" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">
+                    ${leaseInfo?.rent_amount?.toLocaleString() || 'N/A'}
+                  </div>
+                  <p className="text-xs text-muted-foreground">
+                    {leaseInfo ? 'Per month' : 'No active lease'}
+                  </p>
+                </CardContent>
+              </Card>
 
               <Card>
-                <CardContent className="p-6">
-                  <div className="space-y-4">
-                    {maintenanceRequests.map((request) => (
-                      <div key={request.id} className="flex items-center justify-between border-b pb-4">
-                        <div className="flex items-center space-x-4">
-                          <div className={`p-2 rounded-full ${
-                            request.priority === 'High' ? 'bg-red-100 text-red-600' :
-                            request.priority === 'Medium' ? 'bg-yellow-100 text-yellow-600' :
-                            'bg-green-100 text-green-600'
-                          }`}>
-                            <AlertCircle className="h-4 w-4" />
-                          </div>
-                          <div>
-                            <p className="font-medium">{request.title}</p>
-                            <p className="text-sm text-muted-foreground">
-                              Submitted on {request.date} • {request.priority} Priority
-                            </p>
-                          </div>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">Lease Status</CardTitle>
+                  <FileText className="h-4 w-4 text-blue-600" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">
+                    {leaseInfo?.status || 'No Lease'}
+                  </div>
+                  <p className="text-xs text-muted-foreground">
+                    {leaseInfo?.end_date ? 
+                      `Ends ${new Date(leaseInfo.end_date).toLocaleDateString()}` : 
+                      'No active lease'
+                    }
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">Maintenance</CardTitle>
+                  <Wrench className="h-4 w-4 text-orange-600" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">
+                    {groupedRequests.pending.length}
+                  </div>
+                  <p className="text-xs text-muted-foreground">
+                    Pending requests
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">Property</CardTitle>
+                  <Home className="h-4 w-4 text-purple-600" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">
+                    {propertyInfo?.unit_number || 'N/A'}
+                  </div>
+                  <p className="text-xs text-muted-foreground">
+                    Unit number
+                  </p>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Property Information */}
+            {propertyInfo && (
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center">
+                    <Home className="h-5 w-5 mr-2" />
+                    Your Property
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                      <h3 className="font-medium mb-2">Property Details</h3>
+                      <div className="space-y-2 text-sm">
+                        <p><span className="font-medium">Address:</span> {propertyInfo.address}</p>
+                        {propertyInfo.unit_number && (
+                          <p><span className="font-medium">Unit:</span> {propertyInfo.unit_number}</p>
+                        )}
+                        <p><span className="font-medium">Bedrooms:</span> {propertyInfo.bedrooms || 'N/A'}</p>
+                        <p><span className="font-medium">Bathrooms:</span> {propertyInfo.bathrooms || 'N/A'}</p>
+                      </div>
+                    </div>
+                    {leaseInfo && (
+                      <div>
+                        <h3 className="font-medium mb-2">Lease Information</h3>
+                        <div className="space-y-2 text-sm">
+                          <p><span className="font-medium">Start Date:</span> {new Date(leaseInfo.start_date).toLocaleDateString()}</p>
+                          <p><span className="font-medium">End Date:</span> {new Date(leaseInfo.end_date).toLocaleDateString()}</p>
+                          <p><span className="font-medium">Monthly Rent:</span> ${leaseInfo.rent_amount?.toLocaleString()}</p>
+                          <p><span className="font-medium">Security Deposit:</span> ${leaseInfo.security_deposit?.toLocaleString() || 'N/A'}</p>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+
+            {/* Recent Maintenance Requests */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center justify-between">
+                  <span className="flex items-center">
+                    <Wrench className="h-5 w-5 mr-2" />
+                    Recent Maintenance Requests
+                  </span>
+                  <Button size="sm" onClick={handleCreateMaintenanceRequest}>
+                    <Plus className="h-4 w-4 mr-2" />
+                    New Request
+                  </Button>
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                {requestsLoading ? (
+                  <div className="space-y-3">
+                    {[...Array(3)].map((_, i) => (
+                      <Skeleton key={i} className="h-16" />
+                    ))}
+                  </div>
+                ) : maintenanceRequests.length > 0 ? (
+                  <div className="space-y-3">
+                    {maintenanceRequests.slice(0, 5).map((request) => (
+                      <div key={request.id} className="flex items-center justify-between p-3 border rounded-lg">
+                        <div>
+                          <p className="font-medium">{request.title}</p>
+                          <p className="text-sm text-muted-foreground">
+                            {new Date(request.created_at).toLocaleDateString()}
+                          </p>
                         </div>
                         <Badge 
                           variant={
-                            request.status === 'Completed' ? 'default' : 
-                            request.status === 'In Progress' ? 'secondary' : 'outline'
+                            request.status === 'completed' ? 'default' :
+                            request.status === 'in_progress' ? 'secondary' :
+                            'destructive'
                           }
                         >
-                          {request.status}
+                          {request.status === 'pending' && <Clock className="h-3 w-3 mr-1" />}
+                          {request.status === 'in_progress' && <AlertCircle className="h-3 w-3 mr-1" />}
+                          {request.status === 'completed' && <CheckCircle className="h-3 w-3 mr-1" />}
+                          {request.status.replace('_', ' ')}
                         </Badge>
                       </div>
                     ))}
                   </div>
-                </CardContent>
-              </Card>
-            </div>
-          )}
+                ) : (
+                  <div className="text-center py-8">
+                    <Wrench className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                    <h3 className="text-lg font-medium mb-2">No maintenance requests</h3>
+                    <p className="text-muted-foreground mb-4">
+                      Submit a maintenance request when you need repairs or assistance.
+                    </p>
+                    <Button onClick={handleCreateMaintenanceRequest}>
+                      <Plus className="h-4 w-4 mr-2" />
+                      Create Your First Request
+                    </Button>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </div>
+        )}
 
-          {activeTab === 'messages' && (
-            <div className="space-y-6">
-              <h2 className="text-2xl font-bold">Messages</h2>
-              
-              <Card>
-                <CardContent className="p-6">
-                  <p className="text-center text-muted-foreground">
-                    Messaging interface will be implemented here.
+        {/* Maintenance Tab */}
+        {activeTab === 'maintenance' && (
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center justify-between">
+                Maintenance Requests
+                <Button onClick={handleCreateMaintenanceRequest}>
+                  <Plus className="h-4 w-4 mr-2" />
+                  New Request
+                </Button>
+              </CardTitle>
+              <CardDescription>
+                Submit and track maintenance requests for your unit
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              {requestsLoading ? (
+                <div className="space-y-4">
+                  {[...Array(5)].map((_, i) => (
+                    <Skeleton key={i} className="h-24" />
+                  ))}
+                </div>
+              ) : maintenanceRequests.length > 0 ? (
+                <div className="space-y-4">
+                  {maintenanceRequests.map((request) => (
+                    <div key={request.id} className="p-4 border rounded-lg">
+                      <div className="flex items-start justify-between">
+                        <div className="flex-1">
+                          <h3 className="font-medium">{request.title}</h3>
+                          <p className="text-sm text-muted-foreground mt-1">
+                            {request.description}
+                          </p>
+                          <div className="flex items-center space-x-4 mt-2 text-xs text-muted-foreground">
+                            <span>Submitted {new Date(request.created_at).toLocaleDateString()}</span>
+                            {request.priority && (
+                              <>
+                                <span>•</span>
+                                <span>Priority: {request.priority}</span>
+                              </>
+                            )}
+                          </div>
+                          {request.admin_notes && (
+                            <div className="mt-3 p-2 bg-muted rounded text-sm">
+                              <p className="font-medium">Admin Notes:</p>
+                              <p>{request.admin_notes}</p>
+                            </div>
+                          )}
+                        </div>
+                        <Badge 
+                          variant={
+                            request.status === 'completed' ? 'default' :
+                            request.status === 'in_progress' ? 'secondary' :
+                            'destructive'
+                          }
+                        >
+                          {request.status === 'pending' && <Clock className="h-3 w-3 mr-1" />}
+                          {request.status === 'in_progress' && <AlertCircle className="h-3 w-3 mr-1" />}
+                          {request.status === 'completed' && <CheckCircle className="h-3 w-3 mr-1" />}
+                          {request.status.replace('_', ' ')}
+                        </Badge>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-12">
+                  <Wrench className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                  <h3 className="text-lg font-medium mb-2">No maintenance requests</h3>
+                  <p className="text-muted-foreground mb-4">
+                    Submit a maintenance request when you need repairs or assistance.
                   </p>
-                </CardContent>
-              </Card>
-            </div>
-          )}
+                  <Button onClick={handleCreateMaintenanceRequest}>
+                    <Plus className="h-4 w-4 mr-2" />
+                    Create Your First Request
+                  </Button>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        )}
 
-          {activeTab === 'settings' && (
-            <div className="space-y-6">
-              <h2 className="text-2xl font-bold">Settings</h2>
-              
-              <Card>
-                <CardContent className="p-6">
-                  <p className="text-center text-muted-foreground">
-                    Settings interface will be implemented here.
-                  </p>
-                </CardContent>
-              </Card>
-            </div>
-          )}
-        </main>
+        {/* Other tabs */}
+        {activeTab === 'payments' && (
+          <Card>
+            <CardHeader>
+              <CardTitle>Payment History</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-muted-foreground">Payment history and rent payment features coming soon...</p>
+            </CardContent>
+          </Card>
+        )}
+
+        {activeTab === 'lease' && (
+          <Card>
+            <CardHeader>
+              <CardTitle>Lease Information</CardTitle>
+            </CardHeader>
+            <CardContent>
+              {leaseInfo ? (
+                <div className="space-y-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                      <h3 className="font-medium mb-3">Lease Details</h3>
+                      <div className="space-y-2">
+                        <p><span className="font-medium">Start Date:</span> {new Date(leaseInfo.start_date).toLocaleDateString()}</p>
+                        <p><span className="font-medium">End Date:</span> {new Date(leaseInfo.end_date).toLocaleDateString()}</p>
+                        <p><span className="font-medium">Status:</span> {leaseInfo.status}</p>
+                      </div>
+                    </div>
+                    <div>
+                      <h3 className="font-medium mb-3">Financial Details</h3>
+                      <div className="space-y-2">
+                        <p><span className="font-medium">Monthly Rent:</span> ${leaseInfo.rent_amount?.toLocaleString()}</p>
+                        <p><span className="font-medium">Security Deposit:</span> ${leaseInfo.security_deposit?.toLocaleString() || 'N/A'}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <p className="text-muted-foreground">No active lease information available.</p>
+              )}
+            </CardContent>
+          </Card>
+        )}
+
+        {activeTab === 'messages' && (
+          <Card>
+            <CardHeader>
+              <CardTitle>Messages</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-muted-foreground">Messaging features coming soon...</p>
+            </CardContent>
+          </Card>
+        )}
       </div>
     </div>
   )
