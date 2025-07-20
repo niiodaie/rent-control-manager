@@ -1,4 +1,4 @@
-// App.jsx
+// App.jsx - Bulletproof version without problematic i18n
 
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
@@ -103,3 +103,4 @@ function App() {
 }
 
 export default App;
+
