@@ -1,281 +1,222 @@
-import React, { useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import React from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { Moon, Sun, Menu, X } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
-import { Button } from './ui/button';
-import { 
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from './ui/dropdown-menu';
-import { Menu, X, User, LogOut, Settings, Home as HomeIcon } from 'lucide-react';
-import { ThemeToggle } from './ThemeToggle';
-import { LanguageSelector } from './LanguageSelector';
-import rcLogo from '../assets/RC-Logo.png';
+import SimpleLanguageSelector from './SimpleLanguageSelector';
+import { t, getCurrentLanguage } from '../i18n/simple';
 
 export function Header() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { user, signOut, isAdmin, isTenant } = useAuth();
+  const [isDark, setIsDark] = React.useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
+  const { user, signOut } = useAuth();
   const location = useLocation();
-  const navigate = useNavigate();
+  const [currentLang, setCurrentLang] = React.useState('en');
+
+  // Update language when it changes
+  React.useEffect(() => {
+    const updateLanguage = () => {
+      setCurrentLang(getCurrentLanguage());
+    };
+    
+    updateLanguage();
+    
+    // Listen for language changes
+    const handleStorageChange = (e) => {
+      if (e.key === 'preferred-language') {
+        updateLanguage();
+      }
+    };
+    
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
+  }, []);
+
+  const toggleTheme = () => {
+    setIsDark(!isDark);
+    document.documentElement.classList.toggle('dark');
+  };
 
   const handleSignOut = async () => {
-    await signOut();
-    navigate('/');
-  };
-
-  const scrollToSection = (sectionId) => {
-    if (location.pathname !== '/') {
-      // If not on home page, navigate to home first
-      window.location.href = `/#${sectionId}`;
-    } else {
-      // If on home page, scroll to section
-      const element = document.getElementById(sectionId);
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
-      }
+    try {
+      await signOut();
+    } catch (error) {
+      console.error('Sign out error:', error);
     }
-    setIsMenuOpen(false);
   };
 
-  const getDashboardPath = () => {
-    if (isAdmin) return '/admin/dashboard';
-    if (isTenant) return '/resident/dashboard';
-    return '/';
-  };
+  const isActive = (path) => location.pathname === path;
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex h-16 items-center justify-between">
-          {/* Logo */}
-          <Link to="/" className="flex items-center space-x-3">
-            <img 
-              src={rcLogo} 
-              alt="Rent Control Logo" 
-              className="h-10 w-10 object-contain"
-            />
-            <span className="text-xl font-bold">Rent Control</span>
+    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="container flex h-16 items-center justify-between">
+        {/* Logo */}
+        <Link to="/" className="flex items-center space-x-2">
+          <div className="h-8 w-8 rounded-lg bg-primary flex items-center justify-center">
+            <span className="text-primary-foreground font-bold text-sm">RC</span>
+          </div>
+          <span className="font-bold text-xl">Rent Control</span>
+        </Link>
+
+        {/* Desktop Navigation */}
+        <nav className="hidden md:flex items-center space-x-6">
+          <Link
+            to="/"
+            className={`text-sm font-medium transition-colors hover:text-primary ${
+              isActive('/') ? 'text-primary' : 'text-muted-foreground'
+            }`}
+          >
+            {t('nav.home', currentLang)}
           </Link>
+          <button className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
+            {t('nav.features', currentLang)}
+          </button>
+          <button className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
+            {t('nav.pricing', currentLang)}
+          </button>
+          <Link
+            to="/about"
+            className={`text-sm font-medium transition-colors hover:text-primary ${
+              isActive('/about') ? 'text-primary' : 'text-muted-foreground'
+            }`}
+          >
+            {t('nav.about', currentLang)}
+          </Link>
+          <Link
+            to="/contact"
+            className={`text-sm font-medium transition-colors hover:text-primary ${
+              isActive('/contact') ? 'text-primary' : 'text-muted-foreground'
+            }`}
+          >
+            {t('nav.contact', currentLang)}
+          </Link>
+          <Link
+            to="/faq"
+            className={`text-sm font-medium transition-colors hover:text-primary ${
+              isActive('/faq') ? 'text-primary' : 'text-muted-foreground'
+            }`}
+          >
+            {t('nav.faq', currentLang)}
+          </Link>
+        </nav>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
-            {!user && (
-              <>
-                <button 
-                  onClick={() => scrollToSection('home')}
-                  className="text-sm font-medium hover:text-primary transition-colors"
-                >
-                  Home
-                </button>
-                <button 
-                  onClick={() => scrollToSection('features')}
-                  className="text-sm font-medium hover:text-primary transition-colors"
-                >
-                  Features
-                </button>
-                <button 
-                  onClick={() => scrollToSection('pricing')}
-                  className="text-sm font-medium hover:text-primary transition-colors"
-                >
-                  Pricing
-                </button>
-                <Link 
-                  to="/about"
-                  className="text-sm font-medium hover:text-primary transition-colors"
-                >
-                  About
-                </Link>
-                <Link 
-                  to="/contact"
-                  className="text-sm font-medium hover:text-primary transition-colors"
-                >
-                  Contact
-                </Link>
-                <Link 
-                  to="/faq"
-                  className="text-sm font-medium hover:text-primary transition-colors"
-                >
-                  FAQ
-                </Link>
-              </>
-            )}
-          </nav>
+        {/* Right side controls */}
+        <div className="flex items-center space-x-4">
+          {/* Language Selector - Simple and bulletproof */}
+          <SimpleLanguageSelector />
 
-          {/* Right side controls */}
-          <div className="flex items-center space-x-4">
-            <LanguageSelector />
-            <ThemeToggle />
-            
-            {user ? (
-              // Authenticated user menu
-              <div className="flex items-center space-x-4">
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => navigate(getDashboardPath())}
-                  className="hidden md:flex"
-                >
-                  <HomeIcon className="h-4 w-4 mr-2" />
-                  Dashboard
-                </Button>
-                
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="sm" className="relative h-8 w-8 rounded-full">
-                      <User className="h-4 w-4" />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent className="w-56" align="end" forceMount>
-                    <div className="flex items-center justify-start gap-2 p-2">
-                      <div className="flex flex-col space-y-1 leading-none">
-                        <p className="font-medium">{user.email}</p>
-                        <p className="text-xs text-muted-foreground">
-                          {isAdmin ? 'Property Manager' : 'Tenant'}
-                        </p>
-                      </div>
-                    </div>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem onClick={() => navigate(getDashboardPath())}>
-                      <HomeIcon className="mr-2 h-4 w-4" />
-                      Dashboard
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <Settings className="mr-2 h-4 w-4" />
-                      Settings
-                    </DropdownMenuItem>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem onClick={handleSignOut}>
-                      <LogOut className="mr-2 h-4 w-4" />
-                      Sign out
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </div>
-            ) : (
-              // Guest user buttons
-              <div className="hidden md:flex items-center space-x-2">
-                <Button variant="ghost" size="sm" asChild>
-                  <Link to="/login">Sign In</Link>
-                </Button>
-                <Button size="sm" asChild>
-                  <Link to="/signup">Get Started</Link>
-                </Button>
-              </div>
-            )}
+          {/* Theme Toggle */}
+          <button
+            onClick={toggleTheme}
+            className="p-2 rounded-md hover:bg-muted transition-colors"
+            aria-label="Toggle theme"
+          >
+            {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+          </button>
 
-            {/* Mobile menu button */}
-            <button
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="md:hidden p-2 rounded-md hover:bg-accent"
+          {/* Auth Buttons */}
+          {user ? (
+            <div className="flex items-center space-x-2">
+              <span className="text-sm text-muted-foreground">
+                {user.email}
+              </span>
+              <button
+                onClick={handleSignOut}
+                className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
+              >
+                Sign Out
+              </button>
+            </div>
+          ) : (
+            <div className="hidden md:flex items-center space-x-2">
+              <Link
+                to="/login"
+                className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
+              >
+                {t('nav.signin', currentLang)}
+              </Link>
+              <Link
+                to="/signup"
+                className="bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 rounded-md text-sm font-medium transition-colors"
+              >
+                {t('nav.getstarted', currentLang)}
+              </Link>
+            </div>
+          )}
+
+          {/* Mobile Menu Button */}
+          <button
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="md:hidden p-2 rounded-md hover:bg-muted transition-colors"
+            aria-label="Toggle mobile menu"
+          >
+            {isMobileMenuOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile Menu */}
+      {isMobileMenuOpen && (
+        <div className="md:hidden border-t bg-background">
+          <div className="container py-4 space-y-4">
+            <Link
+              to="/"
+              className="block text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
+              onClick={() => setIsMobileMenuOpen(false)}
             >
-              {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+              {t('nav.home', currentLang)}
+            </Link>
+            <button className="block text-sm font-medium text-muted-foreground hover:text-primary transition-colors text-left">
+              {t('nav.features', currentLang)}
             </button>
+            <button className="block text-sm font-medium text-muted-foreground hover:text-primary transition-colors text-left">
+              {t('nav.pricing', currentLang)}
+            </button>
+            <Link
+              to="/about"
+              className="block text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              {t('nav.about', currentLang)}
+            </Link>
+            <Link
+              to="/contact"
+              className="block text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              {t('nav.contact', currentLang)}
+            </Link>
+            <Link
+              to="/faq"
+              className="block text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              {t('nav.faq', currentLang)}
+            </Link>
+            
+            {!user && (
+              <div className="pt-4 border-t space-y-2">
+                <Link
+                  to="/login"
+                  className="block text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  {t('nav.signin', currentLang)}
+                </Link>
+                <Link
+                  to="/signup"
+                  className="block bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 rounded-md text-sm font-medium transition-colors text-center"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  {t('nav.getstarted', currentLang)}
+                </Link>
+              </div>
+            )}
           </div>
         </div>
-
-        {/* Mobile Navigation */}
-        {isMenuOpen && (
-          <div className="md:hidden border-t bg-background/95 backdrop-blur">
-            <nav className="flex flex-col space-y-4 p-4">
-              {!user ? (
-                <>
-                  <button 
-                    onClick={() => scrollToSection('home')}
-                    className="text-left text-sm font-medium hover:text-primary transition-colors"
-                  >
-                    Home
-                  </button>
-                  <button 
-                    onClick={() => scrollToSection('features')}
-                    className="text-left text-sm font-medium hover:text-primary transition-colors"
-                  >
-                    Features
-                  </button>
-                  <button 
-                    onClick={() => scrollToSection('pricing')}
-                    className="text-left text-sm font-medium hover:text-primary transition-colors"
-                  >
-                    Pricing
-                  </button>
-                  <Link 
-                    to="/about"
-                    className="text-sm font-medium hover:text-primary transition-colors"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    About
-                  </Link>
-                  <Link 
-                    to="/contact"
-                    className="text-sm font-medium hover:text-primary transition-colors"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    Contact
-                  </Link>
-                  <Link 
-                    to="/faq"
-                    className="text-sm font-medium hover:text-primary transition-colors"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    FAQ
-                  </Link>
-                  <div className="flex flex-col space-y-2 pt-4 border-t">
-                    <Button variant="ghost" size="sm" asChild>
-                      <Link to="/login" onClick={() => setIsMenuOpen(false)}>Sign In</Link>
-                    </Button>
-                    <Button size="sm" asChild>
-                      <Link to="/signup" onClick={() => setIsMenuOpen(false)}>Get Started</Link>
-                    </Button>
-                  </div>
-                </>
-              ) : (
-                <div className="space-y-4">
-                  <div className="pb-4 border-b">
-                    <p className="font-medium">{user.email}</p>
-                    <p className="text-xs text-muted-foreground">
-                      {isAdmin ? 'Property Manager' : 'Tenant'}
-                    </p>
-                  </div>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => {
-                      navigate(getDashboardPath());
-                      setIsMenuOpen(false);
-                    }}
-                    className="w-full justify-start"
-                  >
-                    <HomeIcon className="h-4 w-4 mr-2" />
-                    Dashboard
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="w-full justify-start"
-                  >
-                    <Settings className="h-4 w-4 mr-2" />
-                    Settings
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => {
-                      handleSignOut();
-                      setIsMenuOpen(false);
-                    }}
-                    className="w-full justify-start"
-                  >
-                    <LogOut className="h-4 w-4 mr-2" />
-                    Sign out
-                  </Button>
-                </div>
-              )}
-            </nav>
-          </div>
-        )}
-      </div>
+      )}
     </header>
   );
 }
+
+export default Header;
 
