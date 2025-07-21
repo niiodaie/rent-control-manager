@@ -1,220 +1,189 @@
-import React from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
-import { 
-  Building2, 
-  Users, 
-  CreditCard, 
-  FileText, 
-  Wrench, 
-  BarChart3, 
-  Shield, 
-  Calendar,
-  Smartphone,
-  Globe,
-  Zap,
-  HeadphonesIcon
-} from 'lucide-react';
+import React, { useContext } from 'react';
+import { t } from '../i18n/simple';
+import { LanguageContext } from './SimpleLanguageSelector';
 
-const features = [
-  {
-    icon: Building2,
-    title: 'Global Property Management',
-    description: 'Manage properties across multiple countries with local compliance and currency support.',
-    color: 'text-blue-600',
-    bgColor: 'bg-blue-50 dark:bg-blue-900/20',
-    borderColor: 'border-blue-200 dark:border-blue-800'
-  },
-  {
-    icon: Users,
-    title: 'Multi-Language Tenant Portal',
-    description: 'Tenants can access their portal in their preferred language with automatic translation.',
-    color: 'text-green-600',
-    bgColor: 'bg-green-50 dark:bg-green-900/20',
-    borderColor: 'border-green-200 dark:border-green-800'
-  },
-  {
-    icon: CreditCard,
-    title: 'Global Payment Processing',
-    description: 'Accept payments in 150+ currencies with automatic conversion and local payment methods.',
-    color: 'text-purple-600',
-    bgColor: 'bg-purple-50 dark:bg-purple-900/20',
-    borderColor: 'border-purple-200 dark:border-purple-800'
-  },
-  {
-    icon: FileText,
-    title: 'Smart Lease Management',
-    description: 'Digital contracts with e-signatures, automatic renewals, and local legal compliance.',
-    color: 'text-orange-600',
-    bgColor: 'bg-orange-50 dark:bg-orange-900/20',
-    borderColor: 'border-orange-200 dark:border-orange-800'
-  },
-  {
-    icon: Wrench,
-    title: 'Maintenance Workflow',
-    description: 'Streamlined maintenance requests with vendor management and progress tracking.',
-    color: 'text-red-600',
-    bgColor: 'bg-red-50 dark:bg-red-900/20',
-    borderColor: 'border-red-200 dark:border-red-800'
-  },
-  {
-    icon: BarChart3,
-    title: 'Advanced Analytics',
-    description: 'Comprehensive insights with multi-currency reporting and performance metrics.',
-    color: 'text-indigo-600',
-    bgColor: 'bg-indigo-50 dark:bg-indigo-900/20',
-    borderColor: 'border-indigo-200 dark:border-indigo-800'
-  },
-  {
-    icon: Shield,
-    title: 'Enterprise Security',
-    description: 'Bank-level security with GDPR compliance and data encryption worldwide.',
-    color: 'text-emerald-600',
-    bgColor: 'bg-emerald-50 dark:bg-emerald-900/20',
-    borderColor: 'border-emerald-200 dark:border-emerald-800'
-  },
-  {
-    icon: Calendar,
-    title: 'Smart Scheduling',
-    description: 'Automated reminders and scheduling across different time zones.',
-    color: 'text-yellow-600',
-    bgColor: 'bg-yellow-50 dark:bg-yellow-900/20',
-    borderColor: 'border-yellow-200 dark:border-yellow-800'
-  },
-  {
-    icon: Smartphone,
-    title: 'Mobile-First Design',
-    description: 'Full-featured mobile apps for iOS and Android with offline capabilities.',
-    color: 'text-pink-600',
-    bgColor: 'bg-pink-50 dark:bg-pink-900/20',
-    borderColor: 'border-pink-200 dark:border-pink-800'
-  },
-  {
-    icon: Globe,
-    title: 'Location Intelligence',
-    description: 'Auto-detect user location and adapt interface to local regulations and customs.',
-    color: 'text-cyan-600',
-    bgColor: 'bg-cyan-50 dark:bg-cyan-900/20',
-    borderColor: 'border-cyan-200 dark:border-cyan-800'
-  },
-  {
-    icon: Zap,
-    title: 'API Integration',
-    description: 'Connect with 500+ third-party services and build custom integrations.',
-    color: 'text-violet-600',
-    bgColor: 'bg-violet-50 dark:bg-violet-900/20',
-    borderColor: 'border-violet-200 dark:border-violet-800'
-  },
-  {
-    icon: HeadphonesIcon,
-    title: '24/7 Global Support',
-    description: 'Round-the-clock support in multiple languages with local expertise.',
-    color: 'text-teal-600',
-    bgColor: 'bg-teal-50 dark:bg-teal-900/20',
-    borderColor: 'border-teal-200 dark:border-teal-800'
-  }
-];
+const Features = () => {
+  const { currentLang } = useContext(LanguageContext);
 
-export function Features() {
+  const features = [
+    {
+      icon: (
+        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+      ),
+      titleKey: 'features.global.title',
+      descKey: 'features.global.desc',
+      color: 'from-blue-500 to-cyan-500'
+    },
+    {
+      icon: (
+        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
+        </svg>
+      ),
+      titleKey: 'features.multilang.title',
+      descKey: 'features.multilang.desc',
+      color: 'from-purple-500 to-pink-500'
+    },
+    {
+      icon: (
+        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
+        </svg>
+      ),
+      titleKey: 'features.payments.title',
+      descKey: 'features.payments.desc',
+      color: 'from-green-500 to-emerald-500'
+    },
+    {
+      icon: (
+        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+        </svg>
+      ),
+      titleKey: 'features.lease.title',
+      descKey: 'features.lease.desc',
+      color: 'from-orange-500 to-red-500'
+    },
+    {
+      icon: (
+        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+        </svg>
+      ),
+      titleKey: 'features.maintenance.title',
+      descKey: 'features.maintenance.desc',
+      color: 'from-indigo-500 to-purple-500'
+    },
+    {
+      icon: (
+        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+        </svg>
+      ),
+      titleKey: 'features.analytics.title',
+      descKey: 'features.analytics.desc',
+      color: 'from-teal-500 to-blue-500'
+    }
+  ];
+
   return (
-    <section id="features" className="py-20 lg:py-32 bg-gradient-to-b from-white to-slate-50 dark:from-gray-900 dark:to-gray-800">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
-        <div className="text-center mb-20">
-          <div className="inline-flex items-center justify-center px-4 py-2 mb-6 text-sm font-medium text-blue-600 bg-blue-50 dark:bg-blue-900/20 dark:text-blue-300 rounded-full border-0">
-            ✨ Comprehensive Platform
+    <section className="py-20 bg-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Header */}
+        <div className="text-center max-w-3xl mx-auto mb-16">
+          <div className="inline-flex items-center px-4 py-2 bg-blue-50 text-blue-600 rounded-full text-sm font-medium mb-6">
+            <span className="mr-2">✨</span>
+            {t('features.title', currentLang).split(' ').slice(0, 2).join(' ')}
           </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold mb-6 leading-tight">
-            Everything You Need to
-            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-purple-600 to-blue-800 dark:from-blue-400 dark:via-purple-400 dark:to-blue-600">
-              Manage Properties Globally
-            </span>
+          
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
+            {t('features.title', currentLang)}
           </h2>
-          <p className="text-lg sm:text-xl lg:text-2xl text-slate-600 dark:text-slate-300 max-w-4xl mx-auto leading-relaxed">
-            Our comprehensive platform provides all the tools you need to efficiently manage 
-            rental properties worldwide and create exceptional experiences for your tenants.
+          
+          <p className="text-lg text-gray-600 leading-relaxed">
+            {t('features.subtitle', currentLang)}
           </p>
         </div>
 
-        {/* Features Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-8 mb-20">
-          {features.map((feature, index) => {
-            const IconComponent = feature.icon;
-            return (
-              <Card key={index} className="group relative overflow-hidden bg-white dark:bg-gray-800 border-0 shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-2 rounded-2xl">
-                {/* Gradient border effect */}
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-pink-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl"></div>
-                
-                <CardHeader className="pb-4">
-                  <div className={`w-14 h-14 rounded-2xl ${feature.bgColor} flex items-center justify-center mb-4 group-hover:scale-110 transition-all duration-300 shadow-sm`}>
-                    <IconComponent className={`h-7 w-7 ${feature.color}`} />
-                  </div>
-                  <CardTitle className="text-xl font-bold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300">
-                    {feature.title}
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="pt-0">
-                  <CardDescription className="text-base text-slate-600 dark:text-slate-300 leading-relaxed">
-                    {feature.description}
-                  </CardDescription>
-                </CardContent>
-                
-                {/* Hover effect overlay */}
-                <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
-              </Card>
-            );
-          })}
-        </div>
-
-        {/* Call to Action Section */}
-        <div className="relative">
-          {/* Background decoration */}
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-600/5 via-purple-600/5 to-pink-600/5 rounded-3xl"></div>
-          
-          <div className="relative bg-gradient-to-r from-blue-600 via-purple-600 to-blue-800 rounded-3xl p-8 lg:p-16 text-white overflow-hidden">
-            {/* Background pattern */}
-            <div className="absolute inset-0 bg-grid-white/10 [mask-image:linear-gradient(0deg,white,rgba(255,255,255,0.6))]"></div>
-            
-            <div className="relative text-center">
-              <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-6">
-                Ready to Transform Your Global Property Management?
-              </h3>
-              <p className="text-lg sm:text-xl mb-10 opacity-90 max-w-3xl mx-auto leading-relaxed">
-                Join thousands of property managers who have streamlined their operations 
-                and increased their revenue with our platform.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 lg:gap-6 justify-center">
-                <button className="bg-white text-blue-600 px-8 py-4 rounded-xl font-bold text-lg hover:bg-gray-50 transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-1">
-                  Start Free Trial
-                </button>
-                <button className="bg-white/10 backdrop-blur-sm text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-white/20 transition-all duration-300 border-2 border-white/20 hover:border-white/40">
-                  Schedule Demo
-                </button>
-              </div>
+        {/* Features grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {features.map((feature, index) => (
+            <div
+              key={index}
+              className="group relative bg-white rounded-2xl p-8 border border-gray-100 hover:border-gray-200 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
+            >
+              {/* Background gradient on hover */}
+              <div className="absolute inset-0 bg-gradient-to-br from-gray-50 to-white rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               
-              {/* Trust indicators */}
-              <div className="flex flex-wrap items-center justify-center gap-6 lg:gap-8 mt-8 text-sm opacity-80">
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                  <span>14-day free trial</span>
+              <div className="relative">
+                {/* Icon */}
+                <div className={`inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br ${feature.color} text-white rounded-xl mb-6 group-hover:scale-110 transition-transform duration-300`}>
+                  {feature.icon}
                 </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                  <span>No credit card required</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                  <span>Cancel anytime</span>
+
+                {/* Content */}
+                <h3 className="text-xl font-semibold text-gray-900 mb-4 group-hover:text-blue-600 transition-colors duration-300">
+                  {t(feature.titleKey, currentLang)}
+                </h3>
+                
+                <p className="text-gray-600 leading-relaxed">
+                  {t(feature.descKey, currentLang)}
+                </p>
+
+                {/* Hover arrow */}
+                <div className="mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div className="inline-flex items-center text-blue-600 font-medium">
+                    <span className="mr-2">Learn more</span>
+                    <svg className="w-4 h-4 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </div>
                 </div>
               </div>
             </div>
+          ))}
+        </div>
+
+        {/* Additional features list */}
+        <div className="mt-20 bg-gradient-to-br from-blue-50 to-purple-50 rounded-3xl p-8 md:p-12">
+          <div className="text-center mb-12">
+            <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
+              Ready to Transform Your Global Property Management?
+            </h3>
+            <p className="text-lg text-gray-600">
+              Join thousands of property managers who have streamlined their operations and increased their revenue with our platform.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              { icon: '🔒', title: 'Enterprise Security', desc: 'Bank-level security with GDPR compliance and data encryption worldwide.' },
+              { icon: '📱', title: 'Mobile-First Design', desc: 'Full-featured mobile apps for iOS and Android with offline capabilities.' },
+              { icon: '🌍', title: 'Location Intelligence', desc: 'Auto-detect user location and adapt interface to local regulations and customs.' },
+              { icon: '🔗', title: 'API Integration', desc: 'Connect with 500+ third-party services and build custom integrations.' }
+            ].map((item, index) => (
+              <div key={index} className="text-center">
+                <div className="text-3xl mb-3">{item.icon}</div>
+                <h4 className="font-semibold text-gray-900 mb-2">{item.title}</h4>
+                <p className="text-sm text-gray-600">{item.desc}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="text-center mt-12">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <button
+                onClick={() => window.location.href = '/signup'}
+                className="px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200"
+              >
+                {t('hero.cta.trial', currentLang)}
+              </button>
+              <button
+                onClick={() => window.location.href = '/contact'}
+                className="px-8 py-4 bg-white text-gray-700 font-semibold rounded-xl border-2 border-gray-200 hover:border-blue-300 transition-all duration-200"
+              >
+                Schedule Demo
+              </button>
+            </div>
             
-            {/* Decorative elements */}
-            <div className="absolute -top-4 -left-4 w-24 h-24 bg-white/10 rounded-full blur-xl"></div>
-            <div className="absolute -bottom-4 -right-4 w-32 h-32 bg-white/10 rounded-full blur-xl"></div>
+            <div className="mt-6 text-sm text-gray-600">
+              <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <span>14-day free trial</span>
+                <span className="hidden sm:block">•</span>
+                <span>No credit card required</span>
+                <span className="hidden sm:block">•</span>
+                <span>Cancel anytime</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </section>
   );
-}
+};
+
+export default Features;
 

@@ -11,9 +11,45 @@ const languages = [
   { code: 'pt', name: 'Português', flag: '🇵🇹' }
 ];
 
+// Create Language Context
+export const LanguageContext = React.createContext({
+  currentLang: 'en',
+  setCurrentLang: () => {}
+});
+
+// Language Provider Component
+export function LanguageProvider({ children }) {
+  const [currentLang, setCurrentLang] = React.useState('en');
+
+  // Initialize language from localStorage
+  React.useEffect(() => {
+    try {
+      if (typeof window !== 'undefined' && window.localStorage) {
+        const stored = localStorage.getItem('preferred-language');
+        if (stored && languages.find(lang => lang.code === stored)) {
+          setCurrentLang(stored);
+        }
+      }
+    } catch (error) {
+      console.warn('Could not load language preference:', error);
+    }
+  }, []);
+
+  const value = {
+    currentLang,
+    setCurrentLang
+  };
+
+  return (
+    <LanguageContext.Provider value={value}>
+      {children}
+    </LanguageContext.Provider>
+  );
+}
+
 export function SimpleLanguageSelector() {
   const [isOpen, setIsOpen] = React.useState(false);
-  const [currentLang, setCurrentLang] = React.useState('en');
+  const { currentLang, setCurrentLang } = React.useContext(LanguageContext);
 
   // Simple language change handler with no external dependencies
   const handleLanguageChange = (langCode) => {
@@ -26,8 +62,12 @@ export function SimpleLanguageSelector() {
         localStorage.setItem('preferred-language', langCode);
       }
       
-      // Optional: Reload page to apply language change
-      // window.location.reload();
+      // Trigger storage event for other components
+      window.dispatchEvent(new StorageEvent('storage', {
+        key: 'preferred-language',
+        newValue: langCode
+      }));
+      
     } catch (error) {
       console.warn('Language change failed, but continuing safely:', error);
       setIsOpen(false);

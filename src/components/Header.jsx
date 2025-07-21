@@ -46,6 +46,27 @@ export function Header() {
 
   const isActive = (path) => location.pathname === path;
 
+  // Scroll to section function
+  const scrollToSection = (sectionId) => {
+    // If not on home page, navigate to home first
+    if (location.pathname !== '/') {
+      window.location.href = `/#${sectionId}`;
+      return;
+    }
+
+    // If on home page, scroll to section
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
+    
+    // Close mobile menu if open
+    setIsMobileMenuOpen(false);
+  };
+
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center justify-between">
@@ -67,10 +88,16 @@ export function Header() {
           >
             {t('nav.home', currentLang)}
           </Link>
-          <button className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
+          <button 
+            onClick={() => scrollToSection('features')}
+            className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
+          >
             {t('nav.features', currentLang)}
           </button>
-          <button className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
+          <button 
+            onClick={() => scrollToSection('pricing')}
+            className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
+          >
             {t('nav.pricing', currentLang)}
           </button>
           <Link
@@ -165,10 +192,16 @@ export function Header() {
             >
               {t('nav.home', currentLang)}
             </Link>
-            <button className="block text-sm font-medium text-muted-foreground hover:text-primary transition-colors text-left">
+            <button 
+              onClick={() => scrollToSection('features')}
+              className="block text-sm font-medium text-muted-foreground hover:text-primary transition-colors text-left"
+            >
               {t('nav.features', currentLang)}
             </button>
-            <button className="block text-sm font-medium text-muted-foreground hover:text-primary transition-colors text-left">
+            <button 
+              onClick={() => scrollToSection('pricing')}
+              className="block text-sm font-medium text-muted-foreground hover:text-primary transition-colors text-left"
+            >
               {t('nav.pricing', currentLang)}
             </button>
             <Link
