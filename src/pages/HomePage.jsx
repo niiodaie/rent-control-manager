@@ -1,7 +1,8 @@
 import React from 'react';
-import { Hero } from '../components/Hero';
-import { Features } from '../components/Features';
-import { Pricing } from '../components/Pricing';
+import Hero from '../components/Hero';
+import Features from '../components/Features';
+import Pricing from '../components/Pricing';
+import Footer from '../components/Footer';
 
 export function HomePage() {
   return (
@@ -15,7 +16,10 @@ export function HomePage() {
       <section id="pricing">
         <Pricing />
       </section>
+      <Footer />
     </div>
   );
 }
+
+export default HomePage;
 

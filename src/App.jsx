@@ -5,9 +5,10 @@ import { BrowserRouter as Router, Routes, Route, useLocation, useNavigate } from
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { ProtectedRoute, AuthRoute } from './components/ProtectedRoute';
 import { Header } from './components/Header';
-import { Footer } from './components/Footer';
+import Footer from './components/Footer';
 import { GlobalStatus } from './components/GlobalStatus';
 import ErrorBoundary from './components/ErrorBoundary';
+import { LanguageProvider } from './components/SimpleLanguageSelector';
 import { HomePage } from './pages/HomePage';
 import { AboutPage } from './pages/AboutPage';
 import { ContactPage } from './pages/ContactPage';
@@ -43,61 +44,63 @@ function PlanRedirectWatcher() {
 function App() {
   return (
     <ErrorBoundary>
-      <AuthProvider>
-        <Router>
-          <div className="min-h-screen bg-background text-foreground">
-            <Routes>
-              <Route path="/auth/callback" element={<AuthCallback />} />
-              <Route path="/login" element={
-                <AuthRoute>
-                  <LoginPage />
-                </AuthRoute>
-              } />
-              <Route path="/signup" element={
-                <AuthRoute>
-                  <SignupPage />
-                </AuthRoute>
-              } />
-              <Route path="/choose-plan" element={
-                <ProtectedRoute>
-                  <ChoosePlanPage />
-                </ProtectedRoute>
-              } />
-              <Route path="/admin/dashboard" element={
-                <ProtectedRoute requiredRole="admin">
-                  <AdminDashboard />
-                </ProtectedRoute>
-              } />
-              <Route path="/resident/dashboard" element={
-                <ProtectedRoute requiredRole="tenant">
-                  <ResidentDashboard />
-                </ProtectedRoute>
-              } />
-              <Route path="/success" element={
-                <ProtectedRoute>
-                  <SuccessPage />
-                </ProtectedRoute>
-              } />
-              <Route path="/*" element={
-                <>
-                  <PlanRedirectWatcher />
-                  <Header />
-                  <main className="flex-1">
-                    <Routes>
-                      <Route path="/" element={<HomePage />} />
-                      <Route path="/about" element={<AboutPage />} />
-                      <Route path="/contact" element={<ContactPage />} />
-                      <Route path="/faq" element={<FAQPage />} />
-                    </Routes>
-                  </main>
-                  <Footer />
-                  <GlobalStatus />
-                </>
-              } />
-            </Routes>
-          </div>
-        </Router>
-      </AuthProvider>
+      <LanguageProvider>
+        <AuthProvider>
+          <Router>
+            <div className="min-h-screen bg-background text-foreground">
+              <Routes>
+                <Route path="/auth/callback" element={<AuthCallback />} />
+                <Route path="/login" element={
+                  <AuthRoute>
+                    <LoginPage />
+                  </AuthRoute>
+                } />
+                <Route path="/signup" element={
+                  <AuthRoute>
+                    <SignupPage />
+                  </AuthRoute>
+                } />
+                <Route path="/choose-plan" element={
+                  <ProtectedRoute>
+                    <ChoosePlanPage />
+                  </ProtectedRoute>
+                } />
+                <Route path="/admin/dashboard" element={
+                  <ProtectedRoute requiredRole="admin">
+                    <AdminDashboard />
+                  </ProtectedRoute>
+                } />
+                <Route path="/resident/dashboard" element={
+                  <ProtectedRoute requiredRole="tenant">
+                    <ResidentDashboard />
+                  </ProtectedRoute>
+                } />
+                <Route path="/success" element={
+                  <ProtectedRoute>
+                    <SuccessPage />
+                  </ProtectedRoute>
+                } />
+                <Route path="/*" element={
+                  <>
+                    <PlanRedirectWatcher />
+                    <Header />
+                    <main className="flex-1">
+                      <Routes>
+                        <Route path="/" element={<HomePage />} />
+                        <Route path="/about" element={<AboutPage />} />
+                        <Route path="/contact" element={<ContactPage />} />
+                        <Route path="/faq" element={<FAQPage />} />
+                      </Routes>
+                    </main>
+                    <Footer />
+                    <GlobalStatus />
+                  </>
+                } />
+              </Routes>
+            </div>
+          </Router>
+        </AuthProvider>
+      </LanguageProvider>
     </ErrorBoundary>
   );
 }
