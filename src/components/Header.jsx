@@ -72,11 +72,9 @@ export function Header() {
       <div className="container flex h-16 items-center justify-between">
         {/* Logo */}
         <Link to="/" className="flex items-center space-x-2">
-          <img 
-            src="/RC-Logo.png" 
-            alt="Rent Control Logo" 
-            className="w-8 h-8"
-          />
+          <div className="h-8 w-8 rounded-lg bg-primary flex items-center justify-center">
+            <span className="text-primary-foreground font-bold text-sm">RC</span>
+          </div>
           <span className="font-bold text-xl">Rent Control</span>
         </Link>
 
