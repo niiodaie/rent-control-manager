@@ -97,6 +97,33 @@ export function Pricing() {
       cta: 'Contact Sales',
       highlight: 'Unlimited Scale'
     }
+        'Advanced tenant portal',
+        'Automated rent collection',
+        'Maintenance management',
+        'Financial reporting',
+        'Priority support',
+        'Multi-language support'
+      ],
+      popular: true,
+      cta: t('pricing.cta.trial', currentLang)
+    },
+    {
+      name: t('pricing.enterprise.title', currentLang),
+      price: t('pricing.enterprise.price', currentLang),
+      period: '',
+      description: t('pricing.enterprise.desc', currentLang),
+      features: [
+        'Unlimited properties',
+        'White-label solution',
+        'Custom integrations',
+        'Dedicated account manager',
+        'Advanced analytics',
+        '24/7 phone support',
+        'Custom training'
+      ],
+      popular: false,
+      cta: t('pricing.cta.contact', currentLang)
+    }
   ];
 
   return (
@@ -104,14 +131,14 @@ export function Pricing() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
-            Simple, Transparent Global Pricing
+            {t('pricing.title', currentLang)}
           </h2>
           <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-            Choose the perfect plan for your property management needs. All plans include a 14-day free trial with no credit card required.
+            {t('pricing.subtitle', currentLang)}
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
           {plans.map((plan, index) => (
             <div
               key={index}
@@ -125,7 +152,7 @@ export function Pricing() {
                 <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
                   <div className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-4 py-2 rounded-full text-sm font-medium flex items-center">
                     <Star className="w-4 h-4 mr-1" />
-                    {plan.highlight}
+                    {t('pricing.professional.popular', currentLang)}
                   </div>
                 </div>
               )}
@@ -144,16 +171,16 @@ export function Pricing() {
                     </span>
                   )}
                 </div>
-                <p className="text-gray-600 dark:text-gray-300 text-sm">
+                <p className="text-gray-600 dark:text-gray-300">
                   {plan.description}
                 </p>
               </div>
 
-              <ul className="space-y-3 mb-8">
+              <ul className="space-y-4 mb-8">
                 {plan.features.map((feature, featureIndex) => (
-                  <li key={featureIndex} className="flex items-start">
-                    <Check className="w-5 h-5 text-green-500 mr-3 flex-shrink-0 mt-0.5" />
-                    <span className="text-gray-700 dark:text-gray-300 text-sm">
+                  <li key={featureIndex} className="flex items-center">
+                    <Check className="w-5 h-5 text-green-500 mr-3 flex-shrink-0" />
+                    <span className="text-gray-700 dark:text-gray-300">
                       {feature}
                     </span>
                   </li>
@@ -161,7 +188,7 @@ export function Pricing() {
               </ul>
 
               <Link
-                to={plan.cta === 'Contact Sales' ? '/contact' : '/signup'}
+                to="/signup"
                 className={`w-full inline-flex items-center justify-center px-6 py-3 rounded-lg font-medium transition-colors ${
                   plan.popular
                     ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white hover:from-blue-600 hover:to-purple-700'

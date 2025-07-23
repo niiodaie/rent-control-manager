@@ -73,7 +73,7 @@ export function Header() {
         {/* Logo */}
         <Link to="/" className="flex items-center space-x-2">
           <img 
-            src="/RC-Logo.png" 
+            src="/assets/RC-Logo.png" 
             alt="Rent Control Logo" 
             className="w-8 h-8"
           />
