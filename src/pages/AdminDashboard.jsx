@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { useAuth } from '../contexts/AuthContext'
 import { useProfile } from '../hooks/useProfile'
 import { useProperties } from '../hooks/useProperties'
@@ -22,6 +22,8 @@ import {
   CheckCircle,
   Clock
 } from 'lucide-react'
+import AddPropertyModal from '../components/AddPropertyModal'
+import InviteTenantModal from '../components/InviteTenantModal'
 
 export function AdminDashboard() {
   const { user, signOut } = useAuth()
@@ -179,10 +181,7 @@ export function AdminDashboard() {
                 <CardHeader>
                   <CardTitle className="flex items-center justify-between">
                     Recent Properties
-                    <Button size="sm" variant="outline">
-                      <Plus className="h-4 w-4 mr-2" />
-                      Add Property
-                    </Button>
+                    <AddPropertyModal />
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
@@ -273,10 +272,7 @@ export function AdminDashboard() {
             <CardHeader>
               <CardTitle className="flex items-center justify-between">
                 All Properties
-                <Button>
-                  <Plus className="h-4 w-4 mr-2" />
-                  Add Property
-                </Button>
+                <AddPropertyModal />
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -316,10 +312,7 @@ export function AdminDashboard() {
                   <p className="text-muted-foreground mb-4">
                     Add your first property to start managing your rental business.
                   </p>
-                  <Button>
-                    <Plus className="h-4 w-4 mr-2" />
-                    Add Your First Property
-                  </Button>
+                  <AddPropertyModal />
                 </div>
               )}
             </CardContent>
@@ -422,14 +415,85 @@ export function AdminDashboard() {
           </Card>
         )}
 
-        {/* Other tabs can be implemented similarly */}
+        {/* Tenants Tab */}
         {activeTab === 'tenants' && (
           <Card>
             <CardHeader>
-              <CardTitle>Tenant Management</CardTitle>
+              <CardTitle className="flex items-center justify-between">
+                Tenant Management
+                <InviteTenantModal />
+              </CardTitle>
+              <CardDescription>
+                Manage your tenants and send invitations to new ones
+              </CardDescription>
             </CardHeader>
             <CardContent>
-              <p className="text-muted-foreground">Tenant management features coming soon...</p>
+              {propertiesLoading ? (
+                <div className="space-y-4">
+                  {[...Array(3)].map((_, i) => (
+                    <Skeleton key={i} className="h-20" />
+                  ))}
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  {/* Active Tenants */}
+                  <div>
+                    <h3 className="text-lg font-medium mb-4">Active Tenants</h3>
+                    {properties.filter(p => p.tenant_id).length > 0 ? (
+                      <div className="space-y-3">
+                        {properties.filter(p => p.tenant_id).map((property) => (
+                          <div key={property.id} className="flex items-center justify-between p-4 border rounded-lg">
+                            <div className="flex-1">
+                              <h4 className="font-medium">{property.tenant?.full_name || 'Tenant Name'}</h4>
+                              <p className="text-sm text-muted-foreground">
+                                {property.address} • ${property.rent_amount?.toLocaleString()}/month
+                              </p>
+                            </div>
+                            <div className="flex items-center space-x-2">
+                              <Badge variant="default">Active</Badge>
+                              <Button variant="outline" size="sm">
+                                View Details
+                              </Button>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="text-center py-8 border rounded-lg">
+                        <Users className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                        <h4 className="text-lg font-medium mb-2">No active tenants</h4>
+                        <p className="text-muted-foreground mb-4">
+                          Start by inviting tenants to your properties
+                        </p>
+                        <InviteTenantModal />
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Available Properties */}
+                  {properties.filter(p => !p.tenant_id).length > 0 && (
+                    <div>
+                      <h3 className="text-lg font-medium mb-4">Available Properties</h3>
+                      <div className="space-y-3">
+                        {properties.filter(p => !p.tenant_id).map((property) => (
+                          <div key={property.id} className="flex items-center justify-between p-4 border rounded-lg bg-muted/50">
+                            <div className="flex-1">
+                              <h4 className="font-medium">{property.address}</h4>
+                              <p className="text-sm text-muted-foreground">
+                                {property.bedrooms} bed, {property.bathrooms} bath • ${property.rent_amount?.toLocaleString()}/month
+                              </p>
+                            </div>
+                            <div className="flex items-center space-x-2">
+                              <Badge variant="secondary">Vacant</Badge>
+                              <InviteTenantModal />
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
             </CardContent>
           </Card>
         )}
@@ -449,3 +513,5 @@ export function AdminDashboard() {
   )
 }
 
+
+export default AdminDashboard

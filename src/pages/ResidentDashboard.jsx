@@ -22,6 +22,7 @@ import {
   Plus,
   FileText
 } from 'lucide-react'
+import MaintenanceRequestModal from '../components/MaintenanceRequestModal'
 
 export function ResidentDashboard() {
   const { user, signOut } = useAuth()
@@ -261,10 +262,7 @@ export function ResidentDashboard() {
                     <Wrench className="h-5 w-5 mr-2" />
                     Recent Maintenance Requests
                   </span>
-                  <Button size="sm" onClick={handleCreateMaintenanceRequest}>
-                    <Plus className="h-4 w-4 mr-2" />
-                    New Request
-                  </Button>
+                  <MaintenanceRequestModal />
                 </CardTitle>
               </CardHeader>
               <CardContent>
@@ -306,10 +304,7 @@ export function ResidentDashboard() {
                     <p className="text-muted-foreground mb-4">
                       Submit a maintenance request when you need repairs or assistance.
                     </p>
-                    <Button onClick={handleCreateMaintenanceRequest}>
-                      <Plus className="h-4 w-4 mr-2" />
-                      Create Your First Request
-                    </Button>
+                    <MaintenanceRequestModal />
                   </div>
                 )}
               </CardContent>
@@ -323,10 +318,7 @@ export function ResidentDashboard() {
             <CardHeader>
               <CardTitle className="flex items-center justify-between">
                 Maintenance Requests
-                <Button onClick={handleCreateMaintenanceRequest}>
-                  <Plus className="h-4 w-4 mr-2" />
-                  New Request
-                </Button>
+                <MaintenanceRequestModal />
               </CardTitle>
               <CardDescription>
                 Submit and track maintenance requests for your unit
@@ -388,10 +380,7 @@ export function ResidentDashboard() {
                   <p className="text-muted-foreground mb-4">
                     Submit a maintenance request when you need repairs or assistance.
                   </p>
-                  <Button onClick={handleCreateMaintenanceRequest}>
-                    <Plus className="h-4 w-4 mr-2" />
-                    Create Your First Request
-                  </Button>
+                  <MaintenanceRequestModal />
                 </div>
               )}
             </CardContent>
@@ -458,3 +447,5 @@ export function ResidentDashboard() {
   )
 }
 
+
+export default ResidentDashboard

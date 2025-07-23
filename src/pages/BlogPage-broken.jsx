@@ -29,8 +29,8 @@ export function BlogPage() {
   const blogPosts = [
     {
       id: 1,
-      title: 'Getting Started with Rent Control Manager',
-      excerpt: 'Learn how to set up your property management account and add your first property in just 5 minutes.',
+      title: t('blog.posts.gettingStarted.title', currentLang) || 'Getting Started with Rent Control Manager',
+      excerpt: t('blog.posts.gettingStarted.excerpt', currentLang) || 'Learn how to set up your property management account and add your first property in just 5 minutes.',
       category: 'Getting Started',
       readTime: '5 min read',
       author: 'Rent Control Team',
@@ -50,56 +50,53 @@ export function BlogPage() {
         <p>Once your properties are added, you can invite tenants via email. They'll receive an invitation to join the platform and access their tenant portal.</p>
         
         <h3>Step 4: Start Managing</h3>
-        <p>With properties and tenants set up, you can begin collecting rent, tracking maintenance requests, and monitoring your portfolio performance.</p>
+        <p>Use the dashboard to track rent payments, manage maintenance requests, and communicate with tenants all in one place.</p>
       `
     },
     {
       id: 2,
-      title: 'Tenant Guide: Making the Most of Your Portal',
-      excerpt: 'Discover all the features available in your tenant portal and how to use them effectively.',
+      title: t('blog.posts.tenantPortal.title') || 'How to Use the Tenant Portal',
+      excerpt: t('blog.posts.tenantPortal.excerpt') || 'A complete guide for tenants on how to submit maintenance requests, view lease information, and communicate with landlords.',
       category: 'Tenant Guide',
-      readTime: '6 min read',
-      author: 'Tenant Success Team',
+      readTime: '7 min read',
+      author: 'Support Team',
       date: '2024-01-10',
       featured: true,
       content: `
-        <h2>Your Tenant Portal Overview</h2>
-        <p>The tenant portal is your central hub for all rental-related activities. Here's how to make the most of it.</p>
+        <h2>Your Tenant Portal Guide</h2>
+        <p>The tenant portal is designed to make your rental experience smooth and transparent. Here's everything you need to know.</p>
         
-        <h3>Viewing Your Lease Information</h3>
-        <p>Access your lease details, including rent amount, due dates, and lease terms. You can also download a copy of your signed lease agreement.</p>
+        <h3>Dashboard Overview</h3>
+        <p>Your dashboard shows key information including your current rent, lease status, and any pending maintenance requests.</p>
         
         <h3>Submitting Maintenance Requests</h3>
-        <p>Report maintenance issues directly through the portal. Include photos and detailed descriptions to help property managers address issues quickly.</p>
+        <p>Click "New Request" to submit maintenance issues. Be specific about the problem and include the location within your unit for faster resolution.</p>
+        
+        <h3>Viewing Lease Information</h3>
+        <p>Access your lease details, including start and end dates, rent amount, and security deposit information in the Lease Info tab.</p>
         
         <h3>Payment History</h3>
-        <p>View your complete payment history and download receipts for your records. Set up automatic payments to never miss a due date.</p>
-        
-        <h3>Communication</h3>
-        <p>Stay in touch with your property manager through the built-in messaging system. All communications are logged for reference.</p>
+        <p>Track your rent payment history and upcoming due dates in the Payments section.</p>
       `
     },
     {
       id: 3,
-      title: 'Effective Property Maintenance Management',
-      excerpt: 'Learn best practices for handling maintenance requests and keeping your properties in top condition.',
+      title: t('blog.posts.maintenanceManagement.title') || 'Efficient Maintenance Request Management',
+      excerpt: t('blog.posts.maintenanceManagement.excerpt') || 'Best practices for handling maintenance requests and keeping your properties in top condition.',
       category: 'Property Management',
-      readTime: '7 min read',
-      author: 'Property Management Team',
+      readTime: '6 min read',
+      author: 'Property Experts',
       date: '2024-01-05',
       featured: false,
       content: `
         <h2>Streamlining Maintenance Operations</h2>
         <p>Effective maintenance management is crucial for tenant satisfaction and property value preservation.</p>
         
-        <h3>Setting Up Maintenance Categories</h3>
-        <p>Organize maintenance requests by category (plumbing, electrical, HVAC, etc.) to streamline assignment to appropriate vendors.</p>
+        <h3>Setting Up Response Times</h3>
+        <p>Establish clear response times for different types of maintenance requests. Emergency issues should be addressed within 24 hours.</p>
         
-        <h3>Vendor Management</h3>
-        <p>Maintain a database of trusted vendors with their contact information, specialties, and service rates.</p>
-        
-        <h3>Priority Levels</h3>
-        <p>Establish clear priority levels for different types of maintenance issues. Emergency repairs should be addressed within 24 hours.</p>
+        <h3>Prioritizing Requests</h3>
+        <p>Use the priority system to categorize requests: Urgent (safety issues), High (major inconveniences), Medium (standard repairs), and Low (cosmetic issues).</p>
         
         <h3>Communication is Key</h3>
         <p>Keep tenants informed about the status of their requests. Use the admin notes feature to provide updates and expected completion times.</p>
@@ -107,8 +104,8 @@ export function BlogPage() {
     },
     {
       id: 4,
-      title: 'Understanding Our Pricing Plans',
-      excerpt: 'Choose the right plan for your property portfolio with our comprehensive pricing guide.',
+      title: t('blog.posts.pricingGuide.title', currentLang) || 'Understanding Our Pricing Plans',
+      excerpt: t('blog.posts.pricingGuide.excerpt', currentLang) || 'Choose the right plan for your property portfolio with our comprehensive pricing guide.',
       category: 'Pricing',
       readTime: '4 min read',
       author: 'Billing Team',
@@ -133,8 +130,8 @@ export function BlogPage() {
     },
     {
       id: 5,
-      title: 'Security Best Practices for Property Managers',
-      excerpt: 'Protect your data and your tenants\' information with these essential security practices.',
+      title: t('blog.posts.securityBestPractices.title', currentLang) || 'Security Best Practices for Property Managers',
+      excerpt: t('blog.posts.securityBestPractices.excerpt', currentLang) || 'Protect your data and your tenants\' information with these essential security practices.',
       category: 'Security',
       readTime: '8 min read',
       author: 'Security Team',
@@ -156,8 +153,8 @@ export function BlogPage() {
     },
     {
       id: 6,
-      title: 'Managing Properties on the Go',
-      excerpt: 'Learn how to effectively manage your properties using our mobile-optimized platform.',
+      title: t('blog.posts.mobileApp.title', currentLang) || 'Managing Properties on the Go',
+      excerpt: t('blog.posts.mobileApp.excerpt', currentLang) || 'Learn how to effectively manage your properties using our mobile-optimized platform.',
       category: 'Mobile',
       readTime: '5 min read',
       author: 'Mobile Team',
@@ -200,11 +197,11 @@ export function BlogPage() {
             <div className="flex items-center justify-center mb-4">
               <BookOpen className="h-8 w-8 text-primary mr-3" />
               <h1 className="text-4xl font-bold text-foreground">
-                Help Center & Guides
+                {t('blog.title', currentLang) || 'Help Center & Guides'}
               </h1>
             </div>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Everything you need to know about managing properties and using Rent Control Manager effectively.
+              {t('blog.subtitle', currentLang) || 'Everything you need to know about managing properties and using Rent Control Manager effectively.'}
             </p>
           </div>
         </div>
@@ -217,7 +214,7 @@ export function BlogPage() {
             <div className="relative flex-1">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input
-                placeholder="Search articles..."
+                placeholder={t('blog.searchPlaceholder', currentLang) || 'Search articles...'}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="pl-10"
@@ -233,7 +230,7 @@ export function BlogPage() {
                 size="sm"
                 onClick={() => setSelectedCategory(category)}
               >
-                {category}
+                {t(`blog.categories.${category.toLowerCase().replace(' ', '')}`, currentLang) || category}
               </Button>
             ))}
           </div>
@@ -243,7 +240,7 @@ export function BlogPage() {
         {selectedCategory === 'All' && searchTerm === '' && (
           <div className="mb-12">
             <h2 className="text-2xl font-bold mb-6">
-              Featured Articles
+              {t('blog.featured', currentLang) || 'Featured Articles'}
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {featuredPosts.map((post) => (
@@ -268,7 +265,7 @@ export function BlogPage() {
                         {post.author}
                       </div>
                       <Button variant="ghost" size="sm">
-                        Read More
+                        {t('blog.readMore') || 'Read More'}
                         <ArrowRight className="h-4 w-4 ml-1" />
                       </Button>
                     </div>
@@ -283,7 +280,7 @@ export function BlogPage() {
         <div>
           <h2 className="text-2xl font-bold mb-6">
             {selectedCategory === 'All' ? 
-              'All Articles' : 
+              (t('blog.allArticles') || 'All Articles') : 
               `${selectedCategory} Articles`
             }
           </h2>
@@ -292,10 +289,10 @@ export function BlogPage() {
             <div className="text-center py-12">
               <BookOpen className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
               <h3 className="text-lg font-medium mb-2">
-                No articles found
+                {t('blog.noResults') || 'No articles found'}
               </h3>
               <p className="text-muted-foreground">
-                Try adjusting your search terms or category filter.
+                {t('blog.noResultsDesc') || 'Try adjusting your search terms or category filter.'}
               </p>
             </div>
           ) : (
@@ -304,25 +301,24 @@ export function BlogPage() {
                 <Card key={post.id} className="hover:shadow-lg transition-shadow">
                   <CardHeader>
                     <div className="flex items-center justify-between mb-2">
-                      <Badge variant="secondary">{post.category}</Badge>
+                      <Badge variant="outline">{post.category}</Badge>
                       <div className="flex items-center text-sm text-muted-foreground">
                         <Clock className="h-4 w-4 mr-1" />
                         {post.readTime}
                       </div>
                     </div>
-                    <CardTitle className="text-lg hover:text-primary cursor-pointer">
+                    <CardTitle className="text-lg hover:text-primary cursor-pointer line-clamp-2">
                       {post.title}
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-muted-foreground text-sm mb-4">{post.excerpt}</p>
+                    <p className="text-muted-foreground mb-4 line-clamp-3">{post.excerpt}</p>
                     <div className="flex items-center justify-between">
-                      <div className="flex items-center text-sm text-muted-foreground">
-                        <User className="h-4 w-4 mr-1" />
-                        {post.author}
+                      <div className="text-xs text-muted-foreground">
+                        {new Date(post.date).toLocaleDateString()}
                       </div>
                       <Button variant="ghost" size="sm">
-                        Read More
+                        {t('blog.readMore') || 'Read More'}
                         <ArrowRight className="h-4 w-4 ml-1" />
                       </Button>
                     </div>
@@ -335,85 +331,77 @@ export function BlogPage() {
 
         {/* Quick Links */}
         <div className="mt-16 border-t pt-12">
-          <h2 className="text-2xl font-bold mb-8 text-center">Quick Access</h2>
+          <h2 className="text-2xl font-bold mb-6 text-center">
+            {t('blog.quickLinks') || 'Quick Links'}
+          </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             <Card className="text-center hover:shadow-lg transition-shadow">
-              <CardHeader>
-                <Home className="h-8 w-8 text-primary mx-auto mb-2" />
-                <CardTitle className="text-lg">Property Setup</CardTitle>
-              </CardHeader>
-              <CardContent>
+              <CardContent className="pt-6">
+                <Home className="h-8 w-8 text-primary mx-auto mb-3" />
+                <h3 className="font-medium mb-2">
+                  {t('blog.quickLinks.addProperty') || 'Add Property'}
+                </h3>
                 <p className="text-sm text-muted-foreground mb-4">
-                  Learn how to add and configure your properties
+                  {t('blog.quickLinks.addPropertyDesc') || 'Learn how to add your first property'}
                 </p>
-                <Button variant="outline" size="sm">
-                  Get Started
+                <Button variant="outline" size="sm" asChild>
+                  <Link to="/admin/dashboard">
+                    {t('blog.quickLinks.getStarted') || 'Get Started'}
+                  </Link>
                 </Button>
               </CardContent>
             </Card>
 
             <Card className="text-center hover:shadow-lg transition-shadow">
-              <CardHeader>
-                <Users className="h-8 w-8 text-primary mx-auto mb-2" />
-                <CardTitle className="text-lg">Tenant Management</CardTitle>
-              </CardHeader>
-              <CardContent>
+              <CardContent className="pt-6">
+                <Users className="h-8 w-8 text-primary mx-auto mb-3" />
+                <h3 className="font-medium mb-2">
+                  {t('blog.quickLinks.inviteTenants') || 'Invite Tenants'}
+                </h3>
                 <p className="text-sm text-muted-foreground mb-4">
-                  Invite tenants and manage their accounts
+                  {t('blog.quickLinks.inviteTenantsDesc') || 'Connect with your tenants'}
                 </p>
-                <Button variant="outline" size="sm">
-                  Learn More
+                <Button variant="outline" size="sm" asChild>
+                  <Link to="/admin/dashboard">
+                    {t('blog.quickLinks.learnHow') || 'Learn How'}
+                  </Link>
                 </Button>
               </CardContent>
             </Card>
 
             <Card className="text-center hover:shadow-lg transition-shadow">
-              <CardHeader>
-                <DollarSign className="h-8 w-8 text-primary mx-auto mb-2" />
-                <CardTitle className="text-lg">Payment Setup</CardTitle>
-              </CardHeader>
-              <CardContent>
+              <CardContent className="pt-6">
+                <DollarSign className="h-8 w-8 text-primary mx-auto mb-3" />
+                <h3 className="font-medium mb-2">
+                  {t('blog.quickLinks.pricing') || 'Pricing Plans'}
+                </h3>
                 <p className="text-sm text-muted-foreground mb-4">
-                  Configure rent collection and payment methods
+                  {t('blog.quickLinks.pricingDesc') || 'Choose the right plan for you'}
                 </p>
-                <Button variant="outline" size="sm">
-                  View Guide
+                <Button variant="outline" size="sm" asChild>
+                  <Link to="/#pricing">
+                    {t('blog.quickLinks.viewPlans') || 'View Plans'}
+                  </Link>
                 </Button>
               </CardContent>
             </Card>
 
             <Card className="text-center hover:shadow-lg transition-shadow">
-              <CardHeader>
-                <Settings className="h-8 w-8 text-primary mx-auto mb-2" />
-                <CardTitle className="text-lg">Account Settings</CardTitle>
-              </CardHeader>
-              <CardContent>
+              <CardContent className="pt-6">
+                <Settings className="h-8 w-8 text-primary mx-auto mb-3" />
+                <h3 className="font-medium mb-2">
+                  {t('blog.quickLinks.support') || 'Get Support'}
+                </h3>
                 <p className="text-sm text-muted-foreground mb-4">
-                  Customize your account and notification preferences
+                  {t('blog.quickLinks.supportDesc') || 'Contact our support team'}
                 </p>
-                <Button variant="outline" size="sm">
-                  Configure
+                <Button variant="outline" size="sm" asChild>
+                  <Link to="/contact">
+                    {t('blog.quickLinks.contactUs') || 'Contact Us'}
+                  </Link>
                 </Button>
               </CardContent>
             </Card>
-          </div>
-        </div>
-
-        {/* Contact Support */}
-        <div className="mt-16 text-center">
-          <div className="bg-muted rounded-lg p-8">
-            <h3 className="text-xl font-bold mb-4">Still need help?</h3>
-            <p className="text-muted-foreground mb-6">
-              Can't find what you're looking for? Our support team is here to help.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button asChild>
-                <Link to="/contact">Contact Support</Link>
-              </Button>
-              <Button variant="outline" asChild>
-                <a href="mailto:support@rent-control.net">Email Us</a>
-              </Button>
-            </div>
           </div>
         </div>
       </div>

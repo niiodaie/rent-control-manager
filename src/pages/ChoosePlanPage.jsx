@@ -55,3 +55,5 @@ export function ChoosePlanPage() {
     </div>
   );
 }
+
+export default ChoosePlanPage

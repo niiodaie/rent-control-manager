@@ -210,3 +210,5 @@ export function PaymentSuccessPage() {
   );
 }
 
+
+export default PaymentSuccessPage

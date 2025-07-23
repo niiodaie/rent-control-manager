@@ -294,3 +294,5 @@ export function SignupPage() {
   );
 }
 
+
+export default SignupPage
