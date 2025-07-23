@@ -49,6 +49,9 @@ const translations = {
     'pricing.professional.desc': 'Ideal for growing property management businesses',
     'pricing.professional.popular': 'Most Popular',
     'pricing.enterprise.title': 'Enterprise',
+    'pricing.enterprise.price': '$99.99/month',
+    'pricing.enterprise.desc': 'For large-scale property management companies',
+    'pricing.enterprise.title': 'Enterprise',
     'pricing.enterprise.price': 'Custom',
     'pricing.enterprise.desc': 'For large-scale property management companies',
     'pricing.cta.trial': 'Start Free Trial',
@@ -63,6 +66,159 @@ const translations = {
     'dashboard.revenue': 'Monthly Revenue',
     'dashboard.live': 'Live Demo',
     
+    // Common
+    'common.loading': 'Loading...',
+    'common.error': 'Something went wrong',
+    'common.tryagain': 'Try Again',
+    'common.cancel': 'Cancel',
+    'common.save': 'Save',
+    'common.close': 'Close'
+  },
+  es: {
+    // Navigation
+    'nav.home': 'Inicio',
+    'nav.features': 'Características',
+    'nav.pricing': 'Precios',
+    'nav.about': 'Acerca de',
+    'nav.contact': 'Contacto',
+    'nav.faq': 'FAQ',
+    'nav.signin': 'Iniciar Sesión',
+    'nav.getstarted': 'Comenzar',
+    
+    // Hero section
+    'hero.title': 'Gestión Global de Propiedades Simplificada',
+    'hero.subtitle': 'Optimiza tu negocio de alquiler a nivel mundial con nuestra plataforma integral. Gestiona propiedades, inquilinos y pagos en múltiples países y monedas.',
+    'hero.cta.trial': 'Prueba Gratuita',
+    'hero.cta.demo': 'Ver Demo',
+    'hero.trust': 'Confiado por más de 10,000 Administradores de Propiedades Globalmente',
+    'hero.benefits.setup': 'Sin tarifas de configuración',
+    'hero.benefits.cancel': 'Cancela en cualquier momento',
+    'hero.benefits.support': 'Soporte global 24/7',
+    
+    // Features
+    'features.title': 'Todo lo que Necesitas para Gestionar Propiedades Globalmente',
+    'features.subtitle': 'Nuestra plataforma integral proporciona todas las herramientas que necesitas para gestionar eficientemente propiedades de alquiler en todo el mundo.',
+    'features.global.title': 'Gestión Global de Propiedades',
+    'features.global.desc': 'Gestiona propiedades en múltiples países con cumplimiento local y soporte de monedas.',
+    'features.multilang.title': 'Portal de Inquilinos Multiidioma',
+    'features.multilang.desc': 'Los inquilinos pueden acceder a su portal en su idioma preferido con traducción automática.',
+    'features.payments.title': 'Procesamiento Global de Pagos',
+    'features.payments.desc': 'Acepta pagos en más de 150 monedas con conversión automática y métodos de pago locales.',
+    'features.lease.title': 'Gestión Inteligente de Contratos',
+    'features.lease.desc': 'Contratos digitales con firmas electrónicas, renovaciones automáticas y cumplimiento legal local.',
+    'features.maintenance.title': 'Flujo de Trabajo de Mantenimiento',
+    'features.maintenance.desc': 'Solicitudes de mantenimiento optimizadas con gestión de proveedores y seguimiento de progreso.',
+    'features.analytics.title': 'Análisis Avanzados',
+    'features.analytics.desc': 'Información integral con informes multimoneda y métricas de rendimiento.',
+    
+    // Pricing
+    'pricing.title': 'Precios Globales Simples y Transparentes',
+    'pricing.subtitle': 'Elige el plan perfecto para tus necesidades de gestión de propiedades. Todos los planes incluyen una prueba gratuita de 14 días sin tarjeta de crédito.',
+    'pricing.free.title': 'Gratis',
+    'pricing.free.price': '$0/mes',
+    'pricing.free.desc': 'Perfecto para comenzar con gestión básica de propiedades',
+    'pricing.professional.title': 'Profesional',
+    'pricing.professional.price': '$49.99/mes',
+    'pricing.professional.desc': 'Ideal para empresas de gestión de propiedades en crecimiento',
+    'pricing.professional.popular': 'Más Popular',
+    'pricing.enterprise.title': 'Empresarial',
+    'pricing.enterprise.price': '$99.99/mes',
+    'pricing.enterprise.desc': 'Para empresas de gestión de propiedades a gran escala',
+    'pricing.enterprise.title': 'Empresarial',
+    'pricing.enterprise.price': 'Personalizado',
+    'pricing.enterprise.desc': 'Para empresas de gestión de propiedades a gran escala',
+    'pricing.cta.trial': 'Prueba Gratuita',
+    'pricing.cta.contact': 'Contactar Ventas',
+    
+    // Dashboard
+    'dashboard.title': 'Panel de Propiedades',
+    'dashboard.status': 'Todos los Sistemas Activos',
+    'dashboard.properties': 'Propiedades',
+    'dashboard.tenants': 'Inquilinos',
+    'dashboard.occupancy': 'Ocupación',
+    'dashboard.revenue': 'Ingresos Mensuales',
+    'dashboard.live': 'Demo en Vivo',
+    
+    // Common
+    'common.loading': 'Cargando...',
+    'common.error': 'Algo salió mal',
+    'common.tryagain': 'Intentar de Nuevo',
+    'common.cancel': 'Cancelar',
+    'common.save': 'Guardar',
+    'common.close': 'Cerrar'
+  },
+  fr: {
+    // Navigation
+    'nav.home': 'Accueil',
+    'nav.features': 'Fonctionnalités',
+    'nav.pricing': 'Tarifs',
+    'nav.about': 'À propos',
+    'nav.contact': 'Contact',
+    'nav.faq': 'FAQ',
+    'nav.signin': 'Se connecter',
+    'nav.getstarted': 'Commencer',
+    
+    // Hero section
+    'hero.title': 'Gestion Immobilière Mondiale Simplifiée',
+    'hero.subtitle': 'Rationalisez votre activité locative dans le monde entier avec notre plateforme complète. Gérez les propriétés, les locataires et les paiements dans plusieurs pays et devises.',
+    'hero.cta.trial': 'Essai Gratuit',
+    'hero.cta.demo': 'Voir la Démo',
+    
+    // Features
+    'features.title': 'Tout ce dont Vous Avez Besoin pour Gérer des Propriétés Globalement',
+    'features.subtitle': 'Notre plateforme complète fournit tous les outils dont vous avez besoin pour gérer efficacement les propriétés locatives dans le monde entier.',
+    
+    // Pricing
+    'pricing.title': 'Tarification Mondiale Simple et Transparente',
+    'pricing.subtitle': 'Choisissez le plan parfait pour vos besoins de gestion immobilière. Tous les plans incluent un essai gratuit de 14 jours sans carte de crédit.',
+    
+    // Common
+    'common.loading': 'Chargement...',
+    'common.error': 'Quelque chose s\'est mal passé',
+    'common.tryagain': 'Réessayer',
+    'common.cancel': 'Annuler',
+    'common.save': 'Sauvegarder',
+    'common.close': 'Fermer'
+  }
+};
+
+// Simple translation function that never crashes
+export function t(key, lang = 'en') {
+  try {
+    const translation = translations[lang] && translations[lang][key];
+    return translation || translations.en[key] || key;
+  } catch (error) {
+    console.warn('Translation failed for key:', key, 'using fallback');
+    return key; // Always return something, even if it's just the key
+  }
+}
+
+// Get available languages
+export function getLanguages() {
+  return Object.keys(translations);
+}
+
+// Check if language is supported
+export function isLanguageSupported(lang) {
+  return translations.hasOwnProperty(lang);
+}
+
+// Get current language from localStorage or default to English
+export function getCurrentLanguage() {
+  try {
+    if (typeof window !== 'undefined' && window.localStorage) {
+      const stored = localStorage.getItem('preferred-language');
+      return isLanguageSupported(stored) ? stored : 'en';
+    }
+  } catch (error) {
+    console.warn('Could not access localStorage, using default language');
+  }
+  return 'en';
+}
+
+export default { t, getLanguages, isLanguageSupported, getCurrentLanguage };
+
+
     // About page
     'about.title': 'About Us',
     'about.subtitle': 'Learn more about our mission to revolutionize global property management.',
@@ -154,15 +310,7 @@ const translations = {
     'blog.quick_access': 'Quick Access',
     'blog.help_needed': 'Still need help?',
     'blog.help_description': 'Can\'t find what you\'re looking for? Our support team is here to help.',
-    'blog.location_detecting': 'Detecting your location...',
-    
-    // Common
-    'common.loading': 'Loading...',
-    'common.error': 'Something went wrong',
-    'common.tryagain': 'Try Again',
-    'common.cancel': 'Cancel',
-    'common.save': 'Save',
-    'common.close': 'Close'
+    'blog.location_detecting': 'Detecting your location...'
   },
   es: {
     // Navigation
