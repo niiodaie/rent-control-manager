@@ -2,24 +2,26 @@
 
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
-import { AuthProvider, useAuth } from './contexts/AuthContext';
+import { AuthProvider, useAuth } from './contexts/MockAuthContext';
 import { ProtectedRoute, AuthRoute } from './components/ProtectedRoute';
 import { Header } from './components/Header';
 import Footer from './components/Footer';
 import { GlobalStatus } from './components/GlobalStatus';
 import ErrorBoundary from './components/ErrorBoundary';
 import { LanguageProvider } from './components/SimpleLanguageSelector';
-import { HomePage } from './pages/HomePage';
-import { AboutPage } from './pages/AboutPage';
-import { ContactPage } from './pages/ContactPage';
-import { FAQPage } from './pages/FAQPage';
-import { LoginPage } from './pages/LoginPage';
-import { SignupPage } from './pages/SignupPage';
-import { AdminDashboard } from './pages/AdminDashboard';
-import { ResidentDashboard } from './pages/ResidentDashboard';
-import { AuthCallback } from './pages/AuthCallback';
-import { ChoosePlanPage } from './pages/ChoosePlanPage';
-import SuccessPage from './pages/SuccessPage';
+import HomePage from './pages/HomePage'
+import LoginPage from './pages/LoginPage'
+import SignupPage from './pages/SignupPage'
+import AdminDashboardDemo from './pages/AdminDashboardDemo';
+import AdminDashboard from './pages/AdminDashboard';
+import ResidentDashboard from './pages/ResidentDashboard'
+import AuthCallback from './pages/AuthCallback'
+import AboutPage from './pages/AboutPage'
+import ContactPage from './pages/ContactPage'
+import FAQPage from './pages/FAQPage'
+import BlogPage from './pages/BlogPage'
+import ChoosePlanPage from './pages/ChoosePlanPage'
+import PaymentSuccessPage from './pages/PaymentSuccessPage'
 import './App.css';
 
 function PlanRedirectWatcher() {
@@ -70,6 +72,7 @@ function App() {
                     <AdminDashboard />
                   </ProtectedRoute>
                 } />
+                <Route path="/admin/demo" element={<AdminDashboardDemo />} />
                 <Route path="/resident/dashboard" element={
                   <ProtectedRoute requiredRole="tenant">
                     <ResidentDashboard />
@@ -77,7 +80,7 @@ function App() {
                 } />
                 <Route path="/success" element={
                   <ProtectedRoute>
-                    <SuccessPage />
+                    <PaymentSuccessPage />
                   </ProtectedRoute>
                 } />
                 <Route path="/*" element={
@@ -87,9 +90,11 @@ function App() {
                     <main className="flex-1">
                       <Routes>
                         <Route path="/" element={<HomePage />} />
-                        <Route path="/about" element={<AboutPage />} />
-                        <Route path="/contact" element={<ContactPage />} />
-                        <Route path="/faq" element={<FAQPage />} />
+              <Route path="/about" element={<AboutPage />} />
+              <Route path="/contact" element={<ContactPage />} />
+              <Route path="/faq" element={<FAQPage />} />
+              <Route path="/blog" element={<BlogPage />} />
+              <Route path="/help" element={<BlogPage />} />
                       </Routes>
                     </main>
                     <Footer />
