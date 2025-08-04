@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
-import { useAuth } from '../contexts/MockAuthContext';
+import { useAuth } from '../contexts/AuthContext';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { Alert, AlertDescription } from '../components/ui/alert';
@@ -152,6 +152,7 @@ export function LoginPage() {
             <div className="text-sm">
               <button
                 type="button"
+                onClick={() => navigate('/reset-password')}
                 className="font-medium text-primary hover:text-primary/80"
                 disabled={loading}
               >

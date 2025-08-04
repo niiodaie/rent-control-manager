@@ -2,7 +2,7 @@
 
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
-import { AuthProvider, useAuth } from './contexts/MockAuthContext';
+import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { ProtectedRoute, AuthRoute } from './components/ProtectedRoute';
 import { Header } from './components/Header';
 import Footer from './components/Footer';
@@ -12,6 +12,7 @@ import { LanguageProvider } from './components/SimpleLanguageSelector';
 import HomePage from './pages/HomePage'
 import LoginPage from './pages/LoginPage'
 import SignupPage from './pages/SignupPage'
+import ResetPasswordPage from './pages/ResetPasswordPage'
 import AdminDashboardDemo from './pages/AdminDashboardDemo';
 import AdminDashboard from './pages/AdminDashboard';
 import ResidentDashboard from './pages/ResidentDashboard'
@@ -60,6 +61,11 @@ function App() {
                 <Route path="/signup" element={
                   <AuthRoute>
                     <SignupPage />
+                  </AuthRoute>
+                } />
+                <Route path="/reset-password" element={
+                  <AuthRoute>
+                    <ResetPasswordPage />
                   </AuthRoute>
                 } />
                 <Route path="/choose-plan" element={
