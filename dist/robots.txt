@@ -1,0 +1,24 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://rentcontrol.net/sitemap.xml
+
+# Disallow admin and payment processing pages
+Disallow: /admin
+Disallow: /payment-processing
+Disallow: /api/
+
+# Allow important pages
+Allow: /
+Allow: /about
+Allow: /contact
+Allow: /faq
+Allow: /blog
+Allow: /tenant-portal
+Allow: /login
+Allow: /signup
+
+# Crawl delay (optional)
+Crawl-delay: 1
+
