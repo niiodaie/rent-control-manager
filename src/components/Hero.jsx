@@ -7,7 +7,7 @@ const Hero = () => {
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
 
   const handleStartTrial = () => {
-    window.location.href = '/signup';
+    window.location.href = '/register';
   };
 
   const handleWatchDemo = () => {

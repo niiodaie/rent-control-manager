@@ -164,7 +164,7 @@ export function Header() {
                 {t('nav.signin', currentLang)}
               </Link>
               <Link
-                to="/signup"
+                to="/register"
                 className="bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 rounded-md text-sm font-medium transition-colors"
               >
                 {t('nav.getstarted', currentLang)}
