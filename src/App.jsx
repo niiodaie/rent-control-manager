@@ -1,5 +1,3 @@
-// App.jsx - Bulletproof version without problematic i18n
-
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
@@ -13,6 +11,10 @@ import HomePage from './pages/HomePage'
 import LoginPage from './pages/LoginPage'
 import SignupPage from './pages/SignupPage'
 import ResetPasswordPage from './pages/ResetPasswordPage'
+import RoleSelectionPage from './pages/RoleSelectionPage'
+import LandlordRegistrationPage from './pages/LandlordRegistrationPage'
+import TenantRegistrationPage from './pages/TenantRegistrationPage'
+import TenantPendingPage from './pages/TenantPendingPage'
 import AdminDashboardDemo from './pages/AdminDashboardDemo';
 import AdminDashboard from './pages/AdminDashboard';
 import ResidentDashboard from './pages/ResidentDashboard'
@@ -62,6 +64,26 @@ function App() {
                   <AuthRoute>
                     <SignupPage />
                   </AuthRoute>
+                } />
+                <Route path="/register" element={
+                  <AuthRoute>
+                    <RoleSelectionPage />
+                  </AuthRoute>
+                } />
+                <Route path="/register/landlord" element={
+                  <AuthRoute>
+                    <LandlordRegistrationPage />
+                  </AuthRoute>
+                } />
+                <Route path="/register/tenant" element={
+                  <AuthRoute>
+                    <TenantRegistrationPage />
+                  </AuthRoute>
+                } />
+                <Route path="/tenant/pending" element={
+                  <ProtectedRoute>
+                    <TenantPendingPage />
+                  </ProtectedRoute>
                 } />
                 <Route path="/reset-password" element={
                   <AuthRoute>

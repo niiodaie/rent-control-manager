@@ -16,7 +16,7 @@ export function LoginPage() {
     password: ''
   });
 
-  const { signIn, signInWithGoogle } = useAuth();
+  const { signIn, signInWithGoogle, signInWithRedirect } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -28,13 +28,17 @@ export function LoginPage() {
     setError('');
 
     try {
-      const { error } = await signIn(formData.email, formData.password);
+      const { data, error, redirectPath } = await signInWithRedirect(formData.email, formData.password);
       
       if (error) {
         setError(error.message);
-      } else {
-        // Navigation will be handled by the auth context and protected routes
-        // The user will be redirected based on their role
+      } else if (data?.user) {
+        // Redirect based on user role and plan
+        if (redirectPath) {
+          navigate(redirectPath);
+        } else {
+          navigate(from);
+        }
       }
     } catch (err) {
       setError('An unexpected error occurred. Please try again.');

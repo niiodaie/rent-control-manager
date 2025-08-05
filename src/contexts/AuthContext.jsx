@@ -93,16 +93,72 @@ export const AuthProvider = ({ children }) => {
     return { data, error }
   }
 
+  const updateUserPlan = async (plan) => {
+    try {
+      const { data, error } = await supabase.auth.updateUser({
+        data: { plan }
+      })
+      if (error) throw error;
+      
+      // Update local user state
+      setUser(prev => ({
+        ...prev,
+        user_metadata: {
+          ...prev?.user_metadata,
+          plan
+        }
+      }));
+      
+      return { data, error: null };
+    } catch (error) {
+      return { data: null, error };
+    }
+  }
+
+  const getRedirectPath = (userRole, userPlan) => {
+    if (!userRole) return '/';
+    
+    switch (userRole) {
+      case 'admin':
+        // Check if landlord needs to choose a plan
+        if (!userPlan || userPlan === 'free') {
+          return '/choose-plan';
+        }
+        return '/admin/dashboard';
+      case 'tenant':
+        return '/resident/dashboard';
+      default:
+        return '/';
+    }
+  }
+
+  const signInWithRedirect = async (email, password) => {
+    const { data, error } = await signIn(email, password);
+    
+    if (data?.user && !error) {
+      const userRole = getUserRole(data.user);
+      const userPlan = data.user.user_metadata?.plan;
+      const redirectPath = getRedirectPath(userRole, userPlan);
+      
+      return { data, error, redirectPath };
+    }
+    
+    return { data, error, redirectPath: null };
+  }
+
   const value = {
     user,
     role,
     loading,
     signIn,
+    signInWithRedirect,
     signUp,
     signOut,
     signInWithGoogle,
     resetPassword,
     updateProfile,
+    updateUserPlan,
+    getRedirectPath,
     isAdmin: user ? isAdmin(user) : false,
     isTenant: user ? isTenant(user) : false,
   }
