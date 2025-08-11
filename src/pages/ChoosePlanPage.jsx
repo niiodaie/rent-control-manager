@@ -31,15 +31,26 @@ const ChoosePlanPage = () => {
       return;
     }
 
-    setLoading(plan.id);
-    try {
-      const lookupKey = getLookupKey(planKey, billingInterval); // e.g. plan_pro_yearly_v1
-      const customerEmail = user?.email || "";
-      await mockRedirectToCheckout(lookupKey, customerEmail);
-    } catch (err) {
-      console.error("Error processing plan selection:", err);
-      setLoading(null);
-    }
+    // Paid plans - redirect to Stripe Checkout
+setLoading(plan.id);
+try {
+  const lookupKey = getLookupKey(plan.id, billingInterval); // e.g. plan_pro_yearly_v1
+  const customerEmail = user?.email || "";
+
+  const res = await fetch("/api/create-checkout-session", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ planLookupKey: lookupKey, customerEmail }),
+  });
+
+  if (!res.ok) throw new Error(`Checkout failed: ${res.status}`);
+  const { url } = await res.json();
+  window.location.href = url; // go to Stripe Checkout
+} catch (err) {
+  console.error("Error processing plan selection:", err);
+  setLoading(null);
+}
+
   };
 
   const displayPrice = (planKey) => {
