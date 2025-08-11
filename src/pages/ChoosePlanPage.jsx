@@ -1,8 +1,8 @@
+// src/pages/ChoosePlanPage.jsx
 import React, { useEffect, useMemo, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Check, Star, Zap } from "lucide-react";
 import { PLANS, fmtMoney, getDisplayPrice, getLookupKey } from "../config/plans";
-import { mockRedirectToCheckout } from "../lib/stripe";
 import { useAuth } from "../contexts/AuthContext";
 
 const ChoosePlanPage = () => {
@@ -11,57 +11,69 @@ const ChoosePlanPage = () => {
   const [params] = useSearchParams();
 
   // Preselect from query params coming from /pricing
-  const initialInterval = (params.get("interval") || "monthly"); // "monthly" | "yearly"
-  const initialHighlight = (params.get("highlight") || "starter"); // "free" | "starter" | "pro"
+  const initialInterval = params.get("interval") || "monthly";      // "monthly" | "yearly"
+  const initialHighlight = params.get("highlight") || "starter";    // "free" | "starter" | "pro"
   const [billingInterval, setBillingInterval] = useState(initialInterval);
   const [loading, setLoading] = useState(null);
+  const [errorMsg, setErrorMsg] = useState("");
 
   const planList = useMemo(() => ["free", "starter", "pro", "enterprise"], []);
 
   const handlePlanSelection = async (planKey) => {
     const plan = PLANS[planKey];
 
+    // Free plan → activate immediately (optionally upsert 'free' subscription server-side)
     if (plan.id === "free") {
-      // TODO: optionally upsert a 'free' subscription row server-side
       navigate("/admin/dashboard");
       return;
     }
+
+    // Enterprise → contact sales
     if (plan.id === "enterprise") {
       navigate("/contact");
       return;
     }
 
-    // Paid plans - redirect to Stripe Checkout
-setLoading(plan.id);
-try {
-  const lookupKey = getLookupKey(plan.id, billingInterval); // e.g. plan_pro_yearly_v1
-  const customerEmail = user?.email || "";
+    // Paid plans → Stripe Checkout
+    setErrorMsg("");
+    setLoading(plan.id);
+    try {
+      const lookupKey = getLookupKey(planKey, billingInterval); // e.g., plan_pro_yearly_v1
+      if (!lookupKey) throw new Error("No lookup key for selected plan/interval");
 
-  const res = await fetch("/api/create-checkout-session", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ planLookupKey: lookupKey, customerEmail }),
-  });
+      const res = await fetch("/api/create-checkout-session", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          planLookupKey: lookupKey,
+          customerEmail: user?.email || "",
+        }),
+      });
 
-  if (!res.ok) throw new Error(`Checkout failed: ${res.status}`);
-  const { url } = await res.json();
-  window.location.href = url; // go to Stripe Checkout
-} catch (err) {
-  console.error("Error processing plan selection:", err);
-  setLoading(null);
-}
+      if (!res.ok) {
+        const { error } = await res.json().catch(() => ({ error: `HTTP ${res.status}` }));
+        throw new Error(error || `Checkout failed: ${res.status}`);
+      }
 
+      const { url } = await res.json();
+      if (!url) throw new Error("No checkout URL returned");
+      window.location.href = url; // Go to Stripe Checkout
+    } catch (err) {
+      console.error("Checkout error:", err);
+      setErrorMsg(err.message || "Unable to start checkout. Please try again.");
+      setLoading(null);
+    }
   };
 
   const displayPrice = (planKey) => {
-    const price = getDisplayPrice(planKey, billingInterval); // uses monthly/yearly from config
-    if (typeof price === "string") return price; // "Custom"
-    if (price === 0) return "Free";
-    return fmtMoney(price);
+    const val = getDisplayPrice(planKey, billingInterval); // from config
+    if (typeof val === "string") return val; // "Custom"
+    if (val === 0) return "Free";
+    return fmtMoney(val);
   };
 
   useEffect(() => {
-    // If a plan is highlighted in the URL, scroll it into view once
+    // If a plan is highlighted, scroll it into view once
     const el = document.querySelector(`[data-plan="${initialHighlight}"]`);
     if (el) el.scrollIntoView({ block: "nearest", behavior: "smooth" });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -78,7 +90,7 @@ try {
           </p>
 
           {/* Billing Toggle */}
-          <div className="flex items-center justify-center mb-8">
+          <div className="flex items-center justify-center mb-6">
             <div className="bg-white rounded-lg p-1 shadow-sm border">
               <button
                 onClick={() => setBillingInterval("monthly")}
@@ -96,10 +108,17 @@ try {
                 }`}
                 aria-pressed={billingInterval === "yearly"}
               >
-                Yearly <span className="ml-1 text-xs bg-green-100 text-green-800 px-1 rounded">Save 20%</span>
+                Yearly
+                <span className="ml-1 text-xs bg-green-100 text-green-800 px-1 rounded">Save 20%</span>
               </button>
             </div>
           </div>
+
+          {errorMsg && (
+            <div className="mx-auto mb-4 max-w-xl rounded-md border border-red-300 bg-red-50 px-4 py-3 text-sm text-red-700">
+              {errorMsg}
+            </div>
+          )}
         </div>
 
         {/* Plans Grid */}
@@ -156,7 +175,7 @@ try {
                     ))}
                   </ul>
 
-                  {/* CTA Button */}
+                  {/* CTA */}
                   <button
                     onClick={() => handlePlanSelection(key)}
                     disabled={loading === plan.id}
