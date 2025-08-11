@@ -1,164 +1,167 @@
-import { useState, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '../contexts/AuthContext';
+import { checkPlanLimit, getPlanLimits } from '../config/plans';
 
 export const usePlanEnforcement = () => {
-  const { user, updateUserPlan } = useAuth();
-  const [showPlanModal, setShowPlanModal] = useState(false);
-  const [planModalTrigger, setPlanModalTrigger] = useState(null);
+  const { user } = useAuth();
+  const [currentPlan, setCurrentPlan] = useState('free');
+  const [usage, setUsage] = useState({
+    properties: 0,
+    units: 0,
+    admins: 1
+  });
+  const [loading, setLoading] = useState(true);
 
-  // Check if user can perform an action based on their current plan
-  const checkPlanLimits = useCallback((action, currentData = {}) => {
-    if (!user) return false;
+  // Load user's current plan and usage
+  useEffect(() => {
+    const loadPlanData = async () => {
+      if (!user) {
+        setLoading(false);
+        return;
+      }
 
-    const currentPlan = user.plan || 'free';
-    const planLimits = {
-      free: {
-        properties: 1,
-        tenants: 0,
-        canInviteTenants: false
-      },
-      pro: {
-        properties: 5,
-        tenants: Infinity,
-        canInviteTenants: true
-      },
-      business: {
-        properties: Infinity,
-        tenants: Infinity,
-        canInviteTenants: true
+      try {
+        // In real implementation, this would fetch from Supabase
+        // For now, we'll use mock data
+        const mockSubscription = {
+          plan_key: 'free', // This would come from the subscriptions table
+          usage: {
+            properties: 0,
+            units: 0,
+            admins: 1
+          }
+        };
+
+        setCurrentPlan(mockSubscription.plan_key);
+        setUsage(mockSubscription.usage);
+      } catch (error) {
+        console.error('Error loading plan data:', error);
+      } finally {
+        setLoading(false);
       }
     };
 
-    const limits = planLimits[currentPlan];
+    loadPlanData();
+  }, [user]);
+
+  // Check if user can perform an action based on plan limits
+  const canPerformAction = useCallback((actionType, additionalCount = 1) => {
+    const currentCount = usage[actionType] || 0;
+    return checkPlanLimit(currentPlan, actionType, currentCount + additionalCount);
+  }, [currentPlan, usage]);
+
+  // Get current plan limits
+  const planLimits = getPlanLimits(currentPlan);
+
+  // Check specific limits
+  const canAddProperty = useCallback(() => {
+    return canPerformAction('properties');
+  }, [canPerformAction]);
+
+  const canAddUnit = useCallback((propertyId) => {
+    // In real implementation, this would check units per specific property
+    return canPerformAction('units');
+  }, [canPerformAction]);
+
+  const canAddAdmin = useCallback(() => {
+    return canPerformAction('admins');
+  }, [canPerformAction]);
+
+  // Get usage percentage for a specific limit
+  const getUsagePercentage = useCallback((limitType) => {
+    const limit = planLimits[limitType];
+    const current = usage[limitType] || 0;
     
-    switch (action) {
-      case 'add_property':
-        const currentProperties = currentData.propertyCount || 0;
-        if (currentProperties >= limits.properties) {
-          setPlanModalTrigger('second_property');
-          setShowPlanModal(true);
-          return false;
-        }
-        return true;
-
-      case 'invite_tenant':
-        if (!limits.canInviteTenants) {
-          setPlanModalTrigger('invite_tenant');
-          setShowPlanModal(true);
-          return false;
-        }
-        return true;
-
-      case 'add_tenant':
-        const currentTenants = currentData.tenantCount || 0;
-        if (currentTenants >= limits.tenants) {
-          setPlanModalTrigger('tenant_limit');
-          setShowPlanModal(true);
-          return false;
-        }
-        return true;
-
-      default:
-        return true;
-    }
-  }, [user]);
-
-  // Handle plan upgrade
-  const handlePlanUpgrade = useCallback(async (selectedPlan) => {
-    try {
-      // In a real implementation, this would:
-      // 1. Create Stripe checkout session
-      // 2. Redirect to Stripe
-      // 3. Handle webhook to update user plan
-      
-      // For demo purposes, we'll simulate the upgrade
-      console.log(`Upgrading to ${selectedPlan} plan...`);
-      
-      // Simulate API call delay
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Update user plan in context/database
-      await updateUserPlan(selectedPlan);
-      
-      // Close modal
-      setShowPlanModal(false);
-      setPlanModalTrigger(null);
-      
-      return true;
-    } catch (error) {
-      console.error('Plan upgrade failed:', error);
-      throw error;
-    }
-  }, [updateUserPlan]);
-
-  // Get current plan information
-  const getCurrentPlanInfo = useCallback(() => {
-    if (!user) return null;
-
-    const currentPlan = user.plan || 'free';
-    const planInfo = {
-      free: {
-        name: 'Free',
-        price: 0,
-        properties: 1,
-        tenants: 0,
-        features: ['1 property', 'Basic features', 'Email support']
-      },
-      pro: {
-        name: 'Pro',
-        price: 49.99,
-        properties: 5,
-        tenants: Infinity,
-        features: ['Up to 5 properties', 'Unlimited tenants', 'Advanced features', 'Priority support']
-      },
-      business: {
-        name: 'Business',
-        price: 99.99,
-        properties: Infinity,
-        tenants: Infinity,
-        features: ['Unlimited properties', 'Unlimited tenants', 'All features', 'Dedicated support']
-      }
-    };
-
-    return planInfo[currentPlan];
-  }, [user]);
-
-  // Check if user needs to upgrade for a specific feature
-  const needsUpgradeFor = useCallback((feature) => {
-    if (!user) return true;
-
-    const currentPlan = user.plan || 'free';
+    if (limit === 'unlimited') return 0;
+    if (typeof limit !== 'number') return 0;
     
-    const featureRequirements = {
-      'multiple_properties': ['pro', 'business'],
-      'tenant_invites': ['pro', 'business'],
-      'advanced_analytics': ['business'],
-      'api_access': ['business'],
-      'white_label': ['business']
-    };
+    return Math.min((current / limit) * 100, 100);
+  }, [planLimits, usage]);
 
-    const requiredPlans = featureRequirements[feature];
-    return requiredPlans && !requiredPlans.includes(currentPlan);
-  }, [user]);
+  // Check if approaching limit (80% or more)
+  const isApproachingLimit = useCallback((limitType) => {
+    return getUsagePercentage(limitType) >= 80;
+  }, [getUsagePercentage]);
+
+  // Check if at limit
+  const isAtLimit = useCallback((limitType) => {
+    const limit = planLimits[limitType];
+    const current = usage[limitType] || 0;
+    
+    if (limit === 'unlimited') return false;
+    if (typeof limit !== 'number') return false;
+    
+    return current >= limit;
+  }, [planLimits, usage]);
+
+  // Update usage (would typically sync with backend)
+  const updateUsage = useCallback((newUsage) => {
+    setUsage(prev => ({ ...prev, ...newUsage }));
+  }, []);
+
+  // Simulate incrementing usage
+  const incrementUsage = useCallback((type, amount = 1) => {
+    setUsage(prev => ({
+      ...prev,
+      [type]: (prev[type] || 0) + amount
+    }));
+  }, []);
+
+  // Get upgrade suggestions based on current usage
+  const getUpgradeSuggestions = useCallback(() => {
+    const suggestions = [];
+    
+    if (isAtLimit('properties')) {
+      suggestions.push({
+        type: 'properties',
+        message: `You've reached your limit of ${planLimits.properties} properties`,
+        action: 'Upgrade to add more properties'
+      });
+    }
+    
+    if (isAtLimit('units')) {
+      suggestions.push({
+        type: 'units',
+        message: `You've reached your limit of ${planLimits.unitsPerProperty} units per property`,
+        action: 'Upgrade for unlimited units'
+      });
+    }
+    
+    if (isAtLimit('admins')) {
+      suggestions.push({
+        type: 'admins',
+        message: `You've reached your limit of ${planLimits.admins} admin users`,
+        action: 'Upgrade to add more team members'
+      });
+    }
+    
+    return suggestions;
+  }, [isAtLimit, planLimits]);
 
   return {
-    // State
-    showPlanModal,
-    planModalTrigger,
+    // Current state
+    currentPlan,
+    usage,
+    planLimits,
+    loading,
     
-    // Actions
-    checkPlanLimits,
-    handlePlanUpgrade,
-    setShowPlanModal,
+    // Limit checking
+    canAddProperty,
+    canAddUnit,
+    canAddAdmin,
+    canPerformAction,
     
-    // Getters
-    getCurrentPlanInfo,
-    needsUpgradeFor,
+    // Usage analytics
+    getUsagePercentage,
+    isApproachingLimit,
+    isAtLimit,
     
-    // Computed
-    currentPlan: user?.plan || 'free',
-    isFreePlan: !user?.plan || user.plan === 'free',
-    isPaidPlan: user?.plan && user.plan !== 'free'
+    // Usage management
+    updateUsage,
+    incrementUsage,
+    
+    // Upgrade guidance
+    getUpgradeSuggestions
   };
 };
 

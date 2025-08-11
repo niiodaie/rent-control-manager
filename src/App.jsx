@@ -24,6 +24,9 @@ import ContactPage from './pages/ContactPage'
 import FAQPage from './pages/FAQPage'
 import BlogPage from './pages/BlogPage'
 import ChoosePlanPage from './pages/ChoosePlanPage'
+import CheckoutPage from './pages/CheckoutPage'
+import BillingSuccessPage from './pages/BillingSuccessPage'
+import BillingPage from './pages/BillingPage'
 import PaymentSuccessPage from './pages/PaymentSuccessPage'
 import './App.css';
 
@@ -93,6 +96,21 @@ function App() {
                 <Route path="/choose-plan" element={
                   <ProtectedRoute>
                     <ChoosePlanPage />
+                  </ProtectedRoute>
+                } />
+                <Route path="/checkout" element={
+                  <ProtectedRoute>
+                    <CheckoutPage />
+                  </ProtectedRoute>
+                } />
+                <Route path="/billing" element={
+                  <ProtectedRoute>
+                    <BillingPage />
+                  </ProtectedRoute>
+                } />
+                <Route path="/billing/success" element={
+                  <ProtectedRoute>
+                    <BillingSuccessPage />
                   </ProtectedRoute>
                 } />
                 <Route path="/admin/dashboard" element={

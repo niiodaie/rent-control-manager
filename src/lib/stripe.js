@@ -1,28 +1,12 @@
-import { loadStripe } from '@stripe/stripe-js'
+import { loadStripe } from '@stripe/stripe-js';
 
-// Initialize Stripe
-const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || 'pk_test_placeholder')
+// Initialize Stripe with publishable key
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || 'pk_test_mock');
 
-export { stripePromise }
+export { stripePromise };
 
-// Stripe pricing configuration
-export const STRIPE_PRICES = {
-  starter: {
-    monthly: import.meta.env.VITE_STRIPE_STARTER_MONTHLY_PRICE_ID || 'price_starter_monthly',
-    yearly: import.meta.env.VITE_STRIPE_STARTER_YEARLY_PRICE_ID || 'price_starter_yearly'
-  },
-  professional: {
-    monthly: import.meta.env.VITE_STRIPE_PROFESSIONAL_MONTHLY_PRICE_ID || 'price_professional_monthly',
-    yearly: import.meta.env.VITE_STRIPE_PROFESSIONAL_YEARLY_PRICE_ID || 'price_professional_yearly'
-  },
-  enterprise: {
-    monthly: import.meta.env.VITE_STRIPE_ENTERPRISE_MONTHLY_PRICE_ID || 'price_enterprise_monthly',
-    yearly: import.meta.env.VITE_STRIPE_ENTERPRISE_YEARLY_PRICE_ID || 'price_enterprise_yearly'
-  }
-}
-
-// Helper function to create checkout session
-export const createCheckoutSession = async (priceId, userId, userEmail) => {
+// Stripe API helper functions
+export const createCheckoutSession = async (planLookupKey, customerEmail) => {
   try {
     const response = await fetch('/api/create-checkout-session', {
       method: 'POST',
@@ -30,39 +14,50 @@ export const createCheckoutSession = async (priceId, userId, userEmail) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        priceId,
-        userId,
-        userEmail,
-        successUrl: `${window.location.origin}/dashboard?session_id={CHECKOUT_SESSION_ID}`,
-        cancelUrl: `${window.location.origin}/pricing`
+        planLookupKey,
+        customerEmail,
       }),
-    })
+    });
 
     if (!response.ok) {
-      throw new Error('Failed to create checkout session')
+      throw new Error('Failed to create checkout session');
     }
 
-    const { sessionId } = await response.json()
-    return sessionId
+    const { url } = await response.json();
+    return url;
   } catch (error) {
-    console.error('Error creating checkout session:', error)
-    throw error
+    console.error('Error creating checkout session:', error);
+    throw error;
   }
-}
+};
 
-// Helper function to redirect to Stripe Checkout
-export const redirectToCheckout = async (sessionId) => {
+export const redirectToCheckout = async (planLookupKey, customerEmail) => {
   try {
-    const stripe = await stripePromise
-    const { error } = await stripe.redirectToCheckout({ sessionId })
-    
-    if (error) {
-      console.error('Stripe redirect error:', error)
-      throw error
-    }
+    const checkoutUrl = await createCheckoutSession(planLookupKey, customerEmail);
+    window.location.href = checkoutUrl;
   } catch (error) {
-    console.error('Error redirecting to checkout:', error)
-    throw error
+    console.error('Error redirecting to checkout:', error);
+    throw error;
   }
-}
+};
+
+// Mock implementation for development
+export const mockCreateCheckoutSession = async (planLookupKey, customerEmail) => {
+  // Simulate API delay
+  await new Promise(resolve => setTimeout(resolve, 1000));
+  
+  // Mock success URL for development
+  const mockSessionId = 'cs_test_' + Math.random().toString(36).substr(2, 9);
+  return `${window.location.origin}/billing/success?session_id=${mockSessionId}`;
+};
+
+export const mockRedirectToCheckout = async (planLookupKey, customerEmail) => {
+  try {
+    const checkoutUrl = await mockCreateCheckoutSession(planLookupKey, customerEmail);
+    window.location.href = checkoutUrl;
+  } catch (error) {
+    console.error('Error with mock checkout:', error);
+    throw error;
+  }
+};
 
