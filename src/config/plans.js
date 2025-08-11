@@ -117,3 +117,6 @@ export const checkPlanLimit = (planKey, limitType, currentCount) => {
   if (limit === "unlimited") return true;
   return currentCount < limit;
 };
+
+/** @param {PlanKey} planKey */
+export const getPlanByKey = (planKey) => PLANS[planKey] || PLANS.free;
