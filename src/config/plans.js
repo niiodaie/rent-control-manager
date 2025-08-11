@@ -48,7 +48,7 @@ export const PLANS = {
   pro: {
     id: "pro",
     name: "Professional",
-    monthly: 99.99,      // <-- corrected from 129.99
+    monthly: 99.99,      // ✅ corrected
     yearly: 999.99,
     lookupKey: "plan_pro_monthly_v1",
     yearlyLookupKey: "plan_pro_yearly_v1",
