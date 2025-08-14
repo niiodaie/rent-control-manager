@@ -108,11 +108,11 @@ function App() {
                     <BillingPage />
                   </ProtectedRoute>
                 } />
-                <Route path="/billing/success" element={
-                  <ProtectedRoute>
-                    <BillingSuccessPage />
-                  </ProtectedRoute>
-                } />
+                
+                <Route path="/billing/success" element={<BillingSuccessPage />} />  
+                    
+                
+                
                 <Route path="/admin/dashboard" element={
                   <ProtectedRoute requiredRole="admin">
                     <AdminDashboard />
