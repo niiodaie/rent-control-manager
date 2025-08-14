@@ -111,7 +111,15 @@ function App() {
                 
                 <Route path="/billing/success" element={<BillingSuccessPage />} />  
                     
-                
+                <Route
+                  path="/billing/cancel"
+                  element={
+                   <ProtectedRoute>
+                  <BillingCancelPage />
+                 </ProtectedRoute>
+              }
+            />
+
                 
                 <Route path="/admin/dashboard" element={
                   <ProtectedRoute requiredRole="admin">
