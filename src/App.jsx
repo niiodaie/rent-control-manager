@@ -28,6 +28,7 @@ import CheckoutPage from './pages/CheckoutPage'
 import BillingSuccessPage from './pages/BillingSuccessPage'
 import BillingPage from './pages/BillingPage'
 import PaymentSuccessPage from './pages/PaymentSuccessPage'
+import BillingCancelPage from './pages/BillingCancelPage';
 import './App.css';
 
 function PlanRedirectWatcher() {
